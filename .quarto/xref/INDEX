@@ -1,0 +1,83 @@
+{
+  "about.qmd": {
+    "about.html": "eeeb830a"
+  },
+  "index.qmd": {
+    "index.html": "f937b2c5"
+  },
+  "posts/2022-06-03-expectativas-focus-com-rbcb/expectativas-focus-com-rbcb.qmd": {
+    "expectativas-focus-com-rbcb.html": "04fb3eea"
+  },
+  "posts/post-with-code/index.qmd": {
+    "index.html": "01a06ae5"
+  },
+  "posts/welcome/index.qmd": {
+    "index.html": "dcae7944"
+  },
+  "posts/2022-01-17-dados-bcb-com-python/dados-bcb-com-python.Rmd": {
+    "dados-bcb-com-python.html": "fb1a4383"
+  },
+  "posts/2022-01-17-dados-bcb-com-python/dados-bcb-com-python.qmd": {
+    "dados-bcb-com-python.html": "079c1dd1"
+  },
+  "bancodedados.Rmd": {
+    "bancodedados.html": "95c262f0"
+  },
+  "python.Rmd": {
+    "python.html": "1641b6ef"
+  },
+  "R.Rmd": {
+    "R.html": "0dc2afdc"
+  },
+  "rendafixa.Rmd": {
+    "rendafixa.html": "76c73c08"
+  },
+  "shinyapps.Rmd": {
+    "shinyapps.html": "c319c679"
+  },
+  "bancodedados.qmd": {
+    "bancodedados.html": "dfaae22d"
+  },
+  "rendafixa.qmd": {
+    "rendafixa.html": "edab6bd7"
+  },
+  "R.qmd": {
+    "R.html": "b556d6d8"
+  },
+  "posts/2022-06-05-indicadores-da-pesquisa-focus/indicadores-da-pesquisa-focus.Rmd": {
+    "indicadores-da-pesquisa-focus.html": "2b6595a4"
+  },
+  "python.qmd": {
+    "python.html": "5ef9c342"
+  },
+  "shinyapps.qmd": {
+    "shinyapps.html": "f15bd2dc"
+  },
+  "posts/2022-06-08-curva-de-juros-de-americana-us-treasuries-curve/curva-de-juros-de-americana-us-treasuries-curve.Rmd": {
+    "curva-de-juros-de-americana-us-treasuries-curve.html": "ec42cf1a"
+  },
+  "posts/2022-06-09-grficos-de-composio-de-ndices-da-b3/grficos-de-composio-de-ndices-da-b3.Rmd": {
+    "grficos-de-composio-de-ndices-da-b3.html": "744eead4"
+  },
+  "posts/2022-06-09-histrico-de-taxas-de-juros-de-longo-prazo/histrico-de-taxas-de-juros-de-longo-prazo.Rmd": {
+    "histrico-de-taxas-de-juros-de-longo-prazo.html": "099d2d2d"
+  },
+  "posts/2022-06-10-histrico-de-taxas-de-juros-em-dlar-no-brasil/histrico-de-taxas-de-juros-em-dlar-no-brasil.Rmd": {
+    "histrico-de-taxas-de-juros-em-dlar-no-brasil.html": "9b3f24c6"
+  },
+  "posts/2022-06-18-16-anos-de-curva-prefixada/16-anos-de-curva-prefixada.Rmd": {
+    "16-anos-de-curva-prefixada.html": "c19d1401"
+  },
+  "posts/2022-06-19-super-datasets-do-pacote-rb3/super-datasets-do-pacote-rb3.Rmd": {
+    "super-datasets-do-pacote-rb3.html": "979c6ab6"
+  },
+  "posts/2022-06-24-super-datasets-para-opcoes-de-acoes/super-datasets-para-opcoes-de-acoes.Rmd": {
+    "super-datasets-para-opcoes-de-acoes.html": "a5d7b584"
+  },
+  "posts/2022-08-17-movimento-da-parte-longa-da-curva-de-juros/movimento-da-parte-longa-da-curva-de-juros.Rmd": {
+    "movimento-da-parte-longa-da-curva-de-juros.html": "ebc9c421"
+  },
+  "posts/2022-08-29-dinamica-da-volatilidade-implicita/dinamica-da-volatilidade-implicita.Rmd": {
+    "dinamica-da-volatilidade-implicita.html": "b7aea02d"
+  }
+}

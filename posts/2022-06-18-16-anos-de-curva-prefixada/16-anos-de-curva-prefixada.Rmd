@@ -1,0 +1,185 @@
+---
+title: "16 anos de Curva Prefixada"
+description: |
+  Observando a dinâmica da estrutura a termo de juros no Brasil e nos Estados
+  Unidos ao longo dos últimos 16 anos.
+author:
+  - name: Wilson Freitas
+    url: {}
+date: 2022-06-18
+categories:
+  - R
+  - fixedincome
+  - rb3
+  - opendata
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load-packages}
+library(rb3)
+library(bizdays)
+library(dplyr)
+library(fixedincome)
+library(ggplot2)
+```
+
+```{r load-data, echo=FALSE, cache=TRUE}
+cache_folder <- "C:\\Users\\wilso\\R\\rb3-cache"
+df <- futures_mget(
+  first_date = "2007-01-01",
+  last_date = preceding(Sys.Date() - 1, "Brazil/ANBIMA"),
+  cache_folder = cache_folder
+)
+```
+
+O pacote {rb3} faz extrações de dados do site da B3.
+Temos diversas informações disponíveis no site inclusive o histórico de diversos dados.
+
+Um conjunto de dados que mais utilizo são os preços de ajuste dos contratos futuros.
+Este histórico é um dos mais antigos disponível.
+
+Vou baixar todo o histórico de contratos futuros desde 2007.
+A partir dos preços de ajuste é possível construir o histórico de curvas prefixadas.
+Depois vou fazer uma segmentação pelo ano da data de referência para que seja possível
+visualizar, para cada ano, todo o espectro de curvas no ano.
+
+Vou começar baixando todos os dados desde 2007 até a última data disponível.
+Para isso vou utilizar a função `rb3::futures_mget`.
+*Isso leva um bom tempo!*
+
+```{r eval=FALSE}
+df <- futures_mget(
+  first_date = "2007-01-01",
+  last_date = preceding(Sys.Date() - 1, "Brazil/ANBIMA")
+)
+```
+
+É necessário filtrar os contratos futuros de DI1 para construir a curva prefixada.
+
+```{r cache=TRUE}
+df_di1 <- df |> filter(commodity == "DI1")
+```
+
+Para construir a curva prefixada é necessário obter as datas de vencimento dos contratos
+futuros.
+Para isso utilizo a função `rb3::maturity2date` que converte o código de vencimento
+em data.
+Adicionalmente faço o ajuste da data de referência criando a coluna `fixing`,
+calculo os dias úteis (coluna `business_days`) e a taxa de juros com base no preço de ajuste `price`
+gerando a coluna `adjusted_tax`.
+
+```{r cache=TRUE}
+df_di1_futures <- df_di1 |>
+  mutate(
+    maturity_date = maturity2date(maturity_code),
+    fixing = following(maturity_date, "Brazil/ANBIMA"),
+    business_days = bizdays(refdate, fixing, "Brazil/ANBIMA"),
+    adjusted_tax = implied_rate("discrete", business_days / 252, 100000 / price)
+  ) |>
+  filter(business_days > 0)
+```
+
+Termino filtrando as linhas com `business_days` maior que zero, pois não me interessam os futuros
+na data de vencimento.
+
+Agora vamos gerar a visualização com ggplot2.
+
+```{r cache=TRUE, fig.height=8, fig.fig.width=8, preview=TRUE}
+df_di1_futures |>
+  mutate(year = as.integer(format(refdate, "%Y"))) |>
+  ggplot(aes(
+    x = business_days, y = adjusted_tax,
+    group = refdate
+  )) +
+  geom_line(alpha = 0.2) +
+  facet_wrap(. ~ year) +
+  labs(
+    x = "Dias Úteis", y = "Taxas",
+    title = "16 anos de Curva Prefixada",
+    subtitle = "Curvas construídas a partir dos preços de ajuste dos contratos Futuros DI1",
+    caption = "Fonte: B3 (obtidos com \U1F4E6 rb3) - wilsonfreitas"
+  ) +
+  scale_y_continuous(labels = scales::percent)
+```
+
+Curioso ver a mudança de *shape* da curva entre os anos e ao longo de cada ano.
+Uma coisa curiosa é observar os anos de 2016, 2017 e 2018.
+2016/2017 foram os anos do impechemant da presidente Dilma.
+Em 2016 a parte curta da curva variou pouco e a parte longa variou muito.
+Em 2017 aconteceu o oposto, a parte curta da curva variou mais que a parte longa da curva.
+Nestes anos, as mudanças afetam diretamente o *shape* da curva.
+Em 2018, o ano da eleição e da facada do Bolsonaro, há uma grande variação na parte longa
+da curva, mas sem alterar o *shape* da curva.
+Ainda é possível avaliar o comportamento da curva com os demais eventos políticos e econômicos.
+Em 2021, por exemplo, onde ocorreu uma elevação da taxa SELIC e uma piora do cenário fiscal,
+temos um espectro muita amplo do *shape* da curva.
+
+É possível construir uma visualização equivalente utilizando dados da curva americana que podem
+ser obtidos com o pacote Quandl.
+
+```{r get-data-fake, eval=FALSE}
+library(Quandl)
+
+yc_all <- Quandl("USTREASURY/YIELD")
+```
+
+```{r quandl-data-load, cache=TRUE, echo=FALSE}
+library(Quandl)
+
+yc_all <- Quandl("USTREASURY/YIELD", api_key = "nJ1NhTYdEs2p3MsS4CVd")
+```
+
+Os dados vem no formato *wide* onde cada coluna representa um vértice e cada linha uma curva.
+Dessa maneira, faço a conversão dos dados para o formato longo com a função `tidyr::pivot_longer`.
+
+```{r cache=TRUE}
+yc_all <- as_tibble(yc_all)
+
+yc_all_longer <- yc_all |>
+  tidyr::pivot_longer(cols = `1 MO`:`30 YR`)
+
+yc_all_longer
+```
+
+Aqui faço o tratamento dos dados para converter os prazos em números, considerando meses de 30
+dias e anos de 360 dias.
+
+```{r cache=TRUE}
+library(stringr)
+
+n <- str_match(yc_all_longer$name, "\\d+") |> as.numeric()
+p <- str_match(yc_all_longer$name, "(MO|YR)$")[, 1]
+yc_all_longer$days <- ifelse(p == "MO", 30, 360) * n
+
+yc_all_longer
+```
+
+Agora fazemos a visualização.
+
+```{r cache=TRUE, fig.height=8, fig.fig.width=8}
+yc_all_longer |>
+  mutate(
+    year = as.integer(format(Date, "%Y")),
+    value = value / 100
+  ) |>
+  filter(year >= 2007) |>
+  ggplot(aes(
+    x = days, y = value,
+    group = Date
+  )) +
+  geom_line(alpha = 0.2) +
+  facet_wrap(. ~ year) +
+  labs(
+    x = "Dias Corridos", y = "Taxas",
+    title = "16 anos de Curva Prefixada Americana",
+    caption = "Fonte: US Treasury (obtidos com \U1F4E6 Quandl) - wilsonfreitas"
+  ) +
+  scale_y_continuous(labels = scales::percent)
+```
+
+Já na curva americana, a dinâmica é muito mais bem comportada.
+A parte longo costuma oscilar, mas mantendo a dinâmica.
+Os anos 2007, 2008 e 2020, onde tivemos crise do subprime e COVID, trouxeram mais volatilidade.

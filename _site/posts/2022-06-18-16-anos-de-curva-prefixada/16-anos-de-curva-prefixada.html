@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Wilson Freitas">
+<meta name="dcterms.date" content="2022-06-18">
+<meta name="description" content="Observando a dinâmica da estrutura a termo de juros no Brasil e nos Estados Unidos ao longo dos últimos 16 anos.">
+
+<title>Wilson Freitas - 16 anos de Curva Prefixada</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Wilson Freitas</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">Sobre</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-cursos" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Cursos</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-cursos">    
+        <li>
+    <a class="dropdown-item" href="../../bancodedados.html">
+ <span class="dropdown-text">Construindo Banco de Dados Financeiros</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../rendafixa.html">
+ <span class="dropdown-text">Renda Fixa usando R</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projetos" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Projetos</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-projetos">    
+        <li>
+    <a class="dropdown-item" href="../../R.html">
+ <span class="dropdown-text">R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../python.html">
+ <span class="dropdown-text">Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../shinyapps.html">
+ <span class="dropdown-text">Shinyapps</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/wilsonfreitas"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/__wilsonfreitas"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">16 anos de Curva Prefixada</h1>
+                  <div>
+        <div class="description">
+          <p>Observando a dinâmica da estrutura a termo de juros no Brasil e nos Estados Unidos ao longo dos últimos 16 anos.</p>
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">R</div>
+                <div class="quarto-category">fixedincome</div>
+                <div class="quarto-category">rb3</div>
+                <div class="quarto-category">opendata</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Wilson Freitas </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">June 18, 2022</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rb3)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bizdays)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'bizdays'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:stats':
+
+    offset</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fixedincome)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'fixedincome'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:dplyr':
+
+    first, last</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="16-anos-de-curva-prefixada_cache/html/load-data_a7facff9b7bfc2beeeaafaa4f9dd11b4">
+<div class="cell-output cell-output-stderr">
+<pre><code>! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/080e2cb9e1e3eb735c8d6dc0c3194e86-parsed.rds that returns NULL.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/1510e962a774e004d248683fd79b1374-parsed.rds that returns NULL.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>⠙ Fetching data points 199/4054 | ■■                                 5% | ETA: …</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/d8595c0a5e74dbf205b6146dcfd9ba03-parsed.rds that returns NULL.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>⠙ Fetching data points 199/4054 | ■■                                 5% | ETA: …
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/18d6b35dd6d2aeb821e9fd9aa07dbc00-parsed.rds that returns NULL.
+⠙ Fetching data points 199/4054 | ■■                                 5% | ETA: …
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/a4320cd9f9477bf8e373e3b6ae21374c-parsed.rds that returns NULL.
+⠙ Fetching data points 199/4054 | ■■                                 5% | ETA: …
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/7b3f5d9f3c7f40d438cfb10527e854b3-parsed.rds that returns NULL.
+⠙ Fetching data points 199/4054 | ■■                                 5% | ETA: …
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/427f326863e9f7e25213268f6330a79e-parsed.rds that returns NULL.
+⠙ Fetching data points 199/4054 | ■■                                 5% | ETA: …
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/1dcfe447ea262e7a22e5e30b1a90ee3a-parsed.rds that returns NULL.
+⠙ Fetching data points 199/4054 | ■■                                 5% | ETA: …
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/96156a38c615d754cc941aa54a434f51-parsed.rds that returns NULL.
+⠙ Fetching data points 199/4054 | ■■                                 5% | ETA: …
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/6c4930212718a60fa6a9094d8c2461a2-parsed.rds that returns NULL.
+⠙ Fetching data points 199/4054 | ■■                                 5% | ETA: …
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/1adc35776bcd63801ee57ce3f8f65667-parsed.rds that returns NULL.
+⠙ Fetching data points 199/4054 | ■■                                 5% | ETA: …
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/99ea0e88b0cc34c835f52cdd0049a999-parsed.rds that returns NULL.
+⠙ Fetching data points 199/4054 | ■■                                 5% | ETA: …
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/479f5927bd05578ed52ef2629cab7056-parsed.rds that returns NULL.
+⠙ Fetching data points 199/4054 | ■■                                 5% | ETA: …
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/631a5c5accec13616555c0a78a9aa7f2-parsed.rds that returns NULL.
+⠙ Fetching data points 199/4054 | ■■                                 5% | ETA: …
+⠸ Fetching data points 754/4054 | ■■■■■■■                           19% | ETA: …
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/dcd47b0a844e38db6b61b9b63c22f6a3-parsed.rds that returns NULL.
+⠸ Fetching data points 754/4054 | ■■■■■■■                           19% | ETA: …
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/60d4032989dff49ad0d0c1c9076aff1a-parsed.rds that returns NULL.
+⠸ Fetching data points 754/4054 | ■■■■■■■                           19% | ETA: …
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/5674c7c054b857c8627674b061592516-parsed.rds that returns NULL.
+⠸ Fetching data points 754/4054 | ■■■■■■■                           19% | ETA: …
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/4faa28330b3585f9be27a543dea59d86-parsed.rds that returns NULL.
+⠸ Fetching data points 754/4054 | ■■■■■■■                           19% | ETA: …
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/f7646668172c0f4a610906fa21a2751c-parsed.rds that returns NULL.
+⠸ Fetching data points 754/4054 | ■■■■■■■                           19% | ETA: …
+⠼ Fetching data points 1058/4054 | ■■■■■■■■■                         26% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/c8c023431cc0d19c3c95942d3a27b73a-parsed.rds that returns NULL.
+⠼ Fetching data points 1058/4054 | ■■■■■■■■■                         26% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/134bc1ec7d0a352b48354d5af68038f0-parsed.rds that returns NULL.
+⠼ Fetching data points 1058/4054 | ■■■■■■■■■                         26% | ETA:…
+⠴ Fetching data points 1364/4054 | ■■■■■■■■■■■                       34% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/117745dce5d5cb4d890e2230f5cca206-parsed.rds that returns NULL.
+⠴ Fetching data points 1364/4054 | ■■■■■■■■■■■                       34% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/68a26da34d9f76552f0305d314d843ef-parsed.rds that returns NULL.
+⠴ Fetching data points 1364/4054 | ■■■■■■■■■■■                       34% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/c465388767a41742d3153041e2aa95f4-parsed.rds that returns NULL.
+⠴ Fetching data points 1364/4054 | ■■■■■■■■■■■                       34% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/2b1a1b2e121587ad6e9c4d8bf75a69b3-parsed.rds that returns NULL.
+⠴ Fetching data points 1364/4054 | ■■■■■■■■■■■                       34% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/03111a15447935a196fccedf36243f1e-parsed.rds that returns NULL.
+⠴ Fetching data points 1364/4054 | ■■■■■■■■■■■                       34% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/199c548401f10e0252e2bef33605625a-parsed.rds that returns NULL.
+⠴ Fetching data points 1364/4054 | ■■■■■■■■■■■                       34% | ETA:…
+⠦ Fetching data points 1652/4054 | ■■■■■■■■■■■■■                     41% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/ae8212a0126585478946aa8eaa3c897d-parsed.rds that returns NULL.
+⠦ Fetching data points 1652/4054 | ■■■■■■■■■■■■■                     41% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/769bdbf6414d30e8695c2559b04f9313-parsed.rds that returns NULL.
+⠦ Fetching data points 1652/4054 | ■■■■■■■■■■■■■                     41% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/2493a7b1b75c928059789157a2afaed6-parsed.rds that returns NULL.
+⠦ Fetching data points 1652/4054 | ■■■■■■■■■■■■■                     41% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/4814b715cfe7655e14c1569734485b13-parsed.rds that returns NULL.
+⠦ Fetching data points 1652/4054 | ■■■■■■■■■■■■■                     41% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/d6a37e4f3970da2216baeeade0e9b962-parsed.rds that returns NULL.
+⠦ Fetching data points 1652/4054 | ■■■■■■■■■■■■■                     41% | ETA:…
+⠧ Fetching data points 1892/4054 | ■■■■■■■■■■■■■■■                   47% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/41aa4082eeec395b7feb3a956bfb1a87-parsed.rds that returns NULL.
+⠧ Fetching data points 1892/4054 | ■■■■■■■■■■■■■■■                   47% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/ced216837f9da99582aadad11ca0773d-parsed.rds that returns NULL.
+⠧ Fetching data points 1892/4054 | ■■■■■■■■■■■■■■■                   47% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/be44ed0ec4186fc2fafdb47cc9614e87-parsed.rds that returns NULL.
+⠧ Fetching data points 1892/4054 | ■■■■■■■■■■■■■■■                   47% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/a2a2abdbb71c86a1941da637bda10f45-parsed.rds that returns NULL.
+⠧ Fetching data points 1892/4054 | ■■■■■■■■■■■■■■■                   47% | ETA:…
+⠇ Fetching data points 2146/4054 | ■■■■■■■■■■■■■■■■■                 53% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/f80d336c7034dca6d280d5300621956a-parsed.rds that returns NULL.
+⠇ Fetching data points 2146/4054 | ■■■■■■■■■■■■■■■■■                 53% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/1921f576fd77dc68dcc361d921f7d33f-parsed.rds that returns NULL.
+⠇ Fetching data points 2146/4054 | ■■■■■■■■■■■■■■■■■                 53% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/56ea48877c8a76f9400c87be31f8028e-parsed.rds that returns NULL.
+⠇ Fetching data points 2146/4054 | ■■■■■■■■■■■■■■■■■                 53% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/3a377df9574995fcea76277cf66229a4-parsed.rds that returns NULL.
+⠇ Fetching data points 2146/4054 | ■■■■■■■■■■■■■■■■■                 53% | ETA:…
+⠏ Fetching data points 2382/4054 | ■■■■■■■■■■■■■■■■■■■               59% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/fbfb62bc5bf85827f6a379f1f90ef457-parsed.rds that returns NULL.
+⠏ Fetching data points 2382/4054 | ■■■■■■■■■■■■■■■■■■■               59% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/f167df23f63004a18ce9b42308f40f82-parsed.rds that returns NULL.
+⠏ Fetching data points 2382/4054 | ■■■■■■■■■■■■■■■■■■■               59% | ETA:…
+⠋ Fetching data points 2662/4054 | ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/125bfbd76261eb5f9fb51caa162ff9d4-parsed.rds that returns NULL.
+⠋ Fetching data points 2662/4054 | ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/1ebdf89b3c235780cffb64e60a8ef85a-parsed.rds that returns NULL.
+⠋ Fetching data points 2662/4054 | ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/26bd082dfaf44bac451a55a5662a2fd6-parsed.rds that returns NULL.
+⠋ Fetching data points 2662/4054 | ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/fa3875cac6688b226e699f5d1be8316e-parsed.rds that returns NULL.
+⠋ Fetching data points 2662/4054 | ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:…
+⠙ Fetching data points 2921/4054 | ■■■■■■■■■■■■■■■■■■■■■■■           72% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/9bae55e162e6d8634116689db1ced4de-parsed.rds that returns NULL.
+⠙ Fetching data points 2921/4054 | ■■■■■■■■■■■■■■■■■■■■■■■           72% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/93cedd658d260591bf4b89f2a301d3a6-parsed.rds that returns NULL.
+⠙ Fetching data points 2921/4054 | ■■■■■■■■■■■■■■■■■■■■■■■           72% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/e5e67b76c7684e229e92ebf31defddb0-parsed.rds that returns NULL.
+⠙ Fetching data points 2921/4054 | ■■■■■■■■■■■■■■■■■■■■■■■           72% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/0cb75e7608014434b910d0f6eed469d6-parsed.rds that returns NULL.
+⠙ Fetching data points 2921/4054 | ■■■■■■■■■■■■■■■■■■■■■■■           72% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/60f1cac688426f3548bde90067ff6b57-parsed.rds that returns NULL.
+⠙ Fetching data points 2921/4054 | ■■■■■■■■■■■■■■■■■■■■■■■           72% | ETA:…
+⠹ Fetching data points 3197/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■         79% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/120615d3cc3e40c40f3da1bc530ee976-parsed.rds that returns NULL.
+⠹ Fetching data points 3197/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■         79% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/efd149e6dea0edb26cab44371a11bd9c-parsed.rds that returns NULL.
+⠹ Fetching data points 3197/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■         79% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/89377ffb8213ffc3f60c414db22f5194-parsed.rds that returns NULL.
+⠹ Fetching data points 3197/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■         79% | ETA:…
+⠸ Fetching data points 3494/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■       86% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/d025aaaff9277d60fad129c2a947d288-parsed.rds that returns NULL.
+⠸ Fetching data points 3494/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■       86% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/e3685c842eb0d208cb90f72e16d525a7-parsed.rds that returns NULL.
+⠸ Fetching data points 3494/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■       86% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/97177d9d007efd4de20b3ce969ced4cb-parsed.rds that returns NULL.
+⠸ Fetching data points 3494/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■       86% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/42878d933ac57df3374a4bafbd048175-parsed.rds that returns NULL.
+⠸ Fetching data points 3494/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■       86% | ETA:…
+⠼ Fetching data points 3752/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     93% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/2b812e5506888e8c931cb540ae305b09-parsed.rds that returns NULL.
+⠼ Fetching data points 3752/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     93% | ETA:…
+! Removed cached file C:/Users/wilso/R/rb3-cache/AjustesDiarios/55ca03ce272d07db0c5ac475424add1a-parsed.rds that returns NULL.
+⠼ Fetching data points 3752/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     93% | ETA:…</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Automatic coercion from double to character was deprecated in purrr 1.0.0.
+ℹ Please use an explicit call to `as.character()` within `map_chr()` instead.
+ℹ The deprecated feature was likely used in the rb3 package.
+  Please report the issue at &lt;https://github.com/wilsonfreitas/rb3/issues&gt;.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>⠴ Fetching data points 3931/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■    97% | ETA:…
+⠦ Fetching data points 3938/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■    97% | ETA:…
+⠧ Fetching data points 3945/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■    97% | ETA:…
+⠇ Fetching data points 3950/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■    97% | ETA:…
+⠏ Fetching data points 3956/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■    98% | ETA:…
+⠋ Fetching data points 3962/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■    98% | ETA:…
+⠙ Fetching data points 3968/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■    98% | ETA:…
+⠹ Fetching data points 3973/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■    98% | ETA:…
+⠸ Fetching data points 3979/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■    98% | ETA:…
+⠼ Fetching data points 3985/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■    98% | ETA:…
+⠴ Fetching data points 3991/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   98% | ETA:…
+⠦ Fetching data points 3997/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   99% | ETA:…
+⠧ Fetching data points 4003/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   99% | ETA:…
+⠇ Fetching data points 4009/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   99% | ETA:…
+⠏ Fetching data points 4014/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   99% | ETA:…
+! Removed C:\Users\wilso\R\rb3-cache/AjustesDiarios/8efc8696de8165690ea4be9abff3bfe8.html - It hasn't valid content.
+⠏ Fetching data points 4014/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   99% | ETA:…
+⠋ Fetching data points 4020/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   99% | ETA:…
+⠙ Fetching data points 4026/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   99% | ETA:…
+⠹ Fetching data points 4032/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   99% | ETA:…
+⠸ Fetching data points 4037/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:…
+⠼ Fetching data points 4042/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:…
+⠴ Fetching data points 4048/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:…
+⠦ Fetching data points 4053/4054 | ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:…</code></pre>
+</div>
+</div>
+<p>O pacote {rb3} faz extrações de dados do site da B3. Temos diversas informações disponíveis no site inclusive o histórico de diversos dados.</p>
+<p>Um conjunto de dados que mais utilizo são os preços de ajuste dos contratos futuros. Este histórico é um dos mais antigos disponível.</p>
+<p>Vou baixar todo o histórico de contratos futuros desde 2007. A partir dos preços de ajuste é possível construir o histórico de curvas prefixadas. Depois vou fazer uma segmentação pelo ano da data de referência para que seja possível visualizar, para cada ano, todo o espectro de curvas no ano.</p>
+<p>Vou começar baixando todos os dados desde 2007 até a última data disponível. Para isso vou utilizar a função <code>rb3::futures_mget</code>. <em>Isso leva um bom tempo!</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">futures_mget</span>(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">first_date =</span> <span class="st">"2007-01-01"</span>,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">last_date =</span> <span class="fu">preceding</span>(<span class="fu">Sys.Date</span>() <span class="sc">-</span> <span class="dv">1</span>, <span class="st">"Brazil/ANBIMA"</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>É necessário filtrar os contratos futuros de DI1 para construir a curva prefixada.</p>
+<div class="cell" data-hash="16-anos-de-curva-prefixada_cache/html/unnamed-chunk-2_d314a97a7e36c3dea494df2d60ef8c52">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>df_di1 <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">filter</span>(commodity <span class="sc">==</span> <span class="st">"DI1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Para construir a curva prefixada é necessário obter as datas de vencimento dos contratos futuros. Para isso utilizo a função <code>rb3::maturity2date</code> que converte o código de vencimento em data. Adicionalmente faço o ajuste da data de referência criando a coluna <code>fixing</code>, calculo os dias úteis (coluna <code>business_days</code>) e a taxa de juros com base no preço de ajuste <code>price</code> gerando a coluna <code>adjusted_tax</code>.</p>
+<div class="cell" data-hash="16-anos-de-curva-prefixada_cache/html/unnamed-chunk-3_e03c89c92620ac8e0d19bb29cf1249d5">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>df_di1_futures <span class="ot">&lt;-</span> df_di1 <span class="sc">|&gt;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">maturity_date =</span> <span class="fu">maturity2date</span>(maturity_code),</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">fixing =</span> <span class="fu">following</span>(maturity_date, <span class="st">"Brazil/ANBIMA"</span>),</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">business_days =</span> <span class="fu">bizdays</span>(refdate, fixing, <span class="st">"Brazil/ANBIMA"</span>),</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">adjusted_tax =</span> <span class="fu">implied_rate</span>(<span class="st">"discrete"</span>, business_days <span class="sc">/</span> <span class="dv">252</span>, <span class="dv">100000</span> <span class="sc">/</span> price)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(business_days <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Termino filtrando as linhas com <code>business_days</code> maior que zero, pois não me interessam os futuros na data de vencimento.</p>
+<p>Agora vamos gerar a visualização com ggplot2.</p>
+<div class="cell" data-fig.fig.width="8" data-preview="true" data-hash="16-anos-de-curva-prefixada_cache/html/unnamed-chunk-4_f8ddc6cce2483904723cb2238e4d92c7">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>df_di1_futures <span class="sc">|&gt;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">as.integer</span>(<span class="fu">format</span>(refdate, <span class="st">"%Y"</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> business_days, <span class="at">y =</span> adjusted_tax,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">group =</span> refdate</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">+</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(. <span class="sc">~</span> year) <span class="sc">+</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Dias Úteis"</span>, <span class="at">y =</span> <span class="st">"Taxas"</span>,</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"16 anos de Curva Prefixada"</span>,</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Curvas construídas a partir dos preços de ajuste dos contratos Futuros DI1"</span>,</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Fonte: B3 (obtidos com \U1F4E6 rb3) - wilsonfreitas"</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="16-anos-de-curva-prefixada_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Curioso ver a mudança de <em>shape</em> da curva entre os anos e ao longo de cada ano. Uma coisa curiosa é observar os anos de 2016, 2017 e 2018. 2016/2017 foram os anos do impechemant da presidente Dilma. Em 2016 a parte curta da curva variou pouco e a parte longa variou muito. Em 2017 aconteceu o oposto, a parte curta da curva variou mais que a parte longa da curva. Nestes anos, as mudanças afetam diretamente o <em>shape</em> da curva. Em 2018, o ano da eleição e da facada do Bolsonaro, há uma grande variação na parte longa da curva, mas sem alterar o <em>shape</em> da curva. Ainda é possível avaliar o comportamento da curva com os demais eventos políticos e econômicos. Em 2021, por exemplo, onde ocorreu uma elevação da taxa SELIC e uma piora do cenário fiscal, temos um espectro muita amplo do <em>shape</em> da curva.</p>
+<p>É possível construir uma visualização equivalente utilizando dados da curva americana que podem ser obtidos com o pacote Quandl.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Quandl)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>yc_all <span class="ot">&lt;-</span> <span class="fu">Quandl</span>(<span class="st">"USTREASURY/YIELD"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="16-anos-de-curva-prefixada_cache/html/quandl-data-load_bf4d257fe190e5e027b62621e58432e2">
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: xts</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: zoo</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'zoo'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'xts'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:fixedincome':
+
+    first, last</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:dplyr':
+
+    first, last</code></pre>
+</div>
+</div>
+<p>Os dados vem no formato <em>wide</em> onde cada coluna representa um vértice e cada linha uma curva. Dessa maneira, faço a conversão dos dados para o formato longo com a função <code>tidyr::pivot_longer</code>.</p>
+<div class="cell" data-hash="16-anos-de-curva-prefixada_cache/html/unnamed-chunk-5_3fb6e958fc22a8109218b17040521915">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>yc_all <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(yc_all)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>yc_all_longer <span class="ot">&lt;-</span> yc_all <span class="sc">|&gt;</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="st">`</span><span class="at">1 MO</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">30 YR</span><span class="st">`</span>)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>yc_all_longer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 99,480 × 3
+   Date       name  value
+   &lt;date&gt;     &lt;chr&gt; &lt;dbl&gt;
+ 1 2023-02-17 1 MO   4.64
+ 2 2023-02-17 2 MO   4.81
+ 3 2023-02-17 3 MO   4.84
+ 4 2023-02-17 6 MO   4.99
+ 5 2023-02-17 1 YR   5   
+ 6 2023-02-17 2 YR   4.6 
+ 7 2023-02-17 3 YR   4.33
+ 8 2023-02-17 5 YR   4.03
+ 9 2023-02-17 7 YR   3.95
+10 2023-02-17 10 YR  3.82
+# … with 99,470 more rows</code></pre>
+</div>
+</div>
+<p>Aqui faço o tratamento dos dados para converter os prazos em números, considerando meses de 30 dias e anos de 360 dias.</p>
+<div class="cell" data-hash="16-anos-de-curva-prefixada_cache/html/unnamed-chunk-6_d6871708378f3aea4881ce3a6bdb51bc">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">str_match</span>(yc_all_longer<span class="sc">$</span>name, <span class="st">"</span><span class="sc">\\</span><span class="st">d+"</span>) <span class="sc">|&gt;</span> <span class="fu">as.numeric</span>()</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">str_match</span>(yc_all_longer<span class="sc">$</span>name, <span class="st">"(MO|YR)$"</span>)[, <span class="dv">1</span>]</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>yc_all_longer<span class="sc">$</span>days <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(p <span class="sc">==</span> <span class="st">"MO"</span>, <span class="dv">30</span>, <span class="dv">360</span>) <span class="sc">*</span> n</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>yc_all_longer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 99,480 × 4
+   Date       name  value  days
+   &lt;date&gt;     &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1 2023-02-17 1 MO   4.64    30
+ 2 2023-02-17 2 MO   4.81    60
+ 3 2023-02-17 3 MO   4.84    90
+ 4 2023-02-17 6 MO   4.99   180
+ 5 2023-02-17 1 YR   5      360
+ 6 2023-02-17 2 YR   4.6    720
+ 7 2023-02-17 3 YR   4.33  1080
+ 8 2023-02-17 5 YR   4.03  1800
+ 9 2023-02-17 7 YR   3.95  2520
+10 2023-02-17 10 YR  3.82  3600
+# … with 99,470 more rows</code></pre>
+</div>
+</div>
+<p>Agora fazemos a visualização.</p>
+<div class="cell" data-fig.fig.width="8" data-hash="16-anos-de-curva-prefixada_cache/html/unnamed-chunk-7_07c1f9f3397ab6e69012e9d9bb9b91ee">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>yc_all_longer <span class="sc">|&gt;</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">year =</span> <span class="fu">as.integer</span>(<span class="fu">format</span>(Date, <span class="st">"%Y"</span>)),</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> value <span class="sc">/</span> <span class="dv">100</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">&gt;=</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> days, <span class="at">y =</span> value,</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">group =</span> Date</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">+</span></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(. <span class="sc">~</span> year) <span class="sc">+</span></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Dias Corridos"</span>, <span class="at">y =</span> <span class="st">"Taxas"</span>,</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"16 anos de Curva Prefixada Americana"</span>,</span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Fonte: US Treasury (obtidos com \U1F4E6 Quandl) - wilsonfreitas"</span></span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="16-anos-de-curva-prefixada_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Já na curva americana, a dinâmica é muito mais bem comportada. A parte longo costuma oscilar, mas mantendo a dinâmica. Os anos 2007, 2008 e 2020, onde tivemos crise do subprime e COVID, trouxeram mais volatilidade.</p>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

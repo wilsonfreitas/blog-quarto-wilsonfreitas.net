@@ -1,0 +1,28 @@
+---
+title: "Sobre"
+image: profile.jpg
+about:
+  template: solana
+  links:
+    - icon: twitter
+      text: Twitter
+      href: https://twitter.com/__wilsonfreitas
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/wilson-freitas/
+    - icon: github
+      text: Github
+      href: https://github.com/wilsonfreitas
+
+---
+
+Eu sou Wilson Freitas.
+
+- Físico
+- Pai de 2 meninos (já grandinhos!)
+- Corredor
+- Padeiro
+- Gosto de fazer contas
+
+Tô tentando deixar um legado em pacotes em R e Python para tornar a vida das pessoas menos miserável.
+

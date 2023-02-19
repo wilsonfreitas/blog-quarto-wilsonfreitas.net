@@ -1,0 +1,161 @@
+---
+title: "Super Datasets para Opções de Ações"
+description: |
+  Um dos super datasets do pacote {rb3} é o de opções de ações.
+  Com este dataset é possível realizar diversos cálculos com dados de opções de ações, como
+  calcular a volatilidade implícita das opções, as gregas e até mesmo fazer o ajuste de
+  modelos teóricos.
+author:
+  - name: Wilson Freitas
+    url: {}
+date: 2022-06-24
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Dados de opções de ações finalmente disponíveis de forma simples e direta.
+Durante muito tempo busquei isso, os dados de opções são mais chatos pois precisam de outros dados
+para a realização dos cálculos.
+Ter apenas os dados de prêmio das opções (preços das opções) não permite que diversas das medidas
+de interesse associadas a opções, como as gregas e a volatilidade implícita, sejam calculadas.
+Utilizando Black & Scholes é necessário ainda ter o preço do ativo objeto (preço da ação) e as
+taxas de juros.
+Com estas informações é possível calcular a volatilidade e a partir daí todas as demais medidas
+de interesse podem ser calculadas.
+
+Vou mostrar aqui como calcular a volatilidade e as gregas para opções a partir de dados obtidos 
+com o pacote {rb3}.
+Para realizar os cálculos com as opções eu utilizo o pacote {oplib} que desenvolvi com diversos
+modelos implementados:
+
+- Black, Scholes & Merto para apreçamento das opções
+- Black para apreçamento de opções sobre futuros, utilizado em opções sobre índices de taxas de juros, como IDI
+- Corrado-Su para o apreçamento de opções considerando assimetria e curtose
+- entre outros
+
+Este pacote ainda é experimental, não está publicado no CRAN e a documentação ainda está em desenvolvimento.
+
+Vamos começar carregando os pacotes
+
+```{r}
+library(rb3)
+library(bizdays)
+library(tidyverse)
+library(oplib)
+```
+
+Vamos selecionar o último dia útil para obter os dados diários do arquivo COTAHIST disponibilizado pela B3.
+O arquivo COTAHIST traz diversas informações do mercado de ações e inclui as opções.
+Adicionalmente, precisamos das taxas de juros e utilizo a função `rb3::yc_get` para obter a curva de juros
+para a data de referência.
+
+```{r}
+refdate <- preceding("2022-06-24", "Brazil/ANBIMA")
+ch <- cotahist_get(refdate, "daily")
+yc <- yc_get(refdate)
+```
+
+Com os dados de ações e opções, pelo arquivo COTAHIST, e com as taxas de juros, utilizo a função
+`rb3::cotahist_options_by_symbol_superset` para obter os dados de opções para um símbolo específico.
+Aqui vou utilizar `PETR4` que é uma das ações com maior volume de negociação na bolsa.
+
+```{r}
+symbol_ <- "PETR4"
+op1 <- cotahist_options_by_symbol_superset(symbol_, ch, yc)
+```
+
+No data.frame `op1` temos informações de preço da ação na data de referência, preços das opções,
+taxas de juros, vencimento das opções, volumes de negociação e diversas outras informações.
+
+```{r}
+op1
+```
+
+para simplificar os cálculos vou separar duas informações úteis, os vencimentos das opções e o
+preço de fechamento da ação, que é único para a data de referência.
+Os vencimentos das opções são ordenados para que eu possa facilmente selecionar um vencimento
+desejado.
+
+```{r}
+maturities <- unique(op1$maturity_date) |> sort()
+close_underlying <- op1$close.underlying[1]
+```
+
+As opções de ações, tipicamente, possuem maior liquidez no primeiro vencimento disponível.
+Por isso, vou selecionar todas as opções com `maturity_date == maturities[1]`.
+
+```{r}
+op_vol <- op1 |>
+  filter(maturity_date == maturities[1]) |>
+  mutate(
+    biz_days = bizdays(
+      refdate, following(maturity_date, "Brazil/ANBIMA"), "Brazil/ANBIMA"
+    ),
+    time_to_maturity = biz_days / 252,
+    rate = log(1 + r_252),
+    impvol = bsmimpvol(
+      close, type, close.underlying, strike, time_to_maturity, rate, 0
+    ),
+    delta = bsmdelta(
+      type, close.underlying, strike, time_to_maturity, rate, 0, impvol
+    )
+  ) |>
+  select(
+    symbol, volume,
+    type, close.underlying, strike, time_to_maturity, rate, impvol,
+    delta, biz_days, volume
+  )
+```
+
+Após a seleção das opções, uma série de cálculos são realizados para obter:
+
+- dias úteis até o vencimento `biz_days`
+- prazo em anos até o vencimento `time_to_maturity`
+- taxas de juros em capitalização contínua `rate`
+- volatilidade implícita `impvol` com o modelo Black & Scholes
+- a grega `delta` para o modelo Black & Scholes
+
+Em seguida algumas variáveis são selecionadas para a visualizção dos dados.
+
+Vamos visualizar o *smile* de volatilidade para com os preços de exercício das opções no eixo X
+Coloco uma linha vertical marcando o nível do preço do ativo objeto, facilitando a interpretação do
+que está dentro/fora do dinheiro para as opções de compra e venda (Calls e Puts).
+O tamanho de cada ponto é definido pelo volumen de negociação de cada opção.
+Interessante notar que os maiores volumes ficam nos strikes próximos do preço atual do ativo objeto.
+Estas são as opções ATM, no dinheiro.
+
+```{r strike-vol, preview=TRUE}
+op_vol |>
+  filter(!is.na(impvol)) |>
+  ggplot(aes(x = strike, y = impvol, colour = type, size = volume)) +
+  geom_point() +
+  geom_vline(xintercept = close_underlying, alpha = 0.5, size = 1) +
+  facet_wrap(type ~ biz_days) +
+  theme(legend.position = "bottom") +
+  labs(
+    x = "Strike", y = "Implied Volatility",
+    title = str_glue("Equity Options Volatility - {symbol_} {format(refdate)}")
+  )
+```
+
+Abaixo temos o *smile* de volatilidade com o delta das opções no eixo X.
+Aqui fica mais fácil visualizar as opções ATM, pois estas tem delta de 0.5 (ou -0.5 no caso das Puts).
+
+```{r delta-vol}
+op_vol |>
+  filter(!is.na(impvol)) |>
+  ggplot(aes(x = delta, y = impvol, colour = type, size = volume)) +
+  geom_point() +
+  geom_vline(xintercept = c(-0.5, 0.5), alpha = 0.5, size = 1) +
+  facet_wrap(~ biz_days, scales = "free") +
+  theme(legend.position = "bottom") +
+  labs(
+    x = "Delta", y = "Implied Volatility",
+    title = str_glue("Equity Options Volatility - {symbol_} {format(refdate)}")
+  )
+```
+
+O objetivo deste post é mostrar como é fácil obter dados de opções com o pacote {rb3} e com o pacote
+{oplib} realizar os cálculos com estes dados.

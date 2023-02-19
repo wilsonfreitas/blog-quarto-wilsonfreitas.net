@@ -1,0 +1,114 @@
+---
+title: "Super Datasets do Pacote rb3"
+description: |
+  O pacote {rb3} traz funções que retornam *super datasets*, conjuntos de dados mais ricos juntando
+  a informação de diferentes datasets obtidos com as funções do pacote.
+author:
+  - name: Wilson Freitas
+    url: {}
+date: 2022-06-19
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+A versão [0.0.3](https://github.com/wilsonfreitas/rb3/blob/main/NEWS.md) do pacote {rb3} trouxe funções
+que retornam *super datasets*.
+Estes *super datasets* são *dataframes* com dados organizados para um fim específico.
+Por exemplo, a função `rb3::yc_get` retorna um dataframe com dados da curva de juros para diversos
+vértices, dentre os vértices retornados alguns são referentes aos vencimentos dos contratos
+futuros utilizados para produzir a curva original.
+Para alguns problemas é interessante conhecer quais vértices são referentes aos futuros,
+por exemplo, na criação de fatores primitivos de risco, onde a interpolação deve ser realizada
+utilizando apenas os futuros.
+Os contratos futuros podem ser obtidos com a função `rb3::futures_get`.
+Dessa maneira, a função `rb3::yc_superset` junta os dados retornados pelas funções `rb3::yc_get` e
+`rb3::futures_get` identificando os vencimentos dos contratos futuros na curva de juros.
+Por isso *super dataset*, é um *dataset* mais rico!
+
+Atualmente o pacote apresenta as seguintes funções *superset*:
+
+- `rb3::yc_superset` retorna a curva de juros de prefixados com os contratos fututos DI1 identificados.
+- `rb3::yc_usd_superset` retorna a curva de cupom cambial com os contratos fututos DOL identificados.
+- `rb3::yc_ipca_superset` retorna a curva de juros reais com os contratos fututos DAP identificados.
+- `rb3::cotahist_equity_options_superset` retorna dados de opções de ações com informações de ações e taxas de juros.
+
+Vou exemplificar a utilização de um *super dataset* com a função `rb3::yc_superset`.
+Vou criar uma curva de juros apenas com os contratos futuros de DI1.
+Mas antes vou responder uma pergunta que talvez tenha chegado a cabeça dos leitores:
+*Por que criar uma curva de juros apenas com os contratos futuros se já tenho uma curva de juros cheia de vértices?*
+Primeiramente, toda curva de juros nasce a partir de um conjunto de contratos, no caso da curva
+prefixada utiliza-se os contratos futuros DI1, mais a taxa DI no vértice de 1 dia útil, assim,
+estaria retornando a curva ao seu estado original.
+Logo, todos os demais vértices da curva são obtidos a partir da interpolação entre os contratos futuros.
+Adicionalmente, caso eu precise de um vértice que não está na curva será necessário interpolar e
+como interpolar se não conheço os vértices referentes aos futuros?
+Bem, posso interpolar nos vértices presentes, mas assim estaria interpolando sobre vértices interpolados.
+Não é um grande problema fazer isso, mas isso pode trazer problemas na contrução de fatores de 
+risco para taxa de juros, por exemplo.
+
+Dando sequência, primeiro utilizamos o {rb3} para obter os dados dos futuros e da curva para a data
+de referência.
+
+```{r}
+library(rb3)
+
+refdate <- "2022-06-17"
+
+fut <- futures_get(refdate)
+yc <- yc_get(refdate)
+```
+
+Depois passo estes dados para a função `yc_superset` que junta os dados para indentificar os
+contratos futuros.
+
+```{r}
+df <- yc_superset(yc, fut)
+df |> head()
+```
+
+Tendo o *super dataset* eu filtro as linhas referentes aos futuros e a linha referente a 1 dia útil.
+
+```{r}
+library(dplyr)
+
+df_curve <- bind_rows(
+  df |> filter(biz_days == 1) |> select(biz_days, r_252),
+  df |> filter(!is.na(symbol)) |> select(biz_days, r_252)
+)
+
+df_curve |> head()
+```
+
+Pronto! Tenho a curva original novamente.
+
+Apenas para ilustrar, vamos utilizar o pacote {fixedincome} para construir um objeto de
+curva de juros e visualizar os dados.
+
+```{r}
+library(fixedincome)
+
+curve <- spotratecurve(
+  df_curve$r_252, df_curve$biz_days, "discrete", "business/252", "Brazil/ANBIMA",
+  refdate = as.Date(refdate)
+)
+```
+
+Visualizando a curva.
+
+```{r}
+ggspotratecurveplot(curve)
+```
+
+
+Visualizando para um horizonte mais curto e adicionando as taxas a termo.
+
+```{r preview=TRUE}
+curve_2y <- curve |> fixedincome::first("2 years")
+ggspotratecurveplot(curve_2y) +
+  ggplot2::autolayer(forwardrate(curve_2y))
+```
+
+Bem, os *super datasets* estão aí para ajudar!
+Entregam dados da B3 mais mastigados para as necessidades dos *quants* do mercado brasileiro.

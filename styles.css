@@ -1,0 +1,13 @@
+/* css styles */
+
+body {
+    font-size: 95%;
+}
+
+.sidebar nav[role=doc-toc] ul {
+    font-size: 9pt;
+}
+
+#quarto-margin-sidebar .quarto-listing-category {
+    font-size: 11pt;
+}

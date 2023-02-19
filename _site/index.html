@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Wilson Freitas</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-listing/list.min.js"></script>
+<script src="site_libs/quarto-listing/quarto-listing.js"></script>
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script>
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-listing .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Wilson Freitas</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html">
+ <span class="menu-text">Sobre</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-cursos" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Cursos</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-cursos">    
+        <li>
+    <a class="dropdown-item" href="./bancodedados.html">
+ <span class="dropdown-text">Construindo Banco de Dados Financeiros</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./rendafixa.html">
+ <span class="dropdown-text">Renda Fixa usando R</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projetos" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Projetos</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-projetos">    
+        <li>
+    <a class="dropdown-item" href="./R.html">
+ <span class="dropdown-text">R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./python.html">
+ <span class="dropdown-text">Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./shinyapps.html">
+ <span class="dropdown-text">Shinyapps</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/wilsonfreitas"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/__wilsonfreitas"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(12)</span></div><div class="category" data-category="Python">Python <span class="quarto-category-count">(1)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(8)</span></div><div class="category" data-category="bcb">bcb <span class="quarto-category-count">(3)</span></div><div class="category" data-category="fixedincome">fixedincome <span class="quarto-category-count">(5)</span></div><div class="category" data-category="opendata">opendata <span class="quarto-category-count">(9)</span></div><div class="category" data-category="rb3">rb3 <span class="quarto-category-count">(5)</span></div></div></div>
+<!-- main -->
+<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+
+
+
+
+
+
+
+<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
+<div class="list quarto-listing-default">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1661742000000" data-listing-file-modified-sort="1676841921809" data-listing-reading-time-sort="5.965">
+<div class="thumbnail">
+<a href="./posts/2022-08-29-dinamica-da-volatilidade-implicita/dinamica-da-volatilidade-implicita.html">
+<div class="thumbnail-image">
+
+</div>
+</a><p><a href="./posts/2022-08-29-dinamica-da-volatilidade-implicita/dinamica-da-volatilidade-implicita.html"></a></p>
+</div>
+<div class="body">
+<a href="./posts/2022-08-29-dinamica-da-volatilidade-implicita/dinamica-da-volatilidade-implicita.html">
+<h3 class="no-anchor listing-title">
+Dinâmica da Volatilidade Implícita
+</h3>
+<div class="listing-subtitle">
+
+</div>
+<div class="listing-description">
+<p>Como a volatilidade implícita das opções evolui no tempo? Há diversas formas de se avaliar isso. Aqui veremos como é a dinâmica na volatilidade das opções ATM no tempo.</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2022-08-29-dinamica-da-volatilidade-implicita/dinamica-da-volatilidade-implicita.html">
+<div class="listing-date">
+Aug 29, 2022
+</div>
+<div class="listing-author">
+Wilson Freitas
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-categories="R,fixedincome,rb3,opendata" data-listing-date-sort="1660705200000" data-listing-file-modified-sort="1676838004851" data-listing-reading-time-sort="2.585">
+<div class="thumbnail">
+<p><a href="./posts/2022-08-17-movimento-da-parte-longa-da-curva-de-juros/movimento-da-parte-longa-da-curva-de-juros.html"> <img src="./posts/2022-08-17-movimento-da-parte-longa-da-curva-de-juros/animation.gif" class="thumnail-image"> </a></p>
+</div>
+<div class="body">
+<a href="./posts/2022-08-17-movimento-da-parte-longa-da-curva-de-juros/movimento-da-parte-longa-da-curva-de-juros.html">
+<h3 class="no-anchor listing-title">
+Movimento da Parte Longa da Curva de Juros
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('fixedincome'); return false;">
+fixedincome
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('rb3'); return false;">
+rb3
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('opendata'); return false;">
+opendata
+</div>
+</div>
+<a href="./posts/2022-08-17-movimento-da-parte-longa-da-curva-de-juros/movimento-da-parte-longa-da-curva-de-juros.html">
+<div class="listing-description">
+<p>A reunião do COPOM no começo do mês de agosto de 2022 trouxe um tom que influenciou a dinâmica da parte longa da curva de juros. Aqui apresento uma animação do movimento da curva de juros nas duas primeiras semanas de agosto de 2022.</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2022-08-17-movimento-da-parte-longa-da-curva-de-juros/movimento-da-parte-longa-da-curva-de-juros.html">
+<div class="listing-date">
+Aug 17, 2022
+</div>
+<div class="listing-author">
+Wilson Freitas
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1656039600000" data-listing-file-modified-sort="1676837983183" data-listing-reading-time-sort="4.245">
+<div class="thumbnail">
+<a href="./posts/2022-06-24-super-datasets-para-opcoes-de-acoes/super-datasets-para-opcoes-de-acoes.html">
+<div class="thumbnail-image">
+
+</div>
+</a><p><a href="./posts/2022-06-24-super-datasets-para-opcoes-de-acoes/super-datasets-para-opcoes-de-acoes.html"></a></p>
+</div>
+<div class="body">
+<a href="./posts/2022-06-24-super-datasets-para-opcoes-de-acoes/super-datasets-para-opcoes-de-acoes.html">
+<h3 class="no-anchor listing-title">
+Super Datasets para Opções de Ações
+</h3>
+<div class="listing-subtitle">
+
+</div>
+<div class="listing-description">
+<p>Um dos super datasets do pacote {rb3} é o de opções de ações. Com este dataset é possível realizar diversos cálculos com dados de opções de ações, como calcular a volatilidade implícita das opções, as gregas e até mesmo fazer o ajuste de modelos teóricos.</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2022-06-24-super-datasets-para-opcoes-de-acoes/super-datasets-para-opcoes-de-acoes.html">
+<div class="listing-date">
+Jun 24, 2022
+</div>
+<div class="listing-author">
+Wilson Freitas
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="3" data-listing-date-sort="1655607600000" data-listing-file-modified-sort="1676837957841" data-listing-reading-time-sort="2.585">
+<div class="thumbnail">
+<a href="./posts/2022-06-19-super-datasets-do-pacote-rb3/super-datasets-do-pacote-rb3.html">
+<div class="thumbnail-image">
+
+</div>
+</a><p><a href="./posts/2022-06-19-super-datasets-do-pacote-rb3/super-datasets-do-pacote-rb3.html"></a></p>
+</div>
+<div class="body">
+<a href="./posts/2022-06-19-super-datasets-do-pacote-rb3/super-datasets-do-pacote-rb3.html">
+<h3 class="no-anchor listing-title">
+Super Datasets do Pacote rb3
+</h3>
+<div class="listing-subtitle">
+
+</div>
+<div class="listing-description">
+<p>O pacote {rb3} traz funções que retornam <em>super datasets</em>, conjuntos de dados mais ricos juntando a informação de diferentes datasets obtidos com as funções do pacote.</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2022-06-19-super-datasets-do-pacote-rb3/super-datasets-do-pacote-rb3.html">
+<div class="listing-date">
+Jun 19, 2022
+</div>
+<div class="listing-author">
+Wilson Freitas
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="4" data-categories="R,fixedincome,rb3,opendata" data-listing-date-sort="1655521200000" data-listing-file-modified-sort="1676837933724" data-listing-reading-time-sort="3.91">
+<div class="thumbnail">
+<a href="./posts/2022-06-18-16-anos-de-curva-prefixada/16-anos-de-curva-prefixada.html">
+<div class="thumbnail-image">
+
+</div>
+</a><p><a href="./posts/2022-06-18-16-anos-de-curva-prefixada/16-anos-de-curva-prefixada.html"></a></p>
+</div>
+<div class="body">
+<a href="./posts/2022-06-18-16-anos-de-curva-prefixada/16-anos-de-curva-prefixada.html">
+<h3 class="no-anchor listing-title">
+16 anos de Curva Prefixada
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('fixedincome'); return false;">
+fixedincome
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('rb3'); return false;">
+rb3
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('opendata'); return false;">
+opendata
+</div>
+</div>
+<a href="./posts/2022-06-18-16-anos-de-curva-prefixada/16-anos-de-curva-prefixada.html">
+<div class="listing-description">
+<p>Observando a dinâmica da estrutura a termo de juros no Brasil e nos Estados Unidos ao longo dos últimos 16 anos.</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2022-06-18-16-anos-de-curva-prefixada/16-anos-de-curva-prefixada.html">
+<div class="listing-date">
+Jun 18, 2022
+</div>
+<div class="listing-author">
+Wilson Freitas
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="5" data-categories="R,fixedincome,rb3,opendata" data-listing-date-sort="1654830000000" data-listing-file-modified-sort="1676841089472" data-listing-reading-time-sort="1.185">
+<div class="thumbnail">
+<a href="./posts/2022-06-10-histrico-de-taxas-de-juros-em-dlar-no-brasil/histrico-de-taxas-de-juros-em-dlar-no-brasil.html">
+<div class="thumbnail-image">
+
+</div>
+</a><p><a href="./posts/2022-06-10-histrico-de-taxas-de-juros-em-dlar-no-brasil/histrico-de-taxas-de-juros-em-dlar-no-brasil.html"></a></p>
+</div>
+<div class="body">
+<a href="./posts/2022-06-10-histrico-de-taxas-de-juros-em-dlar-no-brasil/histrico-de-taxas-de-juros-em-dlar-no-brasil.html">
+<h3 class="no-anchor listing-title">
+Histórico de Taxas de Juros em Dólar no Brasil
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('fixedincome'); return false;">
+fixedincome
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('rb3'); return false;">
+rb3
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('opendata'); return false;">
+opendata
+</div>
+</div>
+<a href="./posts/2022-06-10-histrico-de-taxas-de-juros-em-dlar-no-brasil/histrico-de-taxas-de-juros-em-dlar-no-brasil.html">
+<div class="listing-description">
+<p>Foi analisado em um post recente a dinâmica das taxas de juros, brasileira e americana. Trago neste post a comparação entre as taxas de juros em dólar, no Brasil e nos Estados Unidos.</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2022-06-10-histrico-de-taxas-de-juros-em-dlar-no-brasil/histrico-de-taxas-de-juros-em-dlar-no-brasil.html">
+<div class="listing-date">
+Jun 10, 2022
+</div>
+<div class="listing-author">
+Wilson Freitas
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="6" data-categories="R,fixedincome,rb3,opendata" data-listing-date-sort="1654743600000" data-listing-file-modified-sort="1676839988955" data-listing-reading-time-sort="4.425">
+<div class="thumbnail">
+<a href="./posts/2022-06-09-histrico-de-taxas-de-juros-de-longo-prazo/histrico-de-taxas-de-juros-de-longo-prazo.html">
+<div class="thumbnail-image">
+
+</div>
+</a><p><a href="./posts/2022-06-09-histrico-de-taxas-de-juros-de-longo-prazo/histrico-de-taxas-de-juros-de-longo-prazo.html"></a></p>
+</div>
+<div class="body">
+<a href="./posts/2022-06-09-histrico-de-taxas-de-juros-de-longo-prazo/histrico-de-taxas-de-juros-de-longo-prazo.html">
+<h3 class="no-anchor listing-title">
+Histórico de Taxas de Juros de Longo Prazo
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('fixedincome'); return false;">
+fixedincome
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('rb3'); return false;">
+rb3
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('opendata'); return false;">
+opendata
+</div>
+</div>
+<a href="./posts/2022-06-09-histrico-de-taxas-de-juros-de-longo-prazo/histrico-de-taxas-de-juros-de-longo-prazo.html">
+<div class="listing-description">
+<p>As taxas de juros de longo prazo são importantes variáveis econômicas. Observar a dinâmica dessas taxas é fundamental para uma boa compreensão do cenário econômico. Vamos ver como utilizar o pacote {fixedincome} para construir o histórico da taxa de juros prefixada para o prazo de 10 anos com dados extraídos da B3 com o pacote {rb3}.</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2022-06-09-histrico-de-taxas-de-juros-de-longo-prazo/histrico-de-taxas-de-juros-de-longo-prazo.html">
+<div class="listing-date">
+Jun 9, 2022
+</div>
+<div class="listing-author">
+Wilson Freitas
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="7" data-categories="R,fixedincome,opendata" data-listing-date-sort="1654484400000" data-listing-file-modified-sort="1676837662816" data-listing-reading-time-sort="2.455">
+<div class="thumbnail">
+<a href="./posts/2022-06-08-curva-de-juros-de-americana-us-treasuries-curve/curva-de-juros-de-americana-us-treasuries-curve.html">
+<div class="thumbnail-image">
+
+</div>
+</a><p><a href="./posts/2022-06-08-curva-de-juros-de-americana-us-treasuries-curve/curva-de-juros-de-americana-us-treasuries-curve.html"></a></p>
+</div>
+<div class="body">
+<a href="./posts/2022-06-08-curva-de-juros-de-americana-us-treasuries-curve/curva-de-juros-de-americana-us-treasuries-curve.html">
+<h3 class="no-anchor listing-title">
+Curva de Juros de Americana - US Treasuries Curve
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('fixedincome'); return false;">
+fixedincome
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('opendata'); return false;">
+opendata
+</div>
+</div>
+<a href="./posts/2022-06-08-curva-de-juros-de-americana-us-treasuries-curve/curva-de-juros-de-americana-us-treasuries-curve.html">
+<div class="listing-description">
+<p>Como construir a curva de juros americana utilizando dados do Tesouro Americano (US Treasury) e o pacote {fixedincome}.</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2022-06-08-curva-de-juros-de-americana-us-treasuries-curve/curva-de-juros-de-americana-us-treasuries-curve.html">
+<div class="listing-date">
+Jun 6, 2022
+</div>
+<div class="listing-author">
+Wilson Freitas
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="8" data-categories="R,bcb,opendata" data-listing-date-sort="1654398000000" data-listing-file-modified-sort="1676818796337" data-listing-reading-time-sort="4.595">
+<div class="thumbnail">
+<a href="./posts/2022-06-05-indicadores-da-pesquisa-focus/indicadores-da-pesquisa-focus.html">
+<div class="thumbnail-image">
+
+</div>
+</a><p><a href="./posts/2022-06-05-indicadores-da-pesquisa-focus/indicadores-da-pesquisa-focus.html"></a></p>
+</div>
+<div class="body">
+<a href="./posts/2022-06-05-indicadores-da-pesquisa-focus/indicadores-da-pesquisa-focus.html">
+<h3 class="no-anchor listing-title">
+Indicadores da Pesquisa Focus
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('bcb'); return false;">
+bcb
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('opendata'); return false;">
+opendata
+</div>
+</div>
+<a href="./posts/2022-06-05-indicadores-da-pesquisa-focus/indicadores-da-pesquisa-focus.html">
+<div class="listing-description">
+<p>As APIs de Expectativas de Mercado da Pesquisa Focus não informam direito quais indicadores estão disponíveis. A documentação é meio falha e pouco confiável. Dessa maneira, a única maneira de descobrir o que está disponível é investigando a API. É isso que vou mostrar como fazer neste post.</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2022-06-05-indicadores-da-pesquisa-focus/indicadores-da-pesquisa-focus.html">
+<div class="listing-date">
+Jun 5, 2022
+</div>
+<div class="listing-author">
+Wilson Freitas
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="9" data-categories="R,bcb,opendata" data-listing-date-sort="1654225200000" data-listing-file-modified-sort="1676814334023" data-listing-reading-time-sort="5.035">
+<div class="thumbnail">
+<a href="./posts/2022-06-03-expectativas-focus-com-rbcb/expectativas-focus-com-rbcb.html">
+<div class="thumbnail-image">
+
+</div>
+</a><p><a href="./posts/2022-06-03-expectativas-focus-com-rbcb/expectativas-focus-com-rbcb.html"></a></p>
+</div>
+<div class="body">
+<a href="./posts/2022-06-03-expectativas-focus-com-rbcb/expectativas-focus-com-rbcb.html">
+<h3 class="no-anchor listing-title">
+Expectativas de Mercado da Pesquisa Focus no R
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('bcb'); return false;">
+bcb
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('opendata'); return false;">
+opendata
+</div>
+</div>
+<a href="./posts/2022-06-03-expectativas-focus-com-rbcb/expectativas-focus-com-rbcb.html">
+<div class="listing-description">
+<p>Obtendo as expectativas de mercado para os indicadores macroeconômicos da Pesquisa Focus utilizando o R e o pacote {rbcb}.</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2022-06-03-expectativas-focus-com-rbcb/expectativas-focus-com-rbcb.html">
+<div class="listing-date">
+Jun 3, 2022
+</div>
+<div class="listing-author">
+Wilson Freitas
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="10" data-categories="R,rb3,opendata" data-listing-date-sort="1654052400000" data-listing-file-modified-sort="1655129119790" data-listing-reading-time-sort="3.54">
+<div class="thumbnail">
+<a href="./posts/2022-06-09-grficos-de-composio-de-ndices-da-b3/grficos-de-composio-de-ndices-da-b3.html">
+<div class="thumbnail-image">
+
+</div>
+</a><p><a href="./posts/2022-06-09-grficos-de-composio-de-ndices-da-b3/grficos-de-composio-de-ndices-da-b3.html"></a></p>
+</div>
+<div class="body">
+<a href="./posts/2022-06-09-grficos-de-composio-de-ndices-da-b3/grficos-de-composio-de-ndices-da-b3.html">
+<h3 class="no-anchor listing-title">
+Gráficos de Composição de Índices da B3
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('rb3'); return false;">
+rb3
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('opendata'); return false;">
+opendata
+</div>
+</div>
+<a href="./posts/2022-06-09-grficos-de-composio-de-ndices-da-b3/grficos-de-composio-de-ndices-da-b3.html">
+<div class="listing-description">
+<p>Com o pacote {rb3} é possível obter a composição dos índices da B3, como o IBOVESPA, por exemplo. Vamos construir alguns gráficos donuts para avaliarmos a distribuição da composição dos índices.</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2022-06-09-grficos-de-composio-de-ndices-da-b3/grficos-de-composio-de-ndices-da-b3.html">
+<div class="listing-date">
+Jun 1, 2022
+</div>
+<div class="listing-author">
+Wilson Freitas
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="11" data-categories="Python,bcb,opendata" data-listing-date-sort="1642388400000" data-listing-file-modified-sort="1676813109071" data-listing-reading-time-sort="1.6">
+<div class="thumbnail">
+<a href="./posts/2022-01-17-dados-bcb-com-python/dados-bcb-com-python.html">
+<div class="thumbnail-image">
+
+</div>
+</a><p><a href="./posts/2022-01-17-dados-bcb-com-python/dados-bcb-com-python.html"></a></p>
+</div>
+<div class="body">
+<a href="./posts/2022-01-17-dados-bcb-com-python/dados-bcb-com-python.html">
+<h3 class="no-anchor listing-title">
+Obtendo Dados do BCB com Python
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
+Python
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('bcb'); return false;">
+bcb
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('opendata'); return false;">
+opendata
+</div>
+</div>
+<a href="./posts/2022-01-17-dados-bcb-com-python/dados-bcb-com-python.html">
+<div class="listing-description">
+<p>Obter os dados para análise de forma simples é fundamental e necessário.</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2022-01-17-dados-bcb-com-python/dados-bcb-com-python.html">
+<div class="listing-date">
+Jan 17, 2022
+</div>
+<div class="listing-author">
+Wilson Freitas
+</div>
+</a>
+</div>
+</div>
+</div>
+<div class="listing-no-matching d-none">
+No matching items
+</div>
+</div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

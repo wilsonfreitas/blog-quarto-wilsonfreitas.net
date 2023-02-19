@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Algumas das coisas que me fazem acordar cedo ou dormir tarde, de vez em quando.">
+
+<title>Wilson Freitas - Projetos em R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Wilson Freitas</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html">
+ <span class="menu-text">Sobre</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-cursos" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Cursos</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-cursos">    
+        <li>
+    <a class="dropdown-item" href="./bancodedados.html">
+ <span class="dropdown-text">Construindo Banco de Dados Financeiros</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./rendafixa.html">
+ <span class="dropdown-text">Renda Fixa usando R</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projetos" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Projetos</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-projetos">    
+        <li>
+    <a class="dropdown-item" href="./R.html">
+ <span class="dropdown-text">R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./python.html">
+ <span class="dropdown-text">Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./shinyapps.html">
+ <span class="dropdown-text">Shinyapps</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/wilsonfreitas"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/__wilsonfreitas"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#rb3" id="toc-rb3" class="nav-link active" data-scroll-target="#rb3">rb3📦</a></li>
+  <li><a href="#fixedincome" id="toc-fixedincome" class="nav-link" data-scroll-target="#fixedincome">fixedincome📦</a></li>
+  <li><a href="#copom" id="toc-copom" class="nav-link" data-scroll-target="#copom">copom📦</a></li>
+  <li><a href="#oplib" id="toc-oplib" class="nav-link" data-scroll-target="#oplib">oplib📦</a></li>
+  <li><a href="#rbcb" id="toc-rbcb" class="nav-link" data-scroll-target="#rbcb">rbcb📦</a></li>
+  <li><a href="#bizdays" id="toc-bizdays" class="nav-link" data-scroll-target="#bizdays">bizdays📦</a></li>
+  <li><a href="#numbersbr" id="toc-numbersbr" class="nav-link" data-scroll-target="#numbersbr">numbersBR📦</a></li>
+  <li><a href="#estratégias-de-trading-trading-strategies" id="toc-estratégias-de-trading-trading-strategies" class="nav-link" data-scroll-target="#estratégias-de-trading-trading-strategies">Estratégias de trading (Trading Strategies)</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Projetos em R</h1>
+</div>
+
+<div>
+  <div class="description">
+    <p>Algumas das coisas que me fazem acordar cedo ou dormir tarde, de vez em quando.</p>
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="rb3" class="level2">
+<h2 class="anchored" data-anchor-id="rb3">rb3📦</h2>
+<p><img src="images/rb3.png" class="img-fluid" style="width:30.0%"></p>
+<p>Os arquivos disponibilizados no mercado financeiro brasileiro são da idade da pedra. Definitivamente não há um padrão, o que torna difícil o trabalho de quem faz análise de dados do mercado financeiro brasileiro. O pacote <a href="https://github.com/wilsonfreitas/rb3">rb3</a>, ataca este problema criando <em>parsers</em> para todos os arquivos divulgados pela <a href="https://b3.com.br">B3</a>. Estes arquivos contem informação de diversos contratos negociados na Bolsa, de onde é possível extrair diversos insumos para análise de negociação e gestão de risco.</p>
+<ul>
+<li><a href="https://github.com/wilsonfreitas/rb3">Repositório</a></li>
+<li><a href="http://wilsonfreitas.github.io/rb3">Site</a></li>
+</ul>
+</section>
+<section id="fixedincome" class="level2">
+<h2 class="anchored" data-anchor-id="fixedincome">fixedincome📦</h2>
+<p><img src="images/fixedincome.png" class="img-fluid" style="width:30.0%"></p>
+<p><code>fixedincome</code> é um pacote para realizar cálculos de renda fixa. É bastante específico para quem trabalha com finanças. O objetivo é trabalhar com cálculos de envolvendo taxas de juros de forma estruturada e limpa.</p>
+<ul>
+<li><a href="https://github.com/wilsonfreitas/R-fixedincome">Repositório</a></li>
+<li><a href="http://wilsonfreitas.github.io/R-fixedincome">Site</a></li>
+</ul>
+</section>
+<section id="copom" class="level2">
+<h2 class="anchored" data-anchor-id="copom">copom📦</h2>
+<p><img src="images/copom.png" class="img-fluid" style="width:30.0%"></p>
+<p>No Brasil, temos as reuniões do COPOM (Comitê de Política Monetária do Banco Central) onde os rumos da política monetária do pais são decididos. As decisões do COPOM, que determinam as taxas de juros de curto prazo, influenciam a dinâmica das curvas de juros. Dessa maneira, é possível extrair da curva de juros as expectativas de mercado das decisões do COPOM.</p>
+<p>Algumas abordagens são implementadas no pacote <code>copom</code>.</p>
+<ul>
+<li><a href="https://github.com/wilsonfreitas/copom">Repositório</a></li>
+<li><a href="http://wilsonfreitas.github.io/copom">Site</a></li>
+</ul>
+</section>
+<section id="oplib" class="level2">
+<h2 class="anchored" data-anchor-id="oplib">oplib📦</h2>
+<p><img src="images/oplib.png" class="img-fluid" style="width:30.0%"></p>
+<p><code>oplib</code> implementa diversos modelos de pricing para opções e cálculo de volatilidade implícita aplicados a opções de ações, índices, moedas e taxas de juros.</p>
+<ul>
+<li><a href="https://github.com/wilsonfreitas/oplib">Repositório</a></li>
+</ul>
+</section>
+<section id="rbcb" class="level2">
+<h2 class="anchored" data-anchor-id="rbcb">rbcb📦</h2>
+<p><img src="images/rbcb.png" class="img-fluid" style="width:30.0%"></p>
+<p><a href="https://github.com/wilsonfreitas/rbcb">rbcb</a> é mais um pacote R na missão de estruturar os dados utilizados no mercado financeiro brasileiro, neste caso, dados publicados pelo Banco Central do Brasil (BCB) no seu portal de dados abertos. Este pacote baixa as séries divulgadas pelo BCB e disponibiliza em estruturas de dados no R.</p>
+<ul>
+<li><a href="https://github.com/wilsonfreitas/rbcb">Repositório</a></li>
+</ul>
+</section>
+<section id="bizdays" class="level2">
+<h2 class="anchored" data-anchor-id="bizdays">bizdays📦</h2>
+<p><img src="images/bizdays.png" class="img-fluid" style="width:30.0%"></p>
+<p><code>bizdays</code> é um pacote para contagem de dias úteis. Foi originalmente escrito em R e depois foi portado para Python.</p>
+<p>Hoje tem muito mais do que dias úteis:</p>
+<ul>
+<li>calcula dias úteis entre duas datas, de acordo com um calendário</li>
+<li>verifica se as data são dias úteis</li>
+<li>soma (subtrai) dias úteis a datas</li>
+<li>converte de dias úteis para dias corridos</li>
+</ul>
+<p>e um pouquinho mais …</p>
+<ul>
+<li><a href="https://github.com/wilsonfreitas/R-bizdays">Repositório</a></li>
+<li><a href="http://wilsonfreitas.github.io/R-bizdays">Site</a></li>
+</ul>
+</section>
+<section id="numbersbr" class="level2">
+<h2 class="anchored" data-anchor-id="numbersbr">numbersBR📦</h2>
+<p><a href="https://github.com/wilsonfreitas/numbersBR">numbersBR</a> é um pacote R para fazer validação dos diversos números de identificação existentes no Brasil, como: CPF, CNPJ, …</p>
+<ul>
+<li><a href="https://github.com/wilsonfreitas/numbersBR">Repositório</a></li>
+</ul>
+</section>
+<section id="estratégias-de-trading-trading-strategies" class="level2">
+<h2 class="anchored" data-anchor-id="estratégias-de-trading-trading-strategies">Estratégias de trading (Trading Strategies)</h2>
+<p>Fui monitor do cursos de Estratégias de Trading do Mestrado Profissional de Finanças Quantitativas da Faculdade de Economia da Fundação Getúlio Vargas.</p>
+<p>Fiz um material bem legal nesse curso com apresentações e códigos em R que podem ser encontrados <a href="http://wilsonfreitas.github.io/estrategias-de-trading/">aqui</a>.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

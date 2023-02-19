@@ -1,0 +1,98 @@
+---
+title: "Histórico de Taxas de Juros em Dólar no Brasil"
+description: |
+  Foi analisado em um post recente a dinâmica das taxas de juros,
+  brasileira e americana.
+  Trago neste post a comparação entre as taxas de juros em dólar,
+  no Brasil e nos Estados Unidos.
+author:
+  - name: Wilson Freitas
+    url: {}
+date: 2022-06-10
+categories:
+  - R
+  - fixedincome
+  - rb3
+  - opendata
+---
+
+[1]: /posts/2022-06-09-histrico-de-taxas-de-juros-de-longo-prazo/index.html
+
+Em um [post][1] recente.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r get-data-fake, eval=FALSE}
+library(Quandl)
+
+yc_all <- Quandl("USTREASURY/YIELD")
+```
+
+```{r quandl-data-load, cache=TRUE, echo=FALSE}
+library(Quandl)
+
+yc_all <- Quandl("USTREASURY/YIELD", api_key = "nJ1NhTYdEs2p3MsS4CVd")
+```
+
+```{r load-package, message=FALSE, warning=FALSE}
+library(rb3)
+library(bizdays)
+library(tidyverse)
+library(fixedincome)
+```
+
+```{r rb3-data-load-usd, message=FALSE, cache=TRUE}
+dusd <- yc_usd_mget(
+  first_date = "2019-01-01",
+  last_date = preceding(Sys.Date() - 1, "Brazil/ANBIMA"),
+  cache_folder = "../../../rb3-data"
+)
+```
+
+```{r create-curves-usd, cache=TRUE, message=FALSE, warning=FALSE}
+unique(dusd$refdate) |> map(function(date, df) {
+  df_curve <- df |>
+    filter(refdate == date, cur_days > 0) |>
+    filter(!duplicated(cur_days))
+  curve <- spotratecurve(
+    df_curve$r_360,
+    df_curve$cur_days,
+    "simple", "actual/360", "actual",
+    refdate = date
+  )
+  interpolation(curve) <- interp_flatforward()
+  curve
+}, df = dusd) -> curves_usd
+```
+
+```{r create-historical-rates-usd, cache=TRUE}
+curves_usd |>
+  map_dfr(\(x) tibble(
+    refdate = x@refdate,
+    r_USD_br_10y = as.numeric(x[[3600]])
+  )) -> rates_usd_10y
+```
+
+
+```{r}
+yc_all |>
+  rename(refdate = "Date", r_USD_us_10y = `10 YR`) |>
+  left_join(rates_usd_10y, by = "refdate") |>
+  tidyr::pivot_longer(c(r_USD_br_10y, r_USD_us_10y),
+    names_to = "rates"
+  ) |>
+  ggplot(aes(x = refdate, y = value, colour = rates)) +
+  geom_line() +
+  labs(colour = NULL) +
+  theme(legend.position = "bottom") +
+  labs(
+    x = NULL, y = NULL,
+    title = "Histórico de Taxas de Juros em Dólar de 10 Anos",
+    subtitle = "Estados Unidos (r_USD_us_10y) e Brasil (r_USD_br_10y)",
+    caption = "wilsonfreitas"
+  ) +
+  scale_y_continuous(labels = scales::percent) +
+  theme(legend.position = "bottom")
+```

@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Realizar o apreçamento de títulos de renda fixa utilizando R.">
+
+<title>Wilson Freitas - Renda Fixa usando R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Wilson Freitas</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html">
+ <span class="menu-text">Sobre</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-cursos" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Cursos</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-cursos">    
+        <li>
+    <a class="dropdown-item" href="./bancodedados.html">
+ <span class="dropdown-text">Construindo Banco de Dados Financeiros</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./rendafixa.html">
+ <span class="dropdown-text">Renda Fixa usando R</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projetos" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Projetos</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-projetos">    
+        <li>
+    <a class="dropdown-item" href="./R.html">
+ <span class="dropdown-text">R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./python.html">
+ <span class="dropdown-text">Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./shinyapps.html">
+ <span class="dropdown-text">Shinyapps</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/wilsonfreitas"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/__wilsonfreitas"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#conteúdo" id="toc-conteúdo" class="nav-link active" data-scroll-target="#conteúdo">Conteúdo</a></li>
+  <li><a href="#módulo-1-valor-do-dinheiro-no-tempo" id="toc-módulo-1-valor-do-dinheiro-no-tempo" class="nav-link" data-scroll-target="#módulo-1-valor-do-dinheiro-no-tempo">Módulo 1: Valor do dinheiro no tempo</a></li>
+  <li><a href="#módulo-2-regimes-de-capitalização" id="toc-módulo-2-regimes-de-capitalização" class="nav-link" data-scroll-target="#módulo-2-regimes-de-capitalização">Módulo 2: Regimes de capitalização</a></li>
+  <li><a href="#módulo-3-operações-com-fluxo-de-caixa" id="toc-módulo-3-operações-com-fluxo-de-caixa" class="nav-link" data-scroll-target="#módulo-3-operações-com-fluxo-de-caixa">Módulo 3: Operações com Fluxo de Caixa</a></li>
+  <li><a href="#módulo-4-precificação-de-instrumentos-de-renda-fixa-pré-fixados" id="toc-módulo-4-precificação-de-instrumentos-de-renda-fixa-pré-fixados" class="nav-link" data-scroll-target="#módulo-4-precificação-de-instrumentos-de-renda-fixa-pré-fixados">Módulo 4: Precificação de Instrumentos de Renda Fixa Pré-fixados</a></li>
+  <li><a href="#módulo-5-precificação-de-instrumentos-de-renda-fixa-indexados" id="toc-módulo-5-precificação-de-instrumentos-de-renda-fixa-indexados" class="nav-link" data-scroll-target="#módulo-5-precificação-de-instrumentos-de-renda-fixa-indexados">Módulo 5: Precificação de Instrumentos de Renda Fixa Indexados</a></li>
+  <li><a href="#módulo-6-curva-de-juros---estrutura-a-termo-de-taxas-de-juros-ettj" id="toc-módulo-6-curva-de-juros---estrutura-a-termo-de-taxas-de-juros-ettj" class="nav-link" data-scroll-target="#módulo-6-curva-de-juros---estrutura-a-termo-de-taxas-de-juros-ettj">Módulo 6: Curva de Juros - Estrutura a Termo de Taxas de Juros (ETTJ)</a></li>
+  <li><a href="#módulo-7-interpolação-da-estrutura-a-termo-de-taxas-de-juros-ettj" id="toc-módulo-7-interpolação-da-estrutura-a-termo-de-taxas-de-juros-ettj" class="nav-link" data-scroll-target="#módulo-7-interpolação-da-estrutura-a-termo-de-taxas-de-juros-ettj">Módulo 7: Interpolação da Estrutura a Termo de Taxas de Juros (ETTJ)</a></li>
+  <li><a href="#módulo-8-precificação-de-instrumentos-de-renda-fixa-pós-fixados" id="toc-módulo-8-precificação-de-instrumentos-de-renda-fixa-pós-fixados" class="nav-link" data-scroll-target="#módulo-8-precificação-de-instrumentos-de-renda-fixa-pós-fixados">Módulo 8: Precificação de Instrumentos de Renda Fixa Pós-fixados</a></li>
+  <li><a href="#módulo-9-precificação-de-instrumentos-de-renda-fixa-com-amortização-debêntures" id="toc-módulo-9-precificação-de-instrumentos-de-renda-fixa-com-amortização-debêntures" class="nav-link" data-scroll-target="#módulo-9-precificação-de-instrumentos-de-renda-fixa-com-amortização-debêntures">Módulo 9: Precificação de Instrumentos de Renda Fixa com Amortização (Debêntures)</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Renda Fixa usando R</h1>
+</div>
+
+<div>
+  <div class="description">
+    <p>Realizar o apreçamento de títulos de renda fixa utilizando R.</p>
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+
+</div>
+<style>
+.fcc-btn {
+  background-color: #199319;
+  color: white;
+  padding: 25px;
+  font-weight: bold;
+  width: 100%;
+  font-size: 200%;
+}
+</style>
+<center>
+<br> <a target="_blank" class="fcc-btn" href="https://p.eduzz.com/942050">Link para o Curso</a><br>
+<br> <br>
+</center>
+<p>O curso <strong>Renda Fixa usando R</strong> se divide em 9 módulos, trazendo uma visão de operações com taxas de juros e regimes de capitalização, definindo conceitos de valor do dinheiro no tempo e valor presente de fluxos de caixa.</p>
+<p>Implementa a construção da estrutura a termo de taxas de juros (ETTJ) e alguns métodos de interpolação de taxas.</p>
+<p>São apresentadas metodologias de apreçamento de instrumentos de renda fixa pré-fixados, pós-fixados e indexados.</p>
+<p>A teoria será abordada sempre de forma leve e concomitante com exemplos práticos.</p>
+<div class="cell">
+
+</div>
+<p><strong>Duração</strong>: 09:19:28</p>
+<section id="conteúdo" class="level3">
+<h3 class="anchored" data-anchor-id="conteúdo">Conteúdo</h3>
+</section>
+<section id="módulo-1-valor-do-dinheiro-no-tempo" class="level2">
+<h2 class="anchored" data-anchor-id="módulo-1-valor-do-dinheiro-no-tempo">Módulo 1: Valor do dinheiro no tempo</h2>
+<p>Valor presente de um fluxo futuro</p>
+<div class="cell">
+
+</div>
+<p><strong>Duração</strong>: 00:46:47</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">#</th>
+<th style="text-align: left;">Aula</th>
+<th style="text-align: left;">Duração</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Por que usar R para Renda Fixa?</td>
+<td style="text-align: left;">20:42</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Operação Financeira Elementar</td>
+<td style="text-align: left;">11:12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">Webscraping da Taxa DI (CDI) no site da B3</td>
+<td style="text-align: left;">06:26</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">Efeito do Tempo na Capitalização da Taxa de Juros</td>
+<td style="text-align: left;">08:24</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="módulo-2-regimes-de-capitalização" class="level2">
+<h2 class="anchored" data-anchor-id="módulo-2-regimes-de-capitalização">Módulo 2: Regimes de capitalização</h2>
+<p>Taxas de juros simples Taxas de juros compostos Taxas de juros contínuos</p>
+<div class="cell">
+
+</div>
+<p><strong>Duração</strong>: 00:52:52</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">#</th>
+<th style="text-align: left;">Aula</th>
+<th style="text-align: left;">Duração</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Regimes de Capitalização</td>
+<td style="text-align: left;">23:09</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Regras de Contagem de Dias</td>
+<td style="text-align: left;">11:00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">Calendários</td>
+<td style="text-align: left;">10:03</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">Especificação da taxa de juros</td>
+<td style="text-align: left;">08:38</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="módulo-3-operações-com-fluxo-de-caixa" class="level2">
+<h2 class="anchored" data-anchor-id="módulo-3-operações-com-fluxo-de-caixa">Módulo 3: Operações com Fluxo de Caixa</h2>
+<p>Exemplos de Operações com Fluxo de Caixa TIR (Taxa Interna de Retorno)</p>
+<div class="cell">
+
+</div>
+<p><strong>Duração</strong>: 00:47:43</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 84%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">#</th>
+<th style="text-align: left;">Aula</th>
+<th style="text-align: left;">Duração</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Valor presente de um fluxo de caixa</td>
+<td style="text-align: left;">10:01</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Valor presente de um fluxo de caixa com múltiplos pagamentos</td>
+<td style="text-align: left;">20:10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">TIR - Taxa Interna de Retorno</td>
+<td style="text-align: left;">17:32</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="módulo-4-precificação-de-instrumentos-de-renda-fixa-pré-fixados" class="level2">
+<h2 class="anchored" data-anchor-id="módulo-4-precificação-de-instrumentos-de-renda-fixa-pré-fixados">Módulo 4: Precificação de Instrumentos de Renda Fixa Pré-fixados</h2>
+<p>Bullet Bonds Pré-fixados: LTN, CDB Bonds Pré-fixados: NTN-F</p>
+<div class="cell">
+
+</div>
+<p><strong>Duração</strong>: 01:19:09</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">#</th>
+<th style="text-align: left;">Aula</th>
+<th style="text-align: left;">Duração</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Instrumentos de Renda Fixa disponíveis no mercado</td>
+<td style="text-align: left;">16:23</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">CDB e LC prefixados</td>
+<td style="text-align: left;">32:16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">LTN - Tesouro Prefixado</td>
+<td style="text-align: left;">14:37</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">NTN-F - Tesouro Prefixado com Juros Semestrais</td>
+<td style="text-align: left;">15:52</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="módulo-5-precificação-de-instrumentos-de-renda-fixa-indexados" class="level2">
+<h2 class="anchored" data-anchor-id="módulo-5-precificação-de-instrumentos-de-renda-fixa-indexados">Módulo 5: Precificação de Instrumentos de Renda Fixa Indexados</h2>
+<p>Bullet Bonds Indexados: NTN-B (Tesouro IPCA Principal) Bonds Indexados: NTN-B (Tesouro IPCA)</p>
+<div class="cell">
+
+</div>
+<p><strong>Duração</strong>: 01:06:28</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">#</th>
+<th style="text-align: left;">Aula</th>
+<th style="text-align: left;">Duração</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Instrumentos de Renda Fixa Indexados</td>
+<td style="text-align: left;">11:22</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">VNA - Valor Nominal Atualizado</td>
+<td style="text-align: left;">23:38</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">NTN-B Principal - Tesouro IPCA+</td>
+<td style="text-align: left;">20:50</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">NTN-B - Tesouro IPCA+ com Juros Semestrais</td>
+<td style="text-align: left;">10:37</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="módulo-6-curva-de-juros---estrutura-a-termo-de-taxas-de-juros-ettj" class="level2">
+<h2 class="anchored" data-anchor-id="módulo-6-curva-de-juros---estrutura-a-termo-de-taxas-de-juros-ettj">Módulo 6: Curva de Juros - Estrutura a Termo de Taxas de Juros (ETTJ)</h2>
+<p>Taxas à vista Taxas a termo</p>
+<div class="cell">
+
+</div>
+<p><strong>Duração</strong>: 00:59:11</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 84%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">#</th>
+<th style="text-align: left;">Aula</th>
+<th style="text-align: left;">Duração</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Curva de Juros Prefixados</td>
+<td style="text-align: left;">33:06</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Taxas a termo na Curva de Juros Prefixados</td>
+<td style="text-align: left;">14:19</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">Extraindo expectativas do COPOM da Curva de Juros Prefixados</td>
+<td style="text-align: left;">11:45</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="módulo-7-interpolação-da-estrutura-a-termo-de-taxas-de-juros-ettj" class="level2">
+<h2 class="anchored" data-anchor-id="módulo-7-interpolação-da-estrutura-a-termo-de-taxas-de-juros-ettj">Módulo 7: Interpolação da Estrutura a Termo de Taxas de Juros (ETTJ)</h2>
+<p>Interpolação Linear Interpolação Flat-forward Interpolação Spline</p>
+<div class="cell">
+
+</div>
+<p><strong>Duração</strong>: 00:56:23</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">#</th>
+<th style="text-align: left;">Aula</th>
+<th style="text-align: left;">Duração</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Interpolação Linear</td>
+<td style="text-align: left;">25:23</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Interpolação FlatForward</td>
+<td style="text-align: left;">14:10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">Interpolação Spline Cúbico Natural</td>
+<td style="text-align: left;">08:54</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">Comparando métodos de interpolação</td>
+<td style="text-align: left;">07:54</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="módulo-8-precificação-de-instrumentos-de-renda-fixa-pós-fixados" class="level2">
+<h2 class="anchored" data-anchor-id="módulo-8-precificação-de-instrumentos-de-renda-fixa-pós-fixados">Módulo 8: Precificação de Instrumentos de Renda Fixa Pós-fixados</h2>
+<p>Bullet Bonds Pós-fixados: LFT, CDB CDI + taxa, CDB %CDI</p>
+<div class="cell">
+
+</div>
+<p><strong>Duração</strong>: 01:20:43</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 84%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">#</th>
+<th style="text-align: left;">Aula</th>
+<th style="text-align: left;">Duração</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">LFT - Tesouro SELIC</td>
+<td style="text-align: left;">18:06</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Rentabilidade da LFT</td>
+<td style="text-align: left;">14:29</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">CDB pós-fixado</td>
+<td style="text-align: left;">15:19</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">Avaliação de arbitragem entre CDBs prefixados e pós-fixados</td>
+<td style="text-align: left;">12:14</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">Avaliação de arbitragem entre CDBs e LCI/LCA</td>
+<td style="text-align: left;">20:33</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="módulo-9-precificação-de-instrumentos-de-renda-fixa-com-amortização-debêntures" class="level2">
+<h2 class="anchored" data-anchor-id="módulo-9-precificação-de-instrumentos-de-renda-fixa-com-amortização-debêntures">Módulo 9: Precificação de Instrumentos de Renda Fixa com Amortização (Debêntures)</h2>
+<p>Bonds Pré-fixados Com Amortização Bonds Indexados Com Amortização Bonds Pós-fixados Com Amortização</p>
+<div class="cell">
+
+</div>
+<p><strong>Duração</strong>: 01:10:09</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">#</th>
+<th style="text-align: left;">Aula</th>
+<th style="text-align: left;">Duração</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Debêntures</td>
+<td style="text-align: left;">09:06</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Download de dados de Debêntures com API CALC da B3</td>
+<td style="text-align: left;">05:57</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">Debêntures Prefixadas 1</td>
+<td style="text-align: left;">09:42</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">Debêntures Prefixadas 2</td>
+<td style="text-align: left;">10:36</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">Debêntures Pós-fixadas</td>
+<td style="text-align: left;">10:28</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">Debêntures Indexadas 1</td>
+<td style="text-align: left;">08:51</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">Debêntures Indexadas 2</td>
+<td style="text-align: left;">15:25</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<center>
+<br> <a target="_blank" class="fcc-btn" href="https://p.eduzz.com/942050">Link para o Curso</a><br>
+<br> <br>
+</center>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

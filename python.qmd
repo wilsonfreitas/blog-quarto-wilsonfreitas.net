@@ -1,0 +1,94 @@
+---
+title: "Projetos em Python"
+description: |
+  Algumas das coisas que me fazem acordar cedo ou dormir tarde, de vez
+  em quando.
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## python-bcb📦
+
+[python-bcb](https://github.com/wilsonfreitas/python-bcb) é o hermitiano conjugado do `rbcb`.
+Nessa de usar R e Python o trabalho acaba sendo duplicado, mas faz parte!
+
+* [Repositório](https://github.com/wilsonfreitas/python-bcb)
+* [Site](http://wilsonfreitas.github.io/python-bcb)
+
+## bizdays📦
+
+`bizdays` é um pacote para contagem de dias úteis.
+Foi originalmente escrito em R e depois foi portado para Python.
+
+Hoje tem muito mais do que dias úteis:
+
+- calcula dias úteis entre duas datas, de acordo com um calendário
+- verifica se as data são dias úteis
+- soma (subtrai) dias úteis a datas
+- converte de dias úteis para dias corridos
+
+e um pouquinho mais ...
+
+- [Repositório](https://github.com/wilsonfreitas/python-bizdays)
+- [Site](http://wilsonfreitas.github.io/python-bizdays)
+
+## regexparser📦
+
+Um simples parser de texto baseado em expressões regulares.
+Frequentemente preciso fazer o *parsing* de texto em inteiros, decimais, datas, e outros formatos.
+Isso levava a muita duplicação de código, de forma que criei esse pequeno módulo onde
+posso centralizar todos os parsers que preciso em uma estrutura que me permite, utilizando
+expressões regulares, criar uma hierarquia para a realização dos parsers.
+
+- [Repositório](https://github.com/wilsonfreitas/regexparser)
+
+## Pricing Brazilian Securities (Lecture Notes)
+
+Notas de aula de um curso de *pricing* de ativos brasileiros totalmente em Python.
+
+- [Jupyter Notebooks](https://github.com/wilsonfreitas/brazilian-securities-lectures)
+
+Tópicos:
+
+- [Lecture 1](https://nbviewer.org/github/wilsonfreitas/brazilian-securities-lectures/tree/main/Brazilian%20Securities%201.ipynb)
+  - A bit of history
+    - Inflation in Brazil
+    - Interest rates in Brazil
+  - Calendars
+  - Compounding Regimes
+  - DI1 Future
+  - DI x PRE Curve
+  - Interpolation
+  - Forward Rates
+  - COPOM Meetings
+- [Lecture 2](https://nbviewer.org/github/wilsonfreitas/brazilian-securities-lectures/tree/main/Brazilian%20Securities%202.ipynb)
+  - Flat-forward interpolation with COPOM Meetings
+  - Treasury Direct contracts
+    - Floating: LFT
+    - Fixed: LTN, NTN-F
+    - Indexed: NTN-B, Bullet NTN-B
+  - ANBIMA Data
+  - Bootstrap
+  - Nelson-Siegel coeficients ANBIMA
+  - Implied Inflation
+- [Lecture 3](https://nbviewer.org/github/wilsonfreitas/brazilian-securities-lectures/tree/main/Brazilian%20Securities%203.ipynb)
+  - U.S. Dollar Futures - DOL
+    - Dollar curve
+  - DI x U.S. Dollar Spread Futures - DDI
+    - Dirty DI x U.S. Dollar Spread curve
+  - Forward Rate Agreement on DI x U.S. Dollar Spread - FRC
+    - Clean DI x U.S. Dollar Spread curve
+- [Lecture 4](https://nbviewer.org/github/wilsonfreitas/brazilian-securities-lectures/tree/main/Brazilian%20Securities%204.ipynb)
+  - DI x IPCA Spread Futures - DAP
+    - DI x IPCA Spread Curve
+  - Ibovespa Futures - IND
+    - DI x Ibovespa Spread Curve
+  - Commodities Futures
+    - Cash Settled Live Cattle Futures - BGI
+    - Cash Settled Corn Futures - CCM
+  - Debêntures
+    - Fixed Rate
+    - Floating Rate: CDI+spread, %CDI
+    - Indexed: IPCA

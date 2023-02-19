@@ -1,0 +1,35 @@
+project:
+  type: website
+
+website:
+  title: "Wilson Freitas"
+  navbar:
+    right:
+      - about.qmd
+      - text: "Cursos"
+        menu:
+        - text: Construindo Banco de Dados Financeiros
+          href: bancodedados.qmd
+        - text: Renda Fixa usando R
+          href: rendafixa.qmd
+      - text: "Projetos"
+        menu:
+        - text: R
+          href: R.qmd
+        - text: Python
+          href: python.qmd
+        - text: Shinyapps
+          href: shinyapps.qmd
+
+      - icon: github
+        href: https://github.com/wilsonfreitas
+      - icon: twitter
+        href: https://twitter.com/__wilsonfreitas
+format:
+  html:
+    theme: litera
+    css: styles.css
+    toc: true
+
+
+

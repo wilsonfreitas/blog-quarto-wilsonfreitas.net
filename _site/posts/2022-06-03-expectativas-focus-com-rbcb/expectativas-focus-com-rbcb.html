@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Wilson Freitas">
+<meta name="dcterms.date" content="2022-06-03">
+<meta name="description" content="Obtendo as expectativas de mercado para os indicadores macroeconômicos da Pesquisa Focus utilizando o R e o pacote {rbcb}.">
+
+<title>Wilson Freitas - Expectativas de Mercado da Pesquisa Focus no R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+<link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Wilson Freitas</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">Sobre</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-cursos" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Cursos</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-cursos">    
+        <li>
+    <a class="dropdown-item" href="../../bancodedados.html">
+ <span class="dropdown-text">Construindo Banco de Dados Financeiros</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../rendafixa.html">
+ <span class="dropdown-text">Renda Fixa usando R</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projetos" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Projetos</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-projetos">    
+        <li>
+    <a class="dropdown-item" href="../../R.html">
+ <span class="dropdown-text">R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../python.html">
+ <span class="dropdown-text">Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../shinyapps.html">
+ <span class="dropdown-text">Shinyapps</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/wilsonfreitas"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/__wilsonfreitas"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Expectativas de Mercado da Pesquisa Focus no R</h1>
+                  <div>
+        <div class="description">
+          <p>Obtendo as expectativas de mercado para os indicadores macroeconômicos da Pesquisa Focus utilizando o R e o pacote {rbcb}.</p>
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">R</div>
+                <div class="quarto-category">bcb</div>
+                <div class="quarto-category">opendata</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Wilson Freitas </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">June 3, 2022</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#função-get_market_expectations" id="toc-função-get_market_expectations" class="nav-link active" data-scroll-target="#função-get_market_expectations">Função <code>get_market_expectations</code></a></li>
+  <li><a href="#conhecendo-os-valores-retornados" id="toc-conhecendo-os-valores-retornados" class="nav-link" data-scroll-target="#conhecendo-os-valores-retornados">Conhecendo os valores retornados</a></li>
+  <li><a href="#realizando-uma-consulta-mais-elaborada" id="toc-realizando-uma-consulta-mais-elaborada" class="nav-link" data-scroll-target="#realizando-uma-consulta-mais-elaborada">Realizando uma consulta mais elaborada</a></li>
+  <li><a href="#visualizando-os-dados" id="toc-visualizando-os-dados" class="nav-link" data-scroll-target="#visualizando-os-dados">Visualizando os dados</a>
+  <ul class="collapse">
+  <li><a href="#série-temporal-das-expectativas-de-ipca" id="toc-série-temporal-das-expectativas-de-ipca" class="nav-link" data-scroll-target="#série-temporal-das-expectativas-de-ipca">Série temporal das expectativas de IPCA</a></li>
+  <li><a href="#série-temporal-com-intervalo-informado" id="toc-série-temporal-com-intervalo-informado" class="nav-link" data-scroll-target="#série-temporal-com-intervalo-informado">Série temporal com intervalo informado</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p>É possível obter as expectativas de mercado para diversos indicadores macroeconômicos da pesquisa Focus de forma totalmente automática utilizando o R.</p>
+<p>Vamos utilizar o pacote {rbcb} para obter estes dados. O pacote {rbcb} é uma interface para algumas das diversas APIs do portal de dados abertos do Banco Central (<a href="https://dadosabertos.bcb.gov.br">link</a>).</p>
+<p>As expectativas de mercado para os indicadores macroeconômicos da pesquisa Focus são consolidadas em estatísticas diárias e divulgadas na <a href="https://dadosabertos.bcb.gov.br/dataset/expectativas-mercado">API</a>. Estas estatísticas são calculadas com base nas expectativas de mercado de diversos bancos, gestores de recursos e demais instituições do mercado financeiro. Os indicadores macroeconômicos são referentes a índices de preços, crescimento do PIB e da produção industrial, taxa de câmbio, taxa Selic, variáveis fiscais e indicadores do setor externo e são publicadas todo primeiro dia útil da semana.</p>
+<p>Carregando os pacotes utilizados.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rbcb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="função-get_market_expectations" class="level1">
+<h1>Função <code>get_market_expectations</code></h1>
+<p>A função <code>get_market_expectations</code> implementa a interface para a API de expectativas de mercado da pesquisa Focus. Vejamos os seus argumentos e o que podemos fazer com eles:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>get_market_expectations <span class="sc">|&gt;</span> <span class="fu">args</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (type = c("annual", "quarterly", "monthly", "inflation-12-months", 
+    "top5s-monthly", "top5s-annual", "institutions", "selic", 
+    "top5s-selic"), indic = NULL, start_date = NULL, end_date = NULL, 
+    keep_names = TRUE, ...) 
+NULL</code></pre>
+</div>
+</div>
+<ul>
+<li><code>type</code>: A API de expectativas possui diversos <em>endpoints</em> e o argumento <code>type</code> define qual deve ser utilizado. Se não for informado o valor <code>annual</code> será utilizado.
+<ul>
+<li><code>annual</code>, <code>quarterly</code> e <code>monthly</code> retorna, respectivamente, as expectativas anuais, trimestrais e mensais dos indicadores macroeconômicos</li>
+<li><code>inflation-12-months</code> para expectativas de inflação nos próximos 12 meses</li>
+<li><code>top5s-monthly</code> e <code>top5s-annual</code> retorna as expectativas mensais e anuais para os indicadores do Top 5</li>
+<li><code>institutions</code> expectativas informadas pelas instituições credenciadas</li>
+<li><code>selic</code> expectativas de mercado SELIC</li>
+<li><code>top5s-selic</code> expectativas Top 5 para SELIC</li>
+</ul></li>
+<li><code>indic</code> nome do indicador macroeconômico, é opcional, de forma, quando não for definido, todos os indicadores disponíveis para o <em>endpoint</em> serão retornados. Esse ponto é curioso, pois a documentação não é boa e informa indicadores que não são mais disponibilizados.</li>
+<li><code>start_date</code> e <code>end_date</code> definem as datas de início e fim para a consulta, são opcionais e caso não sejam informados, todo o período será retornado, o que não é recomendado pois onera os serviços de dados do BCB que já não são lá os melhores.</li>
+<li><code>keep_names</code> é um argumento utilizado internamente que não faz diferença para o usuário final.</li>
+<li><code>...</code> aqui são passados argumentos adicionais para a API
+<ul>
+<li><code>$select</code> define as colunas retornadas na consulta: <code>Nome, Idade</code></li>
+<li><code>$filter</code> define filtros mais elaborados baseado nos valores das colunas: <code>Nome eq 'João'</code></li>
+<li><code>$orderby</code> define como as colunas devem ser ordenadas: <code>Nome asc, Idade desc</code></li>
+<li><code>$skip</code> define quantidade de linhas no começo que não devem ser retornadas</li>
+<li><code>$top</code> define a quantidade de linhas que serão retornadas</li>
+</ul></li>
+</ul>
+</section>
+<section id="conhecendo-os-valores-retornados" class="level1">
+<h1>Conhecendo os valores retornados</h1>
+<p>Cada <em>endpoint</em> possui o seu conjuto de colunas retornadas e isso pode mudar com o tempo, dessa maneira, para conhecer cada API, eu recomendo fortemente que a opção <code>$top = 10</code> seja utilizada para limitar uma consulta inicial para conhecimento dos valores retornados.</p>
+<div class="cell" data-hash="expectativas-focus-com-rbcb_cache/html/get_market_expectations-annual-IPCA-top-10_b6e56bbc2904eebea4bd6bdbf6b5785f">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_market_expectations</span>(<span class="st">"annual"</span>,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">indic =</span> <span class="st">"IPCA"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">$top</span><span class="st">`</span> <span class="ot">=</span> <span class="dv">10</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["Indicador"],"name":[1],"type":["chr"],"align":["left"]},{"label":["IndicadorDetalhe"],"name":[2],"type":["lgl"],"align":["right"]},{"label":["Data"],"name":[3],"type":["date"],"align":["right"]},{"label":["DataReferencia"],"name":[4],"type":["chr"],"align":["left"]},{"label":["Media"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Mediana"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["DesvioPadrao"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["Minimo"],"name":[8],"type":["lgl"],"align":["right"]},{"label":["Maximo"],"name":[9],"type":["lgl"],"align":["right"]},{"label":["numeroRespondentes"],"name":[10],"type":["lgl"],"align":["right"]},{"label":["baseCalculo"],"name":[11],"type":["int"],"align":["right"]}],"data":[{"1":"IPCA","2":"NA","3":"2000-01-03","4":"2000","5":"7.00","6":"7","7":"0.80","8":"NA","9":"NA","10":"NA","11":"0"},{"1":"IPCA","2":"NA","3":"2000-01-04","4":"2000","5":"7.00","6":"7","7":"0.79","8":"NA","9":"NA","10":"NA","11":"0"},{"1":"IPCA","2":"NA","3":"2000-01-05","4":"2000","5":"6.97","6":"7","7":"0.76","8":"NA","9":"NA","10":"NA","11":"0"},{"1":"IPCA","2":"NA","3":"2000-01-06","4":"2000","5":"6.91","6":"7","7":"0.58","8":"NA","9":"NA","10":"NA","11":"0"},{"1":"IPCA","2":"NA","3":"2000-01-07","4":"2000","5":"6.91","6":"7","7":"0.58","8":"NA","9":"NA","10":"NA","11":"0"},{"1":"IPCA","2":"NA","3":"2000-01-10","4":"2000","5":"6.92","6":"7","7":"0.56","8":"NA","9":"NA","10":"NA","11":"0"},{"1":"IPCA","2":"NA","3":"2000-01-11","4":"2000","5":"7.15","6":"7","7":"0.70","8":"NA","9":"NA","10":"NA","11":"0"},{"1":"IPCA","2":"NA","3":"2000-01-12","4":"2000","5":"6.93","6":"7","7":"0.58","8":"NA","9":"NA","10":"NA","11":"0"},{"1":"IPCA","2":"NA","3":"2000-01-13","4":"2000","5":"6.93","6":"7","7":"0.58","8":"NA","9":"NA","10":"NA","11":"0"},{"1":"IPCA","2":"NA","3":"2000-01-13","4":"2001","5":"4.15","6":"4","7":"0.35","8":"NA","9":"NA","10":"NA","11":"0"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Como vemos, tem muito <code>NA</code>. Talvez seja por que estamos visualizando dados muito antigos, vamos reordenar para trazer os dados mais recentes. Para isso é necessário definir a opção <code>$orderby</code>.</p>
+<div class="cell" data-hash="expectativas-focus-com-rbcb_cache/html/get_market_expectations-annual-IPCA-top-10-ordered_878e43b6f770ac25ba71bf5e81cca5ab">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_market_expectations</span>(<span class="st">"annual"</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">indic =</span> <span class="st">"IPCA"</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">$top</span><span class="st">`</span> <span class="ot">=</span> <span class="dv">10</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">$orderby</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Data desc"</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["Indicador"],"name":[1],"type":["chr"],"align":["left"]},{"label":["IndicadorDetalhe"],"name":[2],"type":["lgl"],"align":["right"]},{"label":["Data"],"name":[3],"type":["date"],"align":["right"]},{"label":["DataReferencia"],"name":[4],"type":["chr"],"align":["left"]},{"label":["Media"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Mediana"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["DesvioPadrao"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["Minimo"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["Maximo"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["numeroRespondentes"],"name":[10],"type":["int"],"align":["right"]},{"label":["baseCalculo"],"name":[11],"type":["int"],"align":["right"]}],"data":[{"1":"IPCA","2":"NA","3":"2023-02-10","4":"2023","5":"5.7644","6":"5.7742","7":"0.4910","8":"3.6387","9":"6.9166","10":"69","11":"1"},{"1":"IPCA","2":"NA","3":"2023-02-10","4":"2024","5":"4.0312","6":"4.0000","7":"0.5213","8":"3.0000","9":"5.6500","10":"65","11":"1"},{"1":"IPCA","2":"NA","3":"2023-02-10","4":"2025","5":"3.7372","6":"3.7450","7":"0.5158","8":"2.9900","9":"5.0000","10":"54","11":"1"},{"1":"IPCA","2":"NA","3":"2023-02-10","4":"2026","5":"3.7387","6":"3.7250","7":"0.5771","8":"3.0000","9":"5.0000","10":"48","11":"1"},{"1":"IPCA","2":"NA","3":"2023-02-10","4":"2027","5":"3.7964","6":"3.8000","7":"0.5959","8":"3.0000","9":"5.0000","10":"39","11":"1"},{"1":"IPCA","2":"NA","3":"2023-02-10","4":"2023","5":"5.7630","6":"5.7883","7":"0.4401","8":"3.6387","9":"6.9166","10":"142","11":"0"},{"1":"IPCA","2":"NA","3":"2023-02-10","4":"2024","5":"4.0324","6":"4.0000","7":"0.5501","8":"3.0000","9":"5.7557","10":"134","11":"0"},{"1":"IPCA","2":"NA","3":"2023-02-10","4":"2025","5":"3.7515","6":"3.6000","7":"0.6407","8":"2.0000","9":"5.5800","10":"114","11":"0"},{"1":"IPCA","2":"NA","3":"2023-02-10","4":"2026","5":"3.7209","6":"3.5000","7":"0.6916","8":"2.0000","9":"5.5200","10":"106","11":"0"},{"1":"IPCA","2":"NA","3":"2023-02-10","4":"2027","5":"3.8021","6":"3.6050","7":"0.7066","8":"3.0000","9":"5.5000","10":"86","11":"0"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Já ficou melhor, já é possível entender as informações retornadas.</p>
+</section>
+<section id="realizando-uma-consulta-mais-elaborada" class="level1">
+<h1>Realizando uma consulta mais elaborada</h1>
+<p>Podemos definir melhor a consulta e o que queremos dela:</p>
+<ul>
+<li>retornar as colunas: Data, DataReferencia, Media, Mediana, Maximo, Minimo e DesvioPadrao. Para isso vamos utilizar a opção <code>$select</code>.</li>
+<li>filtrar <code>baseCalculo</code> igual a 0 e <code>DataReferencia</code> igual a 2021 ou 2022 com a opção <code>$filter</code>.</li>
+<li>Com data inicial igual a 2020-12-01, para pegar os dados desde dezembro de 2020</li>
+</ul>
+<div class="cell" data-hash="expectativas-focus-com-rbcb_cache/html/get_market_expectations-annual-IPCA_2e34fb322d9c4bb5bf50fe7095267d5d">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">get_market_expectations</span>(<span class="st">"annual"</span>,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">indic =</span> <span class="st">"IPCA"</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">start_date =</span> <span class="st">"2020-12-01"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">$filter</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"(DataReferencia eq '2021' or DataReferencia eq '2022') and baseCalculo eq 0"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">$select</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Data,DataReferencia,Media,Mediana,DesvioPadrao,Maximo,Minimo"</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  rmarkdown<span class="sc">::</span><span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["Data"],"name":[1],"type":["date"],"align":["right"]},{"label":["DataReferencia"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Media"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Mediana"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["DesvioPadrao"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Minimo"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["Maximo"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"2020-12-01","2":"2021","3":"3.43","4":"3.44","5":"0.35","6":"2.49","7":"4.26"},{"1":"2020-12-01","2":"2022","3":"3.40","4":"3.50","5":"0.29","6":"2.60","7":"4.50"},{"1":"2020-12-02","2":"2021","3":"3.43","4":"3.44","5":"0.34","6":"2.49","7":"4.26"},{"1":"2020-12-02","2":"2022","3":"3.40","4":"3.50","5":"0.29","6":"2.60","7":"4.50"},{"1":"2020-12-03","2":"2021","3":"3.41","4":"3.41","5":"0.34","6":"2.49","7":"4.26"},{"1":"2020-12-03","2":"2022","3":"3.40","4":"3.50","5":"0.29","6":"2.60","7":"4.50"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</section>
+<section id="visualizando-os-dados" class="level1">
+<h1>Visualizando os dados</h1>
+<p>Com as estatísticas de expectativas de IPCA carregadas podemos começar a visualização dos dados. Estas expectativas são referentes a inflação cheia para os anos de 2021 e 2022 (DataReferencia). O filtro baseCalculo igual a 1 refere-se ao prazo de validade das expectativas informadas. Esta coluna pode ser 0 ou 1. baseCalculo igual a 0 considera as expectativas informadas nos últimos 30 dias no cálculo das estatísticas e baseCalculo igual a 1 considera os últimos 4 dias. Foi escolhida baseCalculo igual a 0 por ter uma amostra maior, consequência do período maior.</p>
+<section id="série-temporal-das-expectativas-de-ipca" class="level2">
+<h2 class="anchored" data-anchor-id="série-temporal-das-expectativas-de-ipca">Série temporal das expectativas de IPCA</h2>
+<p>Vamos começar observando a série temporal das expectativas para cada DataReferencia.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Data, <span class="at">y =</span> Mediana, <span class="at">group =</span> DataReferencia, <span class="at">colour =</span> DataReferencia)) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Expectativas para IPCA em 2021 e 2022"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Média das expectativas de IPCA"</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Dados da Pesquisa Focus obtidos com pacote rbcb"</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Data"</span>, <span class="at">y =</span> <span class="st">"Inflação"</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="expectativas-focus-com-rbcb_files/figure-html/ipca-mediana-datareferencia-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Curioso ver como as expectativas de inflação para 2021 mudaram ao longo de 2021, ou seja, erra-se miseravelmente. As expectativas para 2022 mudam menos, bem, isso até virar o ano.</p>
+</section>
+<section id="série-temporal-com-intervalo-informado" class="level2">
+<h2 class="anchored" data-anchor-id="série-temporal-com-intervalo-informado">Série temporal com intervalo informado</h2>
+<p>Vamos olhar agora apenas a DataReferencia 2021 e colocar as linhas de máximo e mínimo para termos uma ideia de intervalo para as expectativas.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(DataReferencia <span class="sc">==</span> <span class="dv">2021</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Data)) <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Mediana), <span class="at">colour =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Maximo), <span class="at">colour =</span> <span class="st">"grey"</span>) <span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Minimo), <span class="at">colour =</span> <span class="st">"grey"</span>) <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> Minimo, <span class="at">ymax =</span> Maximo), <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Expectativas para IPCA em 2021"</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Média das expectativas de IPCA com intervalo definido por máximo e mínimo da amostra"</span>,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Dados da Pesquisa Focus obtidos com pacote rbcb"</span>,</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Data"</span>, <span class="at">y =</span> <span class="st">"Inflação"</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="expectativas-focus-com-rbcb_files/figure-html/ipca-mediana-desviopadrao-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Interessante ver como as pesquisas erram e como, mesmo os mais ousados, não saem muito do consenso. Entendo que esse é um mecanismo necessário para se colocar o “bode na sala”, e ntretanto, erra-se miseravelmente, são muitos vieses envolvidos.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

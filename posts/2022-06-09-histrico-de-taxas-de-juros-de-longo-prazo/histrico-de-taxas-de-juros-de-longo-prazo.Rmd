@@ -1,0 +1,180 @@
+---
+title: "Histórico de Taxas de Juros de Longo Prazo"
+description: |
+  As taxas de juros de longo prazo são importantes variáveis econômicas.
+  Observar a dinâmica dessas taxas é fundamental para uma boa compreensão
+  do cenário econômico.
+  Vamos ver como utilizar o pacote {fixedincome} para construir o histórico da
+  taxa de juros prefixada para o prazo de 10 anos com dados extraídos da B3
+  com o pacote {rb3}.
+author:
+  - name: Wilson Freitas
+    url: {}
+date: 2022-06-09
+categories:
+  - R
+  - fixedincome
+  - rb3
+  - opendata
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+No mercado norte americano há cotações para taxas de juros em prazos fixos,
+1 ano, 5 anos, 10 anos, e assim por diante.
+Estas estruturas são conhecidas como *Constant Term Maturities*.
+
+Estes dados podem ser obtidos do site do Tesouro Americano (US Treasury) com
+o pacote {Quandl}.
+
+```{r get-data-fake, eval=FALSE}
+library(Quandl)
+
+yc_all <- Quandl("USTREASURY/YIELD")
+```
+
+```{r quandl-data-load, cache=TRUE, echo=FALSE}
+library(Quandl)
+
+yc_all <- Quandl("USTREASURY/YIELD", api_key = "nJ1NhTYdEs2p3MsS4CVd")
+```
+
+Podemos observar um longo histórico, desde a década de 90, para estas taxas.
+
+```{r show-curve, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+yc_all |>
+    ggplot(aes(x = Date, y = `10 YR` / 100)) +
+    geom_line() +
+    labs(
+        x = NULL, y = NULL,
+        title = "Histórico de Taxas de Juros Americanos de 10 Anos (Treasury Bonds)",
+        caption = "Dados do US Treasury obtidos com o pacote Quandl - wilsonfreitas"
+    ) +
+    scale_y_continuous(labels = scales::percent)
+```
+
+No mercado brasileiro, infelizmente, a vida é um pouco miserável,
+e não há um histórico disponível com taxas de longo prazo.
+É necessário construir na unha e na força do ódio.
+
+Os ativos líquidos de onde são extraídas as taxas de
+juros de longo prazo são os contratos futuros de taxa DI - DI1, que são cotados
+diariamente na B3 em seus vencimentos.
+Entretanto, as taxas de juros obtidas destes contratos apresentam um prazo
+diferente a cada dia.
+Assim, é necessário construir uma curva de juros com estes contratos e
+realizar uma interpolação nos prazos fixos, 1 ano, 5 anos, 10 anos, e por aí vai.
+
+Vamos utilizar o pacote {rb3} para obter o histórico com as curvas diárias
+de juros prefixados do mercado brasileiro e o pacote {fixedincome}
+para construir os objetos de curvas de juros e realizar a interpolação
+das curvas nos vértices fixos para obter o histórico de taxas de juros
+de longo prazo.
+
+Vamos começar importando os pacotes utilizados nessa jornada.
+
+```{r package-load, message=FALSE, warning=FALSE}
+library(rb3)
+library(bizdays)
+library(fixedincome)
+library(tidyverse)
+```
+
+A função `rb3::yc_mget` retorna um data.frame com o histórico de curvas de juros.
+Vamos baixar um histórico desde 2019.
+
+```{r rb3-data-load, message=FALSE, cache=TRUE}
+dc <- yc_mget(
+    first_date = "2019-01-01",
+    last_date = preceding(Sys.Date() - 1, "Brazil/ANBIMA"),
+    cache_folder = "../../../rb3-data"
+)
+```
+
+De posse do histórico, vamos construir as curvas de juros para cada data de referência
+utilizando a função `fixedincome::spotratecurve`.
+A curva de juros prefixada tem as seguintes características:
+
+- regime de capitalização: `discrete` (juros compostos)
+- regra de contagem de dias: `business/252`
+- calendário: `Brazil/ANBIMA`
+- interpolação: flat-forward
+
+Adicionalmente faço uma limpeza nos eventuais problemas encontrados nos dados, como
+dias úteis zerados e duplicados.
+Bem, é de graça, exigir dados corretos deve ser um pouco demais, né?
+
+```{r create-curves, cache=TRUE}
+unique(dc$refdate) |> map(function(date, df) {
+    df_curve <- df |>
+        filter(refdate == date, biz_days > 0) |>
+        filter(!duplicated(biz_days))
+    curve <- spotratecurve(
+        df_curve$r_252,
+        df_curve$biz_days,
+        "discrete", "business/252", "Brazil/ANBIMA",
+        refdate = date
+    )
+    interpolation(curve) <- interp_flatforward()
+    curve
+}, df = dc) -> curves
+```
+
+Obtendo um lista com as curvas de juros utilizamos os colchetes `[[`
+para realizar a interpolação no prazo fixo de 10 anos.
+Como estas curvas utilizam a regra de contagem de dias `business/252`,
+devemos considerar que 1 ano tem 252 dias úteis e portanto,
+10 anos tem 2520 dias úteis.
+Por isso, interpolamos a curva no vértice 2520.
+
+```{r create-historical-rates-brl, cache=TRUE}
+curves |>
+    map_dfr(\(x) tibble(
+        refdate = x@refdate,
+        r_BRL_10y = as.numeric(x[[2520]])
+    )) -> rates_10y
+```
+
+Já aproveito e retorno o histórico em um data.frame com as colunas `refdate` e `r_BRL_10y`.
+Faço isso para juntar com os dados de juros americanos de 10 anos e assim comparar a dinâmica
+das taxas conjuntamente.
+
+```{r}
+rates_10y <- rates_10y |>
+    left_join(yc_all |> select(Date, `10 YR`), by = c("refdate" = "Date")) |>
+    rename(r_USD_us_10y = `10 YR`) |>
+    mutate(r_USD_us_10y = r_USD_us_10y / 100)
+```
+
+Note que eu nomeio a taxa de juros americana com `r_USD_us_10y`, pois essa é 
+uma taxa que capitaliza o dólar (USD) nos Estados Unidos (us).
+Abaixo faço um malabarismo com `tidyr::pivot_longer` para preparar os
+dados para o `ggplot` e assim visualizá-los lado a lado.
+Note ainda que libero a escala dos gráficos (`scales = "free_y"`)
+para que a diferença de nível entre as taxas de juros,
+brasileira e americana, não afete a análise.
+O objetivo é visualizar a dinâmica das taxas de juros ao longo do tempo.
+
+```{r preview=TRUE}
+rates_10y |>
+    tidyr::pivot_longer(
+        c(r_BRL_10y, r_USD_us_10y),
+        names_to = "rates"
+    ) |>
+    ggplot(aes(x = refdate, y = value, colour = rates)) +
+    geom_line() +
+    facet_wrap(. ~ rates, scales = "free_y") +
+    labs(
+        x = NULL, y = NULL,
+        title = "Histórico de Taxas de Juros de 10 Anos",
+        subtitle = "Americanos (r_USD_us_10y) e Brasileiro (r_BRL_10y)",
+        caption = "wilsonfreitas"
+    ) +
+    scale_y_continuous(labels = scales::percent) +
+    theme(legend.position = "none")
+```
+

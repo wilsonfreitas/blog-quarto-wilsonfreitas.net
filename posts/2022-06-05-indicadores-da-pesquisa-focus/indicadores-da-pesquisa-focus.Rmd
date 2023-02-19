@@ -1,0 +1,324 @@
+---
+title: "Indicadores da Pesquisa Focus"
+description: |
+  As APIs de Expectativas de Mercado da Pesquisa Focus não informam
+  direito quais indicadores estão disponíveis. A documentação é meio falha e
+  pouco confiável. Dessa maneira, a única maneira de descobrir o que está
+  disponível é investigando a API. É isso que vou mostrar como fazer neste post.
+author:
+  - name: Wilson Freitas
+date: 2022-06-05
+categories:
+  - R
+  - bcb
+  - opendata
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+É possível obter as expectativas de mercado para diversos indicadores
+macroeconômicos da pesquisa Focus de forma totalmente automática utilizando
+o R.
+
+Vamos utilizar o pacote {rbcb} para obter estes dados.
+O pacote {rbcb} é uma interface para algumas das diversas APIs do portal de dados
+abertos do Banco Central ([link](https://dadosabertos.bcb.gov.br)).
+
+[expectativas-mercado]: https://dadosabertos.bcb.gov.br/dataset/expectativas-mercado
+
+As expectativas de mercado para os indicadores macroeconômicos da pesquisa
+Focus são consolidadas em estatísticas diárias e divulgadas na
+[API][expectativas-mercado].
+Estas estatísticas são calculadas com base nas expectativas de mercado
+de diversos bancos, gestores de recursos e demais instituições do mercado
+financeiro.
+Os indicadores macroeconômicos são referentes a índices de preços, crescimento
+do PIB e da produção industrial, taxa de câmbio, taxa Selic, variáveis fiscais
+e indicadores do setor externo e são publicadas todo primeiro dia útil da
+semana.
+
+Carregando os pacotes utilizados.
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+library(ggplot2)
+library(rbcb)
+```
+
+# Função `get_market_expectations`
+
+A função `get_market_expectations` implementa a interface para a API de
+expectativas de mercado da pesquisa Focus.
+Vejamos os seus argumentos e o que podemos fazer com eles:
+
+```{r}
+get_market_expectations |> args()
+```
+
+* `type`: A API de expectativas possui diversos *endpoints* e o argumento `type`
+define qual deve ser utilizado. Se não for informado o valor `annual` será utilizado.
+    * `annual`, `quarterly` e `monthly` retorna, respectivamente, as expectativas anuais, trimestrais e mensais dos indicadores macroeconômicos
+    * `inflation-12-months` para expectativas de inflação nos próximos 12 meses
+    * `top5s-monthly` e `top5s-annual` retorna as expectativas mensais e anuais para os indicadores do Top 5
+    * `institutions` expectativas informadas pelas instituições credenciadas
+    * `selic` expectativas de mercado SELIC
+    * `top5s-selic` expectativas Top 5 para SELIC
+* `indic` nome do indicador macroeconômico, é opcional, de forma, quando não
+for definido, todos os indicadores disponíveis para o *endpoint* serão
+retornados. Esse ponto é curioso, pois a documentação não é boa e informa
+indicadores que não são mais disponibilizados.
+* `start_date` e `end_date` definem as datas de início e fim para a consulta,
+são opcionais e caso não sejam informados, todo o período será retornado, o
+que não é recomendado pois onera os serviços de dados do BCB que já não são
+lá os melhores.
+* `keep_names` é um argumento utilizado internamente que não faz diferença para
+o usuário final.
+* `...` aqui são passados argumentos adicionais para a API
+    * `$select` define as colunas retornadas na consulta: `Nome, Idade`
+    * `$filter` define filtros mais elaborados baseado nos valores das colunas: `Nome eq 'João'`
+    * `$orderby` define como as colunas devem ser ordenadas: `Nome asc, Idade desc`
+    * `$skip` define quantidade de linhas no começo que não devem ser retornadas
+    * `$top` define a quantidade de linhas que serão retornadas
+
+# Descobrindo indicadores disponíveis
+
+Para descobrir os indicadores macroeconômicos disponíveis para um determinado
+*endpoint* é necessário realizar duas consultas.
+A primeira para descobrir a data mais recente com dados, pois a disponibilidade
+dos indicadores varia com o tempo, de maneira que temos indicadores mais
+recentes que não estão no histórico antigo.
+Tendo esta data, realizamos a segunda consulta filtrando por esta data.
+
+Vamos fazer isso para cada um dos *endpoints*.
+
+## `annual`
+
+**Consulta 1**
+
+```{r get_market_expectations-annual-data, cache=TRUE}
+get_market_expectations("annual",
+  `$top` = 1,
+  `$select` = "Data",
+  `$orderby` = "Data desc"
+) |>
+  rmarkdown::paged_table()
+```
+
+**Consulta 2**
+
+```{r get_market_expectations-annual-indicadores, cache=TRUE}
+get_market_expectations("annual",
+  `$select` = "Data,Indicador,IndicadorDetalhe",
+  `$filter` = "Data eq '2022-04-29'"
+) |>
+  distinct(Indicador, IndicadorDetalhe) |>
+  arrange(Indicador, IndicadorDetalhe) |>
+  rmarkdown::paged_table()
+```
+
+Este endpoint tem uma coluna IndicadorDetalhe, que é como uma especificação do
+indicador.
+No caso, Balança Comercial-Saldo ou Balança Comercial-Exportações, por exemplo.
+
+## `monthly`
+
+**Consulta 1**
+
+```{r get_market_expectations-monthly-data, cache=TRUE}
+get_market_expectations("monthly",
+  `$top` = 1,
+  `$select` = "Data",
+  `$orderby` = "Data desc"
+) |>
+  rmarkdown::paged_table()
+```
+
+**Consulta 2**
+
+```{r get_market_expectations-monthly-indicadores, cache=TRUE}
+get_market_expectations("monthly",
+  `$select` = "Data,Indicador",
+  `$filter` = "Data eq '2022-04-29'"
+) |>
+  distinct(Indicador) |>
+  arrange(Indicador) |>
+  rmarkdown::paged_table()
+```
+
+
+## `quarterly`
+
+**Consulta 1**
+
+```{r get_market_expectations-quarterly-data, cache=TRUE}
+get_market_expectations("quarterly",
+  `$top` = 1,
+  `$select` = "Data",
+  `$orderby` = "Data desc"
+) |>
+  rmarkdown::paged_table()
+```
+
+**Consulta 2**
+
+```{r get_market_expectations-quarterly-indicadores, cache=TRUE}
+get_market_expectations("quarterly",
+  `$select` = "Data,Indicador",
+  `$filter` = "Data eq '2022-04-29'"
+) |>
+  distinct(Indicador) |>
+  arrange(Indicador) |>
+  rmarkdown::paged_table()
+```
+
+## `inflation-12-months`
+
+**Consulta 1**
+
+```{r get_market_expectations-inflation-12-months-data, cache=TRUE}
+get_market_expectations("inflation-12-months",
+  `$top` = 1,
+  `$select` = "Data",
+  `$orderby` = "Data desc"
+) |>
+  rmarkdown::paged_table()
+```
+
+**Consulta 2**
+
+```{r get_market_expectations-inflation-12-months-indicadores, cache=TRUE}
+get_market_expectations("inflation-12-months",
+  `$select` = "Data,Indicador",
+  `$filter` = "Data eq '2022-04-29'"
+) |>
+  distinct(Indicador) |>
+  arrange(Indicador) |>
+  rmarkdown::paged_table()
+```
+
+## `top5s-annual`
+
+**Consulta 1**
+
+```{r get_market_expectations-top5s-annual-data, cache=TRUE}
+get_market_expectations("top5s-annual",
+  `$top` = 1,
+  `$select` = "Data",
+  `$orderby` = "Data desc"
+) |>
+  rmarkdown::paged_table()
+```
+
+**Consulta 2**
+
+```{r get_market_expectations-top5s-annual-indicadores, cache=TRUE}
+get_market_expectations("top5s-annual",
+  `$select` = "Data,Indicador",
+  `$filter` = "Data eq '2022-04-29'"
+) |>
+  distinct(Indicador) |>
+  arrange(Indicador) |>
+  rmarkdown::paged_table()
+```
+
+
+## `top5s-monthly`
+
+**Consulta 1**
+
+```{r get_market_expectations-top5s-monthly-data, cache=TRUE}
+get_market_expectations("top5s-monthly",
+  `$top` = 1,
+  `$select` = "Data",
+  `$orderby` = "Data desc"
+) |>
+  rmarkdown::paged_table()
+```
+
+**Consulta 2**
+
+```{r get_market_expectations-top5s-monthly-indicadores, cache=TRUE}
+get_market_expectations("top5s-monthly",
+  `$select` = "Data,Indicador",
+  `$filter` = "Data eq '2022-04-29'"
+) |>
+  distinct(Indicador) |>
+  arrange(Indicador) |>
+  rmarkdown::paged_table()
+```
+
+## `top5s-selic`
+
+**Consulta 1**
+
+```{r get_market_expectations-top5s-selic-data, cache=TRUE}
+get_market_expectations("top5s-selic",
+  `$top` = 1,
+  `$select` = "Data",
+  `$orderby` = "Data desc"
+) |>
+  rmarkdown::paged_table()
+```
+
+**Consulta 2**
+
+```{r get_market_expectations-top5s-selic-indicadores, cache=TRUE}
+get_market_expectations("top5s-selic",
+  `$select` = "Data,indicador",
+  `$filter` = "Data eq '2022-04-29'"
+) |>
+  distinct(indicador) |>
+  arrange(indicador) |>
+  rmarkdown::paged_table()
+```
+
+Aqui temos uma pegadinha, a coluna indicador vem com sua inicial minúscula,
+diferente dos demais *endpoints*.
+
+## `selic`
+
+**Consulta 1**
+
+```{r get_market_expectations-selic-data, cache=TRUE}
+get_market_expectations("selic",
+  `$top` = 1,
+  `$select` = "Data",
+  `$orderby` = "Data desc"
+) |>
+  rmarkdown::paged_table()
+```
+
+**Consulta 2**
+
+```{r get_market_expectations-selic-indicadores, cache=TRUE}
+get_market_expectations("selic",
+  `$select` = "Data,Indicador",
+  `$filter` = "Data eq '2022-04-29'"
+) |>
+  distinct(Indicador) |>
+  arrange(Indicador) |>
+  rmarkdown::paged_table()
+```
+
+
+# Conclusão
+
+Observamos que para a maior parte dos *endpoints*,
+a última data disponível é a mesma, indicando que as estatísticas são atualizadas
+conjuntamente.
+
+Uma vez que conhecemos os indicadores disponíveis podemos utilizar o argumento
+`indic` para selecionar o indicador desejado na consulta.
+
+```{r exemplo, cache=TRUE}
+get_market_expectations("monthly",
+  indic = c("IPCA", "IGP-M"),
+  start_date = "2022-04-29",
+  `$select` = "Data,Indicador,DataReferencia,Media,baseCalculo"
+) |>
+  rmarkdown::paged_table()
+```
+

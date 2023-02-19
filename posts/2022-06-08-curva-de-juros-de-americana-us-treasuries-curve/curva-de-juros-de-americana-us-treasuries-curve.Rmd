@@ -1,0 +1,170 @@
+---
+title: "Curva de Juros de Americana - US Treasuries Curve"
+description: |
+  Como construir a curva de juros americana utilizando dados do Tesouro
+  Americano (US Treasury) e o pacote {fixedincome}.
+author:
+  - name: Wilson Freitas
+    url: {}
+date: 2022-06-06
+categories:
+  - R
+  - fixedincome
+  - opendata
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+A curva de juros americana é uma peça fundamental do quebra-cabeças
+econômico/financeiro.
+Neste post vamos ver como obter os dados do histórico da estrutura a termo
+de juros dos Estados Unidos e como construir uma curva de juros utilizando
+o pacote {fixedincome}.
+
+Vamos utilizar o Quandl, que hoje é o
+[Nasdaq Data Link](https://data.nasdaq.com/), para obter o histórico de
+juros americanos.
+
+```{r get-data-fake, eval=FALSE}
+library(Quandl)
+
+yc_all <- Quandl("USTREASURY/YIELD")
+```
+
+```{r get-data, cache=TRUE, echo=FALSE}
+library(Quandl)
+yc_all <- Quandl("USTREASURY/YIELD", api_key = "nJ1NhTYdEs2p3MsS4CVd")
+```
+
+`yc_all` traz todo o histórico de juros, as *Constant Maturity Treasury rates*,
+que relacionam as taxas de juros ao um conjuto de prazos padronizados: 1, 3, e 6
+meses, e 1, 2, 3, 5, 7, 10, 20, e 30 anos.
+
+```{r}
+head(yc_all)
+```
+
+Vamos montar a curva de juros para uma data específica utilizando os prazos
+definidos no histórico.
+
+```{r}
+library(tidyverse)
+
+refdate <- as.Date("2022-02-04")
+yc <- yc_all |> filter(Date == refdate)
+
+yc
+```
+
+Comecemos construindo o vetor de prazos da curva.
+Para isso precisamos interpretar os nomes das colunas e convertê-los em prazos.
+
+```{r}
+nx <- names(yc)
+terms_names <- nx[-1]
+terms_names
+```
+
+Temos `MO` indicando prazos em meses e `YR` indicando os anos.
+Vamos utilizar uma simples substituição de texto para converter `MO`
+para `months` e `YR` para `years`.
+Dessa forma podemos utilizar a função `fixedincome::as.term` que
+converte um string em um objeto `term` (prazo).
+
+```{r}
+library(stringr)
+
+terms_names <- terms_names |>
+  str_replace("MO", "months") |>
+  str_replace("YR", "years")
+
+terms_names
+```
+
+Após a conversão usamos a função `purrr::map` com a função
+`fixedincome::as.term` e assim vamos obter uma lista com diversos objetos
+`term`.
+
+```{r}
+library(purrr)
+library(fixedincome)
+
+curve_terms <- map(terms_names, as.term)
+curve_terms
+```
+
+Obviamente tudo isso poderia ter sido feito de forma direta.
+
+```{r}
+curve_terms <- nx[-1] |>
+  str_replace("MO", "months") |>
+  str_replace("YR", "years") |>
+  map(as.term)
+```
+
+Pois bem, temos uma lista com prazos em meses e prazos em anos.
+É necessário converter os prazos para uma mesma unidade (`units`).
+Vou converter todos os prazos para dias.
+Para fazer isso vou criar um objeto `daycount("actual/360")`, que é a regra
+de contagem de dias que considera dias corridos e anos com 360 dias.
+Com a regra de contagem de dias conseguimos fazer a conversão dos prazos para
+anos e utilizando a quantidade de dias no ano da regra, 360, fazemos a
+conversão para dias.
+
+```{r}
+dc <- daycount("actual/360")
+
+terms <- curve_terms |>
+  map_dbl(\(x) dib(dc) * toyears(dc, x)) |>
+  term("days")
+
+terms
+```
+
+A função `fixedincome::toyears` converte os prazos para um número em anos, por
+exemplo, 6 meses retorna 0.5, e a função `dib` retorna a quantidade de dias no
+ano para a regra, neste caso, 360.
+Concluímos criando os objetos de prazo com `term`.
+
+Agora que já temos os prazos da curva vamos extrair as taxas do data.frame.
+É uma operação simples de extração de linhas de um data.frame e converter em
+um vetor.
+Fazemos uma verificação de `NA` por que eventualmente há podemos ter valores
+ausentes para alguns prazos.
+
+```{r}
+rates <- yc[1, -1] |>
+  as.list() |>
+  as.numeric()
+rates <- rates / 100
+ix <- !is.na(rates)
+
+rates[ix]
+```
+
+Tendo os prazos, as taxas e a data de referência, podemos construir a curva
+com a função `fixedincome::spotratecurve`.
+Para a curva de juros americana utilizamos taxa de juros simples
+(*compounding* `simple`), regra de contagem de dias (`actual/360`) e
+o calendário de dias corridos (`actual`).
+
+```{r}
+tr_curve <- spotratecurve(
+  rates[ix], terms[ix],
+  "simple", "actual/360", "actual",
+  refdate = refdate
+)
+
+tr_curve
+```
+
+Note os prazos em dias.
+Agora é só visualizar a curva de forma graciosa!
+
+```{r}
+plot(tr_curve)
+```
+
