@@ -287,11 +287,11 @@
     "text": "bizdays📦\nbizdays é um pacote para contagem de dias úteis. Foi originalmente escrito em R e depois foi portado para Python.\nHoje tem muito mais do que dias úteis:\n\ncalcula dias úteis entre duas datas, de acordo com um calendário\nverifica se as data são dias úteis\nsoma (subtrai) dias úteis a datas\nconverte de dias úteis para dias corridos\n\ne um pouquinho mais …\n\nRepositório\nSite"
   },
   {
-    "objectID": "python.html#textparser",
-    "href": "python.html#textparser",
+    "objectID": "python.html#regexparser",
+    "href": "python.html#regexparser",
     "title": "Projetos em Python",
-    "section": "textparser📦",
-    "text": "textparser📦\nUm simples parser de texto baseado em expressões regulares. Frequentemente preciso fazer o parsing de texto em inteiros, decimais, datas, e outros formatos. Isso levava a muita duplicação de código, de forma que criei esse pequeno módulo onde posso centralizar todos os parsers que preciso em uma estrutura que me permite, utilizando expressões regulares, criar uma hierarquia para a realização dos parsers.\n\nRepositório"
+    "section": "regexparser📦",
+    "text": "regexparser📦\nUm simples parser de texto baseado em expressões regulares. Frequentemente preciso fazer o parsing de texto em inteiros, decimais, datas, e outros formatos. Isso levava a muita duplicação de código, de forma que criei esse pequeno módulo onde posso centralizar todos os parsers que preciso em uma estrutura que me permite, utilizando expressões regulares, criar uma hierarquia para a realização dos parsers.\n\nRepositório"
   },
   {
     "objectID": "python.html#pricing-brazilian-securities-lecture-notes",
@@ -446,12 +446,5 @@
     "title": "Shinyapps",
     "section": "Stock Analysis",
     "text": "Stock Analysis\nShinyapp para análise de ações com informações de retornos, volatilidade e análise de risco.\n\nLink\n\nAvalia-se:\n\nRetornos de uma ação para diversas janelas de tempo\n\nDrawdown\n\nVolatilidade de uma ação com o modelo GARCH(1,1)\nAnálise de Risco"
-  },
-  {
-    "objectID": "python.html#regexparser",
-    "href": "python.html#regexparser",
-    "title": "Projetos em Python",
-    "section": "regexparser📦",
-    "text": "regexparser📦\nUm simples parser de texto baseado em expressões regulares. Frequentemente preciso fazer o parsing de texto em inteiros, decimais, datas, e outros formatos. Isso levava a muita duplicação de código, de forma que criei esse pequeno módulo onde posso centralizar todos os parsers que preciso em uma estrutura que me permite, utilizando expressões regulares, criar uma hierarquia para a realização dos parsers.\n\nRepositório"
   }
 ]
