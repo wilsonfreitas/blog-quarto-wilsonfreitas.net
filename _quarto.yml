@@ -2,7 +2,9 @@ project:
   type: website
 
 website:
+  google-analytics: "G-XRV3E6TPHB"
   title: "Wilson Freitas"
+  site-url: https://wilsonfreitas.net/
   navbar:
     right:
       - about.qmd
@@ -25,11 +27,10 @@ website:
         href: https://github.com/wilsonfreitas
       - icon: twitter
         href: https://twitter.com/__wilsonfreitas
+
 format:
   html:
     theme: litera
     css: styles.css
     toc: true
-
-
 
