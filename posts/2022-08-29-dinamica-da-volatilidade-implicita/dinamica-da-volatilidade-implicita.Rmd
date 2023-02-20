@@ -7,6 +7,11 @@ author:
   - name: Wilson Freitas
     url: {}
 date: 2022-08-29
+categories:
+  - R
+  - options
+  - B3
+  - opendata
 ---
 
 ```{r setup, include=FALSE}

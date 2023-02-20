@@ -16,7 +16,7 @@ categories:
   - opendata
 ---
 
-[1]: /posts/2022-06-09-histrico-de-taxas-de-juros-de-longo-prazo/index.html
+[1]: ../2022-06-09-histrico-de-taxas-de-juros-de-longo-prazo/histrico-de-taxas-de-juros-de-longo-prazo.Rmd
 
 Em um [post][1] recente.
 
@@ -30,7 +30,7 @@ library(Quandl)
 yc_all <- Quandl("USTREASURY/YIELD")
 ```
 
-```{r quandl-data-load, cache=TRUE, echo=FALSE}
+```{r quandl-data-load, cache=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
 library(Quandl)
 
 yc_all <- Quandl("USTREASURY/YIELD", api_key = "nJ1NhTYdEs2p3MsS4CVd")
@@ -76,10 +76,11 @@ curves_usd |>
 ```
 
 
-```{r}
+```{r plot, message=FALSE, warning=FALSE}
 yc_all |>
   rename(refdate = "Date", r_USD_us_10y = `10 YR`) |>
-  left_join(rates_usd_10y, by = "refdate") |>
+  mutate(r_USD_us_10y = r_USD_us_10y / 100) |>
+  inner_join(rates_usd_10y, by = "refdate") |>
   tidyr::pivot_longer(c(r_USD_br_10y, r_USD_us_10y),
     names_to = "rates"
   ) |>

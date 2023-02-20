@@ -35,7 +35,7 @@ library(Quandl)
 yc_all <- Quandl("USTREASURY/YIELD")
 ```
 
-```{r quandl-data-load, cache=TRUE, echo=FALSE}
+```{r quandl-data-load, cache=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
 library(Quandl)
 
 yc_all <- Quandl("USTREASURY/YIELD", api_key = "nJ1NhTYdEs2p3MsS4CVd")
