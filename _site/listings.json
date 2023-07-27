@@ -2,6 +2,8 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/2023-07-26-quantlib-zerocurve/main.html",
+      "/posts/2023-07-19-quantlib/quantlib.html",
       "/posts/2023-02-19-taxas-de-juros-reais/index.html",
       "/posts/2022-08-29-dinamica-da-volatilidade-implicita/dinamica-da-volatilidade-implicita.html",
       "/posts/2022-08-17-movimento-da-parte-longa-da-curva-de-juros/movimento-da-parte-longa-da-curva-de-juros.html",

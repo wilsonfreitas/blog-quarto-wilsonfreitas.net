@@ -2,82 +2,90 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://wilsonfreitas.net/about.html</loc>
-    <lastmod>2023-02-20T14:57:36.862Z</lastmod>
+    <lastmod>2023-07-27T10:29:23.574Z</lastmod>
   </url>
   <url>
     <loc>https://wilsonfreitas.net/bancodedados.html</loc>
-    <lastmod>2023-02-20T14:57:40.716Z</lastmod>
+    <lastmod>2023-07-27T10:29:30.605Z</lastmod>
   </url>
   <url>
     <loc>https://wilsonfreitas.net/index.html</loc>
-    <lastmod>2023-02-20T14:57:42.298Z</lastmod>
+    <lastmod>2023-07-27T10:29:32.569Z</lastmod>
   </url>
   <url>
     <loc>https://wilsonfreitas.net/posts/2022-01-17-dados-bcb-com-python/dados-bcb-com-python.html</loc>
-    <lastmod>2023-02-20T14:57:42.892Z</lastmod>
+    <lastmod>2023-07-27T10:29:33.627Z</lastmod>
   </url>
   <url>
     <loc>https://wilsonfreitas.net/posts/2022-06-03-expectativas-focus-com-rbcb/expectativas-focus-com-rbcb.html</loc>
-    <lastmod>2023-02-20T14:57:43.664Z</lastmod>
+    <lastmod>2023-07-27T10:29:34.777Z</lastmod>
   </url>
   <url>
     <loc>https://wilsonfreitas.net/posts/2022-06-05-indicadores-da-pesquisa-focus/indicadores-da-pesquisa-focus.html</loc>
-    <lastmod>2023-02-20T14:57:44.890Z</lastmod>
+    <lastmod>2023-07-27T10:29:36.534Z</lastmod>
   </url>
   <url>
     <loc>https://wilsonfreitas.net/posts/2022-06-08-curva-de-juros-de-americana-us-treasuries-curve/curva-de-juros-de-americana-us-treasuries-curve.html</loc>
-    <lastmod>2023-02-20T14:57:45.525Z</lastmod>
+    <lastmod>2023-07-27T10:29:37.478Z</lastmod>
   </url>
   <url>
     <loc>https://wilsonfreitas.net/posts/2022-06-09-grficos-de-composio-de-ndices-da-b3/grficos-de-composio-de-ndices-da-b3.html</loc>
-    <lastmod>2023-02-20T14:57:46.118Z</lastmod>
+    <lastmod>2023-07-27T10:29:38.320Z</lastmod>
   </url>
   <url>
     <loc>https://wilsonfreitas.net/posts/2022-06-09-histrico-de-taxas-de-juros-de-longo-prazo/histrico-de-taxas-de-juros-de-longo-prazo.html</loc>
-    <lastmod>2023-02-20T14:57:46.724Z</lastmod>
+    <lastmod>2023-07-27T10:29:39.385Z</lastmod>
   </url>
   <url>
     <loc>https://wilsonfreitas.net/posts/2022-06-10-histrico-de-taxas-de-juros-em-dlar-no-brasil/histrico-de-taxas-de-juros-em-dlar-no-brasil.html</loc>
-    <lastmod>2023-02-20T14:57:47.296Z</lastmod>
+    <lastmod>2023-07-27T10:29:40.405Z</lastmod>
   </url>
   <url>
     <loc>https://wilsonfreitas.net/posts/2022-06-18-16-anos-de-curva-prefixada/16-anos-de-curva-prefixada.html</loc>
-    <lastmod>2023-02-20T14:57:47.974Z</lastmod>
+    <lastmod>2023-07-27T10:29:41.573Z</lastmod>
   </url>
   <url>
     <loc>https://wilsonfreitas.net/posts/2022-06-19-super-datasets-do-pacote-rb3/super-datasets-do-pacote-rb3.html</loc>
-    <lastmod>2023-02-20T14:57:48.571Z</lastmod>
+    <lastmod>2023-07-27T10:29:42.506Z</lastmod>
   </url>
   <url>
     <loc>https://wilsonfreitas.net/posts/2022-06-24-super-datasets-para-opcoes-de-acoes/super-datasets-para-opcoes-de-acoes.html</loc>
-    <lastmod>2023-02-20T14:57:49.174Z</lastmod>
+    <lastmod>2023-07-27T10:29:43.545Z</lastmod>
   </url>
   <url>
     <loc>https://wilsonfreitas.net/posts/2022-08-17-movimento-da-parte-longa-da-curva-de-juros/movimento-da-parte-longa-da-curva-de-juros.html</loc>
-    <lastmod>2023-02-20T14:57:49.910Z</lastmod>
+    <lastmod>2023-07-27T10:29:44.604Z</lastmod>
   </url>
   <url>
     <loc>https://wilsonfreitas.net/posts/2022-08-29-dinamica-da-volatilidade-implicita/dinamica-da-volatilidade-implicita.html</loc>
-    <lastmod>2023-02-20T14:57:50.511Z</lastmod>
+    <lastmod>2023-07-27T10:29:45.490Z</lastmod>
   </url>
   <url>
     <loc>https://wilsonfreitas.net/posts/2023-02-19-taxas-de-juros-reais/index.html</loc>
-    <lastmod>2023-02-20T14:57:51.214Z</lastmod>
+    <lastmod>2023-07-27T10:29:46.488Z</lastmod>
+  </url>
+  <url>
+    <loc>https://wilsonfreitas.net/posts/2023-07-19-quantlib/quantlib.html</loc>
+    <lastmod>2023-07-27T10:29:47.160Z</lastmod>
+  </url>
+  <url>
+    <loc>https://wilsonfreitas.net/posts/2023-07-26-quantlib-zerocurve/main.html</loc>
+    <lastmod>2023-07-27T10:29:47.808Z</lastmod>
   </url>
   <url>
     <loc>https://wilsonfreitas.net/python.html</loc>
-    <lastmod>2023-02-20T14:57:52.488Z</lastmod>
+    <lastmod>2023-07-27T10:29:50.028Z</lastmod>
   </url>
   <url>
     <loc>https://wilsonfreitas.net/R.html</loc>
-    <lastmod>2023-02-20T14:57:53.767Z</lastmod>
+    <lastmod>2023-07-27T10:29:52.153Z</lastmod>
   </url>
   <url>
     <loc>https://wilsonfreitas.net/rendafixa.html</loc>
-    <lastmod>2023-02-20T14:57:57.489Z</lastmod>
+    <lastmod>2023-07-27T10:29:57.860Z</lastmod>
   </url>
   <url>
     <loc>https://wilsonfreitas.net/shinyapps.html</loc>
-    <lastmod>2023-02-20T14:57:58.709Z</lastmod>
+    <lastmod>2023-07-27T10:29:59.741Z</lastmod>
   </url>
 </urlset>
