@@ -292,12 +292,14 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
 <section id="zerocurves" class="level3">
 <h3 class="anchored" data-anchor-id="zerocurves">ZeroCurves</h3>
 <div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [(calendar.advance(today, d, ql.Days, ql.Following), r) <span class="cf">for</span> d, r <span class="kw">in</span> <span class="bu">zip</span>(curve[<span class="st">"business_days"</span>], curve[<span class="st">"adjusted_tax"</span>])]</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data.insert(<span class="dv">0</span>, (today, data[<span class="dv">0</span>][<span class="dv">1</span>]))</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>dates, yields <span class="op">=</span> <span class="bu">zip</span>(<span class="op">*</span>data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [(calendar.advance(today, d, ql.Days, ql.Following), r)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> d, r <span class="kw">in</span> <span class="bu">zip</span>(curve[<span class="st">"business_days"</span>], curve[<span class="st">"adjusted_tax"</span>])]</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>data.insert(<span class="dv">0</span>, (today, data[<span class="dv">0</span>][<span class="dv">1</span>]))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>dates, yields <span class="op">=</span> <span class="bu">zip</span>(<span class="op">*</span>data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>zc <span class="op">=</span> ql.ZeroCurve(dates, yields, ql.Business252(calendar), calendar, ql.Linear(), ql.Compounded, ql.Annual)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>zc <span class="op">=</span> ql.ZeroCurve(dates, yields, ql.Business252(calendar), calendar, ql.Linear(),</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                  ql.Compounded, ql.Annual)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>zc.referenceDate()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -325,11 +327,16 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
 </div>
 </div>
 <div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>llzc <span class="op">=</span> ql.LogLinearZeroCurve(dates, yields, ql.Business252(calendar), calendar, ql.LogLinear(), ql.Compounded, ql.Annual)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>czc <span class="op">=</span> ql.CubicZeroCurve(dates, yields, ql.Business252(calendar), calendar, ql.Cubic(), ql.Compounded, ql.Annual)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>nczc <span class="op">=</span> ql.NaturalCubicZeroCurve(dates, yields, ql.Business252(calendar), calendar, ql.SplineCubic(), ql.Compounded, ql.Annual)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>lczc <span class="op">=</span> ql.LogCubicZeroCurve(dates, yields, ql.Business252(calendar), calendar, ql.DefaultLogCubic(), ql.Compounded, ql.Annual)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>mczc <span class="op">=</span> ql.MonotonicCubicZeroCurve(dates, yields, ql.Business252(calendar), calendar, ql.MonotonicCubic(), ql.Compounded, ql.Annual)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>llzc <span class="op">=</span> ql.LogLinearZeroCurve(dates, yields, ql.Business252(calendar), calendar,</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>                             ql.LogLinear(), ql.Compounded, ql.Annual)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>czc <span class="op">=</span> ql.CubicZeroCurve(dates, yields, ql.Business252(calendar), calendar,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                        ql.Cubic(), ql.Compounded, ql.Annual)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>nczc <span class="op">=</span> ql.NaturalCubicZeroCurve(dates, yields, ql.Business252(calendar), calendar,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>                                ql.SplineCubic(), ql.Compounded, ql.Annual)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>lczc <span class="op">=</span> ql.LogCubicZeroCurve(dates, yields, ql.Business252(calendar), calendar,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>                            ql.DefaultLogCubic(), ql.Compounded, ql.Annual)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>mczc <span class="op">=</span> ql.MonotonicCubicZeroCurve(dates, yields, ql.Business252(calendar), calendar,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>                                  ql.MonotonicCubic(), ql.Compounded, ql.Annual)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>i_curve <span class="op">=</span> pd.DataFrame({</span>
