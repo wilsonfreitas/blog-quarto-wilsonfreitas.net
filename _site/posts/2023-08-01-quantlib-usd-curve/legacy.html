@@ -313,13 +313,13 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    .to_pandas().iloc[<span class="dv">0</span>,<span class="dv">0</span>]) <span class="op">/</span> <span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Preciso ainda obter as cotações de dólar, e acredite, temos diversas cotações de dólar. As cotações de dólar são referentes à data de referência e ao dia anterior. Para obter estes pontos de forma higiênica, vou fazer o <em>setup</em> da QuantLib e utilizar o calendário brasileiro para filtrar os dados nas datas de interesse, a data de referência e o dia anterior.</p>
-<div class="cell" data-execution_count="22">
+<div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>today <span class="op">=</span> ql.Date().from_date(refdate)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ql.Settings.instance().evaluationDate <span class="op">=</span> today</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>calendar <span class="op">=</span> ql.Brazil(ql.Brazil.Settlement)</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>calendar_act <span class="op">=</span> ql.NullCalendar()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="7">
+<div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df_econ_ind <span class="op">=</span> (brasa</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    .get_dataset(<span class="st">"b3-economic-indicators-price"</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">filter</span>(pc.field(<span class="st">"refdate"</span>) <span class="op">&gt;=</span> calendar.advance(today, ql.Period(<span class="op">-</span><span class="dv">1</span>, ql.Days)).to_date())</span>
@@ -328,7 +328,7 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    .to_table()</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    .to_pandas())</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>df_econ_ind</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="6">
 
 <div>
 
@@ -421,16 +421,16 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
 <li>PTAX800 cotação de venda</li>
 </ul>
 <p>Precisamos pegar a cotação da PTAX800 (apenas PTAX) do dia anterior para calcular o cupom sujo.</p>
-<div class="cell" data-execution_count="73">
+<div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fut <span class="op">=</span> fut_dol.merge(fut_di1, on<span class="op">=</span>[<span class="st">"refdate"</span>, <span class="st">"maturity_date"</span>, <span class="st">"business_days"</span>], suffixes<span class="op">=</span>(<span class="st">"_dol"</span>, <span class="st">"_di1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="74">
+<div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>refdate_1 <span class="op">=</span> datetime(<span class="dv">2023</span>, <span class="dv">7</span>, <span class="dv">13</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ptax_1 <span class="op">=</span> df_econ_ind.loc[(df_econ_ind[<span class="st">"refdate"</span>] <span class="op">==</span> refdate_1) <span class="op">&amp;</span> (df_econ_ind[<span class="st">"symbol"</span>] <span class="op">==</span> <span class="st">"RTDOLT1"</span>), <span class="st">"price"</span>].item()</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>di1_factor <span class="op">=</span> <span class="dv">100000</span> <span class="op">/</span> fut[<span class="st">"settlement_price_di1"</span>]</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>dol_factor <span class="op">=</span> fut[<span class="st">"settlement_price_dol"</span>] <span class="op">/</span> (ptax_1 <span class="op">*</span> <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="75">
+<div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fixing <span class="op">=</span> [calendar.advance(d, <span class="dv">1</span>, ql.Days)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>          <span class="cf">for</span> d <span class="kw">in</span> [calendar.adjust(ql.Date.from_date(d), ql.Following)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">for</span> d <span class="kw">in</span> fut[<span class="st">"maturity_date"</span>]]]</span>
@@ -438,17 +438,17 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>fut[<span class="st">"fixing"</span>] <span class="op">=</span> [datetime.fromordinal(d.to_date().toordinal()) <span class="cf">for</span> d <span class="kw">in</span> fixing]</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>fut[<span class="st">"cupom_sujo"</span>] <span class="op">=</span> (di1_factor <span class="op">/</span> dol_factor <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> <span class="dv">360</span> <span class="op">/</span> dc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="76">
+<div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>spot <span class="op">=</span> df_econ_ind.loc[(df_econ_ind[<span class="st">"refdate"</span>] <span class="op">==</span> refdate) <span class="op">&amp;</span> (df_econ_ind[<span class="st">"symbol"</span>] <span class="op">==</span> <span class="st">"RTDOLCL"</span>), <span class="st">"price"</span>].item()</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>di1_factor <span class="op">=</span> (<span class="dv">100000</span> <span class="op">/</span> fut[<span class="st">"settlement_price_di1"</span>]) <span class="op">/</span> ((<span class="dv">1</span> <span class="op">+</span> cdi) <span class="op">**</span> (<span class="dv">1</span><span class="op">/</span><span class="dv">252</span>))</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>dol_factor <span class="op">=</span> fut[<span class="st">"settlement_price_dol"</span>] <span class="op">/</span> (spot <span class="op">*</span> <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="77">
+<div class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dc <span class="op">=</span> [calendar_act.businessDaysBetween(calendar.advance(today, <span class="dv">2</span>, ql.Days), ql.Date.from_date(d)) <span class="cf">for</span> d <span class="kw">in</span> fut[<span class="st">"fixing"</span>]]</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>fut[<span class="st">"cupom_limpo"</span>] <span class="op">=</span> (di1_factor <span class="op">/</span> dol_factor <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> <span class="dv">360</span> <span class="op">/</span> dc</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>fut[<span class="st">"dc_limpo"</span>] <span class="op">=</span> dc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="78">
+<div class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>us_curve <span class="op">=</span> pd.concat(</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    [pd.Series([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">12</span>, <span class="dv">24</span>, <span class="dv">36</span>, <span class="dv">60</span>, <span class="dv">72</span>, <span class="dv">120</span>, <span class="dv">240</span>, <span class="dv">360</span>]) <span class="op">*</span> <span class="dv">30</span>,</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    pd.Series([<span class="fl">5.37</span>,<span class="fl">5.49</span>,<span class="fl">5.49</span>,<span class="fl">5.53</span>,<span class="fl">5.52</span>,<span class="fl">5.34</span>,<span class="fl">4.74</span>,<span class="fl">4.35</span>,<span class="fl">4.04</span>,<span class="fl">3.94</span>,<span class="fl">3.83</span>,<span class="fl">4.11</span>,<span class="fl">3.93</span>]) <span class="op">/</span> <span class="dv">100</span>],</span>
@@ -457,13 +457,13 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>us_curve.columns <span class="op">=</span> [<span class="st">"dc"</span>, <span class="st">"rate"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="79">
+<div class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>us_curve[<span class="st">"date"</span>] <span class="op">=</span> [datetime.fromordinal(calendar_act.advance(today, d, ql.Days).to_date().toordinal()) <span class="cf">for</span> d <span class="kw">in</span> us_curve[<span class="st">"dc"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="80">
+<div class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fut[[<span class="st">"fixing"</span>, <span class="st">"cupom_limpo"</span>, <span class="st">"cupom_sujo"</span>]].set_index(<span class="st">"fixing"</span>).plot()</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>us_curve[[<span class="st">"date"</span>, <span class="st">"rate"</span>]].query(<span class="st">"date &lt;= '2027-01-01'"</span>).set_index(<span class="st">"date"</span>).plot(ax<span class="op">=</span>ax)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="80">
+<div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>&lt;Axes: xlabel='date'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -472,9 +472,9 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
 </div>
 <section id="zerocurves" class="level3">
 <h3 class="anchored" data-anchor-id="zerocurves">ZeroCurves</h3>
-<div class="cell" data-execution_count="26">
+<div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>fut</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="26">
+<div class="cell-output cell-output-display" data-execution_count="15">
 
 <div>
 
@@ -508,7 +508,7 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>99392.59</td>
       <td>0.136491</td>
       <td>2023-08-02</td>
-      <td>0.135721</td>
+      <td>0.114292</td>
       <td>0.061177</td>
       <td>15</td>
     </tr>
@@ -523,7 +523,7 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>98260.92</td>
       <td>0.134640</td>
       <td>2023-09-04</td>
-      <td>0.084410</td>
+      <td>0.079540</td>
       <td>0.059905</td>
       <td>48</td>
     </tr>
@@ -538,7 +538,7 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>97301.37</td>
       <td>0.133540</td>
       <td>2023-10-03</td>
-      <td>0.078216</td>
+      <td>0.075319</td>
       <td>0.062771</td>
       <td>77</td>
     </tr>
@@ -553,7 +553,7 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>96323.37</td>
       <td>0.132250</td>
       <td>2023-11-03</td>
-      <td>0.074437</td>
+      <td>0.072443</td>
       <td>0.063326</td>
       <td>108</td>
     </tr>
@@ -568,7 +568,7 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>95439.88</td>
       <td>0.130340</td>
       <td>2023-12-04</td>
-      <td>0.072580</td>
+      <td>0.071057</td>
       <td>0.063883</td>
       <td>139</td>
     </tr>
@@ -583,7 +583,7 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>94589.18</td>
       <td>0.128450</td>
       <td>2024-01-03</td>
-      <td>0.072281</td>
+      <td>0.071027</td>
       <td>0.065082</td>
       <td>169</td>
     </tr>
@@ -598,7 +598,7 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>93678.83</td>
       <td>0.126640</td>
       <td>2024-02-02</td>
-      <td>0.071569</td>
+      <td>0.070511</td>
       <td>0.065416</td>
       <td>199</td>
     </tr>
@@ -613,7 +613,7 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>92926.76</td>
       <td>0.124960</td>
       <td>2024-03-04</td>
-      <td>0.070530</td>
+      <td>0.069626</td>
       <td>0.065172</td>
       <td>230</td>
     </tr>
@@ -628,7 +628,7 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>92166.00</td>
       <td>0.123160</td>
       <td>2024-04-02</td>
-      <td>0.070004</td>
+      <td>0.069206</td>
       <td>0.065219</td>
       <td>259</td>
     </tr>
@@ -643,7 +643,7 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>91364.04</td>
       <td>0.121170</td>
       <td>2024-05-03</td>
-      <td>0.069353</td>
+      <td>0.068646</td>
       <td>0.065054</td>
       <td>290</td>
     </tr>
@@ -658,7 +658,7 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>90627.95</td>
       <td>0.119320</td>
       <td>2024-06-04</td>
-      <td>0.068683</td>
+      <td>0.068051</td>
       <td>0.064787</td>
       <td>322</td>
     </tr>
@@ -673,7 +673,7 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>89960.88</td>
       <td>0.117490</td>
       <td>2024-07-02</td>
-      <td>0.068116</td>
+      <td>0.067539</td>
       <td>0.064513</td>
       <td>350</td>
     </tr>
@@ -688,7 +688,7 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>87856.48</td>
       <td>0.112510</td>
       <td>2024-10-02</td>
-      <td>0.065997</td>
+      <td>0.065553</td>
       <td>0.063097</td>
       <td>442</td>
     </tr>
@@ -703,7 +703,7 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>85911.65</td>
       <td>0.108960</td>
       <td>2025-01-03</td>
-      <td>0.064369</td>
+      <td>0.064011</td>
       <td>0.061937</td>
       <td>535</td>
     </tr>
@@ -718,7 +718,7 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>84084.32</td>
       <td>0.106670</td>
       <td>2025-04-02</td>
-      <td>0.062389</td>
+      <td>0.062091</td>
       <td>0.060275</td>
       <td>624</td>
     </tr>
@@ -733,7 +733,7 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>82291.63</td>
       <td>0.104980</td>
       <td>2025-07-02</td>
-      <td>0.060669</td>
+      <td>0.060416</td>
       <td>0.058800</td>
       <td>715</td>
     </tr>
@@ -748,7 +748,7 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>80333.70</td>
       <td>0.103950</td>
       <td>2025-10-02</td>
-      <td>0.059487</td>
+      <td>0.059267</td>
       <td>0.057810</td>
       <td>807</td>
     </tr>
@@ -763,7 +763,7 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>78471.99</td>
       <td>0.103030</td>
       <td>2026-01-05</td>
-      <td>0.058410</td>
+      <td>0.058217</td>
       <td>0.056891</td>
       <td>902</td>
     </tr>
@@ -778,7 +778,7 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>76646.32</td>
       <td>0.102950</td>
       <td>2026-04-02</td>
-      <td>0.057526</td>
+      <td>0.057352</td>
       <td>0.056125</td>
       <td>989</td>
     </tr>
@@ -793,7 +793,7 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>74869.78</td>
       <td>0.102850</td>
       <td>2026-07-02</td>
-      <td>0.056815</td>
+      <td>0.056658</td>
       <td>0.055517</td>
       <td>1080</td>
     </tr>
@@ -802,15 +802,14 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [(ql.Date.from_date(d), r)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> d, r <span class="kw">in</span> <span class="bu">zip</span>(fut[<span class="st">"fixing"</span>], fut[<span class="st">"cupom_limpo"</span>])]</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>data.insert(<span class="dv">0</span>, (today, data[<span class="dv">0</span>][<span class="dv">1</span>]))</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>dates, yields <span class="op">=</span> <span class="bu">zip</span>(<span class="op">*</span>data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [(ql.Date.from_date(d), r) <span class="cf">for</span> d, r <span class="kw">in</span> <span class="bu">zip</span>(fut[<span class="st">"fixing"</span>], fut[<span class="st">"cupom_limpo"</span>])]</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>data.insert(<span class="dv">0</span>, (today, data[<span class="dv">0</span>][<span class="dv">1</span>]))</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>dates, yields <span class="op">=</span> <span class="bu">zip</span>(<span class="op">*</span>data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="28">
+<div class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>dates</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="28">
+<div class="cell-output cell-output-display" data-execution_count="17">
 <pre><code>(Date(14,7,2023),
  Date(2,8,2023),
  Date(4,9,2023),
@@ -834,9 +833,9 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
  Date(2,7,2026))</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="24">
+<div class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>fut</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="24">
+<div class="cell-output cell-output-display" data-execution_count="18">
 
 <div>
 
@@ -855,6 +854,7 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <th>fixing</th>
       <th>cupom_sujo</th>
       <th>cupom_limpo</th>
+      <th>dc_limpo</th>
     </tr>
   </thead>
   <tbody>
@@ -869,8 +869,9 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>99392.59</td>
       <td>0.136491</td>
       <td>2023-08-02</td>
-      <td>0.135721</td>
+      <td>0.114292</td>
       <td>0.061177</td>
+      <td>15</td>
     </tr>
     <tr>
       <th>1</th>
@@ -883,8 +884,9 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>98260.92</td>
       <td>0.134640</td>
       <td>2023-09-04</td>
-      <td>0.084410</td>
+      <td>0.079540</td>
       <td>0.059905</td>
+      <td>48</td>
     </tr>
     <tr>
       <th>2</th>
@@ -897,8 +899,9 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>97301.37</td>
       <td>0.133540</td>
       <td>2023-10-03</td>
-      <td>0.078216</td>
+      <td>0.075319</td>
       <td>0.062771</td>
+      <td>77</td>
     </tr>
     <tr>
       <th>3</th>
@@ -911,8 +914,9 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>96323.37</td>
       <td>0.132250</td>
       <td>2023-11-03</td>
-      <td>0.074437</td>
+      <td>0.072443</td>
       <td>0.063326</td>
+      <td>108</td>
     </tr>
     <tr>
       <th>4</th>
@@ -925,8 +929,9 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>95439.88</td>
       <td>0.130340</td>
       <td>2023-12-04</td>
-      <td>0.072580</td>
+      <td>0.071057</td>
       <td>0.063883</td>
+      <td>139</td>
     </tr>
     <tr>
       <th>5</th>
@@ -939,8 +944,9 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>94589.18</td>
       <td>0.128450</td>
       <td>2024-01-03</td>
-      <td>0.072281</td>
+      <td>0.071027</td>
       <td>0.065082</td>
+      <td>169</td>
     </tr>
     <tr>
       <th>6</th>
@@ -953,8 +959,9 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>93678.83</td>
       <td>0.126640</td>
       <td>2024-02-02</td>
-      <td>0.071569</td>
+      <td>0.070511</td>
       <td>0.065416</td>
+      <td>199</td>
     </tr>
     <tr>
       <th>7</th>
@@ -967,8 +974,9 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>92926.76</td>
       <td>0.124960</td>
       <td>2024-03-04</td>
-      <td>0.070530</td>
+      <td>0.069626</td>
       <td>0.065172</td>
+      <td>230</td>
     </tr>
     <tr>
       <th>8</th>
@@ -981,8 +989,9 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>92166.00</td>
       <td>0.123160</td>
       <td>2024-04-02</td>
-      <td>0.070004</td>
+      <td>0.069206</td>
       <td>0.065219</td>
+      <td>259</td>
     </tr>
     <tr>
       <th>9</th>
@@ -995,8 +1004,9 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>91364.04</td>
       <td>0.121170</td>
       <td>2024-05-03</td>
-      <td>0.069353</td>
+      <td>0.068646</td>
       <td>0.065054</td>
+      <td>290</td>
     </tr>
     <tr>
       <th>10</th>
@@ -1009,8 +1019,9 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>90627.95</td>
       <td>0.119320</td>
       <td>2024-06-04</td>
-      <td>0.068683</td>
+      <td>0.068051</td>
       <td>0.064787</td>
+      <td>322</td>
     </tr>
     <tr>
       <th>11</th>
@@ -1023,8 +1034,9 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>89960.88</td>
       <td>0.117490</td>
       <td>2024-07-02</td>
-      <td>0.068116</td>
+      <td>0.067539</td>
       <td>0.064513</td>
+      <td>350</td>
     </tr>
     <tr>
       <th>12</th>
@@ -1037,8 +1049,9 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>87856.48</td>
       <td>0.112510</td>
       <td>2024-10-02</td>
-      <td>0.065997</td>
+      <td>0.065553</td>
       <td>0.063097</td>
+      <td>442</td>
     </tr>
     <tr>
       <th>13</th>
@@ -1051,8 +1064,9 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>85911.65</td>
       <td>0.108960</td>
       <td>2025-01-03</td>
-      <td>0.064369</td>
+      <td>0.064011</td>
       <td>0.061937</td>
+      <td>535</td>
     </tr>
     <tr>
       <th>14</th>
@@ -1065,8 +1079,9 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>84084.32</td>
       <td>0.106670</td>
       <td>2025-04-02</td>
-      <td>0.062389</td>
+      <td>0.062091</td>
       <td>0.060275</td>
+      <td>624</td>
     </tr>
     <tr>
       <th>15</th>
@@ -1079,8 +1094,9 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>82291.63</td>
       <td>0.104980</td>
       <td>2025-07-02</td>
-      <td>0.060669</td>
+      <td>0.060416</td>
       <td>0.058800</td>
+      <td>715</td>
     </tr>
     <tr>
       <th>16</th>
@@ -1093,8 +1109,9 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>80333.70</td>
       <td>0.103950</td>
       <td>2025-10-02</td>
-      <td>0.059487</td>
+      <td>0.059267</td>
       <td>0.057810</td>
+      <td>807</td>
     </tr>
     <tr>
       <th>17</th>
@@ -1107,8 +1124,9 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>78471.99</td>
       <td>0.103030</td>
       <td>2026-01-05</td>
-      <td>0.058410</td>
+      <td>0.058217</td>
       <td>0.056891</td>
+      <td>902</td>
     </tr>
     <tr>
       <th>18</th>
@@ -1121,8 +1139,9 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>76646.32</td>
       <td>0.102950</td>
       <td>2026-04-02</td>
-      <td>0.057526</td>
+      <td>0.057352</td>
       <td>0.056125</td>
+      <td>989</td>
     </tr>
     <tr>
       <th>19</th>
@@ -1135,85 +1154,72 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
       <td>74869.78</td>
       <td>0.102850</td>
       <td>2026-07-02</td>
-      <td>0.056815</td>
+      <td>0.056658</td>
       <td>0.055517</td>
+      <td>1080</td>
     </tr>
   </tbody>
 </table>
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>zc <span class="op">=</span> ql.ZeroCurve(dates, yields, ql.Business252(calendar), calendar, ql.Linear(),</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                  ql.Compounded, ql.Annual)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>zc <span class="op">=</span> ql.ZeroCurve(dates, yields, ql.Actual360(), calendar_act, ql.Linear(), ql.Simple, ql.Annual)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="20">
+<div class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>zc.referenceDate()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="20">
+<div class="cell-output cell-output-display" data-execution_count="27">
 <pre><code>Date(14,7,2023)</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="5">
+<div class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>zc.nodes()[:<span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>((Date(14,7,2023), 0.12795336431048324),
- (Date(17,7,2023), 0.12795336431046694),
- (Date(1,8,2023), 0.12794507014909243),
- (Date(1,9,2023), 0.1263153339122755),
- (Date(2,10,2023), 0.12534533483937893))</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="34">
+<pre><code>((Date(14,7,2023), 0.06117228779556639),
+ (Date(2,8,2023), 0.06107886119703954),
+ (Date(4,9,2023), 0.059646910354024765),
+ (Date(3,10,2023), 0.062331436428483024),
+ (Date(3,11,2023), 0.06270993624705179))</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>biz_days <span class="op">=</span> calendar.businessDaysBetween(today, ql.Date(<span class="dv">1</span>,<span class="dv">9</span>,<span class="dv">2023</span>))</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(zc.zeroRate(biz_days<span class="op">/</span><span class="dv">252</span>, ql.Compounded))</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(zc.zeroRate(ql.Date(<span class="dv">1</span>,<span class="dv">9</span>,<span class="dv">2023</span>), ql.Business252(calendar), ql.Compounded))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>days <span class="op">=</span> calendar_act.businessDaysBetween(today, ql.Date(<span class="dv">1</span>,<span class="dv">9</span>,<span class="dv">2023</span>))</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(zc.zeroRate(days<span class="op">/</span><span class="dv">360</span>, ql.Simple))</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(zc.zeroRate(ql.Date(<span class="dv">1</span>,<span class="dv">9</span>,<span class="dv">2023</span>), ql.Actual360(), ql.Simple))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>13.463990 % Business/252(Brazil) Annual compounding
-13.463990 % Business/252(Brazil) Annual compounding</code></pre>
+<pre><code>6.002093 % Actual/360 simple compounding
+6.002093 % Actual/360 simple compounding</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="7">
+<div class="cell" data-execution_count="52">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_curve(crv):</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    i_curve <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"days"</span>: <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>, curve[<span class="st">"business_days"</span>].<span class="bu">max</span>())),</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"rates"</span>: [crv.zeroRate(i<span class="op">/</span><span class="dv">252</span>, ql.Compounded).rate()</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, curve[<span class="st">"business_days"</span>].<span class="bu">max</span>())],</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    f_curve <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"days"</span>: <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>, curve[<span class="st">"business_days"</span>].<span class="bu">max</span>())),</span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"rates"</span>: [crv.forwardRate(i<span class="op">/</span><span class="dv">252</span>, (i<span class="op">+</span><span class="dv">1</span>)<span class="op">/</span><span class="dv">252</span>, ql.Compounded).rate()</span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>, curve[<span class="st">"business_days"</span>].<span class="bu">max</span>()))],</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    nodes <span class="op">=</span> crv.nodes()</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    today <span class="op">=</span> crv.referenceDate()</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    days <span class="op">=</span> [calendar_act.businessDaysBetween(today, d) <span class="cf">for</span> d,r <span class="kw">in</span> nodes]</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    i_curve <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"days"</span>: <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">max</span>(days))),</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"rates"</span>: [crv.zeroRate(i<span class="op">/</span><span class="dv">360</span>, ql.Simple).rate() <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">max</span>(days))],</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    f_curve <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"days"</span>: <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">max</span>(days))),</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"rates"</span>: [crv.forwardRate(i<span class="op">/</span><span class="dv">360</span>, (i<span class="op">+</span><span class="dv">1</span>)<span class="op">/</span><span class="dv">360</span>, ql.Simple).rate() <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">max</span>(days)))],</span>
 <span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> curve.plot.scatter(x<span class="op">=</span><span class="st">"business_days"</span>, y<span class="op">=</span><span class="st">"adjusted_tax"</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>),</span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>                            label<span class="op">=</span><span class="st">"Curva de Prefixada"</span>)</span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>    i_curve.plot(x<span class="op">=</span><span class="st">"days"</span>, y<span class="op">=</span><span class="st">"rates"</span>, c<span class="op">=</span><span class="st">"red"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"Interpolação"</span>)</span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>    f_curve.plot(x<span class="op">=</span><span class="st">"days"</span>, y<span class="op">=</span><span class="st">"rates"</span>, c<span class="op">=</span><span class="st">"green"</span>, alpha<span class="op">=</span><span class="fl">0.75</span>, ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"Forward 1D"</span>)</span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">"Dias Úteis"</span>)</span>
-<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">"Taxa (%)"</span>)</span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_major_formatter(mticker.PercentFormatter(xmax<span class="op">=</span><span class="fl">1.0</span>, decimals<span class="op">=</span><span class="dv">1</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>    points <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"days"</span>: days,</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"rates"</span>: [r <span class="cf">for</span> d,r <span class="kw">in</span> nodes]</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> points.plot.scatter(x<span class="op">=</span><span class="st">"days"</span>, y<span class="op">=</span><span class="st">"rates"</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>), label<span class="op">=</span><span class="st">"Pontos da curva"</span>)</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>    i_curve.plot(x<span class="op">=</span><span class="st">"days"</span>, y<span class="op">=</span><span class="st">"rates"</span>, c<span class="op">=</span><span class="st">"red"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"Interpolação"</span>)</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>    f_curve.plot(x<span class="op">=</span><span class="st">"days"</span>, y<span class="op">=</span><span class="st">"rates"</span>, c<span class="op">=</span><span class="st">"green"</span>, alpha<span class="op">=</span><span class="fl">0.75</span>, ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"Forward 1D"</span>)</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">"Dias Corridos"</span>)</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">"Taxa (%)"</span>)</span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_major_formatter(mticker.PercentFormatter(xmax<span class="op">=</span><span class="fl">1.0</span>, decimals<span class="op">=</span><span class="dv">1</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="8">
+<div class="cell" data-execution_count="53">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>plot_curve(zc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="legacy_files/figure-html/cell-25-output-1.png" class="img-fluid"></p>
-</div>
-</div>
-<div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>czc <span class="op">=</span> ql.CubicZeroCurve(dates, yields, ql.Business252(calendar), calendar,</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>                        ql.Cubic(), ql.Compounded, ql.Annual)</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>plot_curve(czc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<p><img src="legacy_files/figure-html/cell-26-output-1.png" class="img-fluid"></p>
-</div>
-</div>
-<div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>mczc <span class="op">=</span> ql.MonotonicCubicZeroCurve(dates, yields, ql.Business252(calendar), calendar,</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                                  ql.MonotonicCubic(), ql.Compounded, ql.Annual)</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>plot_curve(mczc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<p><img src="legacy_files/figure-html/cell-27-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 
