@@ -255,7 +255,13 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#zerocurves" id="toc-zerocurves" class="nav-link active" data-scroll-target="#zerocurves">ZeroCurves</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
@@ -461,11 +467,758 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
 <pre><code>&lt;Axes: xlabel='date'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="main_files/figure-html/cell-15-output-2.png" class="img-fluid"></p>
+<p><img src="legacy_files/figure-html/cell-15-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<section id="zerocurves" class="level3">
+<h3 class="anchored" data-anchor-id="zerocurves">ZeroCurves</h3>
+<div class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>fut</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>refdate</th>
+      <th>symbol_dol</th>
+      <th>maturity_date</th>
+      <th>settlement_price_dol</th>
+      <th>business_days</th>
+      <th>symbol_di1</th>
+      <th>settlement_price_di1</th>
+      <th>adjusted_tax</th>
+      <th>fixing</th>
+      <th>cupom_sujo</th>
+      <th>cupom_limpo</th>
+      <th>dc_limpo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2023-07-14</td>
+      <td>DOLQ23</td>
+      <td>2023-08-01</td>
+      <td>4804.178</td>
+      <td>12</td>
+      <td>DI1Q23</td>
+      <td>99392.59</td>
+      <td>0.136491</td>
+      <td>2023-08-02</td>
+      <td>0.135721</td>
+      <td>0.061177</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2023-07-14</td>
+      <td>DOLU23</td>
+      <td>2023-09-01</td>
+      <td>4833.290</td>
+      <td>35</td>
+      <td>DI1U23</td>
+      <td>98260.92</td>
+      <td>0.134640</td>
+      <td>2023-09-04</td>
+      <td>0.084410</td>
+      <td>0.059905</td>
+      <td>48</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2023-07-14</td>
+      <td>DOLV23</td>
+      <td>2023-10-01</td>
+      <td>4854.760</td>
+      <td>55</td>
+      <td>DI1V23</td>
+      <td>97301.37</td>
+      <td>0.133540</td>
+      <td>2023-10-03</td>
+      <td>0.078216</td>
+      <td>0.062771</td>
+      <td>77</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2023-07-14</td>
+      <td>DOLX23</td>
+      <td>2023-11-01</td>
+      <td>4877.237</td>
+      <td>76</td>
+      <td>DI1X23</td>
+      <td>96323.37</td>
+      <td>0.132250</td>
+      <td>2023-11-03</td>
+      <td>0.074437</td>
+      <td>0.063326</td>
+      <td>108</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2023-07-14</td>
+      <td>DOLZ23</td>
+      <td>2023-12-01</td>
+      <td>4895.157</td>
+      <td>96</td>
+      <td>DI1Z23</td>
+      <td>95439.88</td>
+      <td>0.130340</td>
+      <td>2023-12-04</td>
+      <td>0.072580</td>
+      <td>0.063883</td>
+      <td>139</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2023-07-14</td>
+      <td>DOLF24</td>
+      <td>2024-01-01</td>
+      <td>4910.970</td>
+      <td>116</td>
+      <td>DI1F24</td>
+      <td>94589.18</td>
+      <td>0.128450</td>
+      <td>2024-01-03</td>
+      <td>0.072281</td>
+      <td>0.065082</td>
+      <td>169</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2023-07-14</td>
+      <td>DOLG24</td>
+      <td>2024-02-01</td>
+      <td>4931.854</td>
+      <td>138</td>
+      <td>DI1G24</td>
+      <td>93678.83</td>
+      <td>0.126640</td>
+      <td>2024-02-02</td>
+      <td>0.071569</td>
+      <td>0.065416</td>
+      <td>199</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2023-07-14</td>
+      <td>DOLH24</td>
+      <td>2024-03-01</td>
+      <td>4945.625</td>
+      <td>157</td>
+      <td>DI1H24</td>
+      <td>92926.76</td>
+      <td>0.124960</td>
+      <td>2024-03-04</td>
+      <td>0.070530</td>
+      <td>0.065172</td>
+      <td>230</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2023-07-14</td>
+      <td>DOLJ24</td>
+      <td>2024-04-01</td>
+      <td>4961.281</td>
+      <td>177</td>
+      <td>DI1J24</td>
+      <td>92166.00</td>
+      <td>0.123160</td>
+      <td>2024-04-02</td>
+      <td>0.070004</td>
+      <td>0.065219</td>
+      <td>259</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2023-07-14</td>
+      <td>DOLK24</td>
+      <td>2024-05-01</td>
+      <td>4978.755</td>
+      <td>199</td>
+      <td>DI1K24</td>
+      <td>91364.04</td>
+      <td>0.121170</td>
+      <td>2024-05-03</td>
+      <td>0.069353</td>
+      <td>0.065054</td>
+      <td>290</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2023-07-14</td>
+      <td>DOLM24</td>
+      <td>2024-06-01</td>
+      <td>4992.892</td>
+      <td>220</td>
+      <td>DI1M24</td>
+      <td>90627.95</td>
+      <td>0.119320</td>
+      <td>2024-06-04</td>
+      <td>0.068683</td>
+      <td>0.064787</td>
+      <td>322</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>2023-07-14</td>
+      <td>DOLN24</td>
+      <td>2024-07-01</td>
+      <td>5007.325</td>
+      <td>240</td>
+      <td>DI1N24</td>
+      <td>89960.88</td>
+      <td>0.117490</td>
+      <td>2024-07-02</td>
+      <td>0.068116</td>
+      <td>0.064513</td>
+      <td>350</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>2023-07-14</td>
+      <td>DOLV24</td>
+      <td>2024-10-01</td>
+      <td>5057.083</td>
+      <td>306</td>
+      <td>DI1V24</td>
+      <td>87856.48</td>
+      <td>0.112510</td>
+      <td>2024-10-02</td>
+      <td>0.065997</td>
+      <td>0.063097</td>
+      <td>442</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>2023-07-14</td>
+      <td>DOLF25</td>
+      <td>2025-01-01</td>
+      <td>5102.537</td>
+      <td>370</td>
+      <td>DI1F25</td>
+      <td>85911.65</td>
+      <td>0.108960</td>
+      <td>2025-01-03</td>
+      <td>0.064369</td>
+      <td>0.061937</td>
+      <td>535</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>2023-07-14</td>
+      <td>DOLJ25</td>
+      <td>2025-04-01</td>
+      <td>5154.743</td>
+      <td>431</td>
+      <td>DI1J25</td>
+      <td>84084.32</td>
+      <td>0.106670</td>
+      <td>2025-04-02</td>
+      <td>0.062389</td>
+      <td>0.060275</td>
+      <td>624</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>2023-07-14</td>
+      <td>DOLN25</td>
+      <td>2025-07-01</td>
+      <td>5208.994</td>
+      <td>492</td>
+      <td>DI1N25</td>
+      <td>82291.63</td>
+      <td>0.104980</td>
+      <td>2025-07-02</td>
+      <td>0.060669</td>
+      <td>0.058800</td>
+      <td>715</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>2023-07-14</td>
+      <td>DOLV25</td>
+      <td>2025-10-01</td>
+      <td>5275.455</td>
+      <td>558</td>
+      <td>DI1V25</td>
+      <td>80333.70</td>
+      <td>0.103950</td>
+      <td>2025-10-02</td>
+      <td>0.059487</td>
+      <td>0.057810</td>
+      <td>807</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>2023-07-14</td>
+      <td>DOLF26</td>
+      <td>2026-01-01</td>
+      <td>5339.391</td>
+      <td>623</td>
+      <td>DI1F26</td>
+      <td>78471.99</td>
+      <td>0.103030</td>
+      <td>2026-01-05</td>
+      <td>0.058410</td>
+      <td>0.056891</td>
+      <td>902</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>2023-07-14</td>
+      <td>DOLJ26</td>
+      <td>2026-04-01</td>
+      <td>5411.421</td>
+      <td>684</td>
+      <td>DI1J26</td>
+      <td>76646.32</td>
+      <td>0.102950</td>
+      <td>2026-04-02</td>
+      <td>0.057526</td>
+      <td>0.056125</td>
+      <td>989</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>2023-07-14</td>
+      <td>DOLN26</td>
+      <td>2026-07-01</td>
+      <td>5481.115</td>
+      <td>745</td>
+      <td>DI1N26</td>
+      <td>74869.78</td>
+      <td>0.102850</td>
+      <td>2026-07-02</td>
+      <td>0.056815</td>
+      <td>0.055517</td>
+      <td>1080</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [(ql.Date.from_date(d), r)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> d, r <span class="kw">in</span> <span class="bu">zip</span>(fut[<span class="st">"fixing"</span>], fut[<span class="st">"cupom_limpo"</span>])]</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>data.insert(<span class="dv">0</span>, (today, data[<span class="dv">0</span>][<span class="dv">1</span>]))</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>dates, yields <span class="op">=</span> <span class="bu">zip</span>(<span class="op">*</span>data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>dates</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="28">
+<pre><code>(Date(14,7,2023),
+ Date(2,8,2023),
+ Date(4,9,2023),
+ Date(3,10,2023),
+ Date(3,11,2023),
+ Date(4,12,2023),
+ Date(3,1,2024),
+ Date(2,2,2024),
+ Date(4,3,2024),
+ Date(2,4,2024),
+ Date(3,5,2024),
+ Date(4,6,2024),
+ Date(2,7,2024),
+ Date(2,10,2024),
+ Date(3,1,2025),
+ Date(2,4,2025),
+ Date(2,7,2025),
+ Date(2,10,2025),
+ Date(5,1,2026),
+ Date(2,4,2026),
+ Date(2,7,2026))</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>fut</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="24">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>refdate</th>
+      <th>symbol_dol</th>
+      <th>maturity_date</th>
+      <th>settlement_price_dol</th>
+      <th>business_days</th>
+      <th>symbol_di1</th>
+      <th>settlement_price_di1</th>
+      <th>adjusted_tax</th>
+      <th>fixing</th>
+      <th>cupom_sujo</th>
+      <th>cupom_limpo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2023-07-14</td>
+      <td>DOLQ23</td>
+      <td>2023-08-01</td>
+      <td>4804.178</td>
+      <td>12</td>
+      <td>DI1Q23</td>
+      <td>99392.59</td>
+      <td>0.136491</td>
+      <td>2023-08-02</td>
+      <td>0.135721</td>
+      <td>0.061177</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2023-07-14</td>
+      <td>DOLU23</td>
+      <td>2023-09-01</td>
+      <td>4833.290</td>
+      <td>35</td>
+      <td>DI1U23</td>
+      <td>98260.92</td>
+      <td>0.134640</td>
+      <td>2023-09-04</td>
+      <td>0.084410</td>
+      <td>0.059905</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2023-07-14</td>
+      <td>DOLV23</td>
+      <td>2023-10-01</td>
+      <td>4854.760</td>
+      <td>55</td>
+      <td>DI1V23</td>
+      <td>97301.37</td>
+      <td>0.133540</td>
+      <td>2023-10-03</td>
+      <td>0.078216</td>
+      <td>0.062771</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2023-07-14</td>
+      <td>DOLX23</td>
+      <td>2023-11-01</td>
+      <td>4877.237</td>
+      <td>76</td>
+      <td>DI1X23</td>
+      <td>96323.37</td>
+      <td>0.132250</td>
+      <td>2023-11-03</td>
+      <td>0.074437</td>
+      <td>0.063326</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2023-07-14</td>
+      <td>DOLZ23</td>
+      <td>2023-12-01</td>
+      <td>4895.157</td>
+      <td>96</td>
+      <td>DI1Z23</td>
+      <td>95439.88</td>
+      <td>0.130340</td>
+      <td>2023-12-04</td>
+      <td>0.072580</td>
+      <td>0.063883</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2023-07-14</td>
+      <td>DOLF24</td>
+      <td>2024-01-01</td>
+      <td>4910.970</td>
+      <td>116</td>
+      <td>DI1F24</td>
+      <td>94589.18</td>
+      <td>0.128450</td>
+      <td>2024-01-03</td>
+      <td>0.072281</td>
+      <td>0.065082</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2023-07-14</td>
+      <td>DOLG24</td>
+      <td>2024-02-01</td>
+      <td>4931.854</td>
+      <td>138</td>
+      <td>DI1G24</td>
+      <td>93678.83</td>
+      <td>0.126640</td>
+      <td>2024-02-02</td>
+      <td>0.071569</td>
+      <td>0.065416</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2023-07-14</td>
+      <td>DOLH24</td>
+      <td>2024-03-01</td>
+      <td>4945.625</td>
+      <td>157</td>
+      <td>DI1H24</td>
+      <td>92926.76</td>
+      <td>0.124960</td>
+      <td>2024-03-04</td>
+      <td>0.070530</td>
+      <td>0.065172</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2023-07-14</td>
+      <td>DOLJ24</td>
+      <td>2024-04-01</td>
+      <td>4961.281</td>
+      <td>177</td>
+      <td>DI1J24</td>
+      <td>92166.00</td>
+      <td>0.123160</td>
+      <td>2024-04-02</td>
+      <td>0.070004</td>
+      <td>0.065219</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2023-07-14</td>
+      <td>DOLK24</td>
+      <td>2024-05-01</td>
+      <td>4978.755</td>
+      <td>199</td>
+      <td>DI1K24</td>
+      <td>91364.04</td>
+      <td>0.121170</td>
+      <td>2024-05-03</td>
+      <td>0.069353</td>
+      <td>0.065054</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2023-07-14</td>
+      <td>DOLM24</td>
+      <td>2024-06-01</td>
+      <td>4992.892</td>
+      <td>220</td>
+      <td>DI1M24</td>
+      <td>90627.95</td>
+      <td>0.119320</td>
+      <td>2024-06-04</td>
+      <td>0.068683</td>
+      <td>0.064787</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>2023-07-14</td>
+      <td>DOLN24</td>
+      <td>2024-07-01</td>
+      <td>5007.325</td>
+      <td>240</td>
+      <td>DI1N24</td>
+      <td>89960.88</td>
+      <td>0.117490</td>
+      <td>2024-07-02</td>
+      <td>0.068116</td>
+      <td>0.064513</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>2023-07-14</td>
+      <td>DOLV24</td>
+      <td>2024-10-01</td>
+      <td>5057.083</td>
+      <td>306</td>
+      <td>DI1V24</td>
+      <td>87856.48</td>
+      <td>0.112510</td>
+      <td>2024-10-02</td>
+      <td>0.065997</td>
+      <td>0.063097</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>2023-07-14</td>
+      <td>DOLF25</td>
+      <td>2025-01-01</td>
+      <td>5102.537</td>
+      <td>370</td>
+      <td>DI1F25</td>
+      <td>85911.65</td>
+      <td>0.108960</td>
+      <td>2025-01-03</td>
+      <td>0.064369</td>
+      <td>0.061937</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>2023-07-14</td>
+      <td>DOLJ25</td>
+      <td>2025-04-01</td>
+      <td>5154.743</td>
+      <td>431</td>
+      <td>DI1J25</td>
+      <td>84084.32</td>
+      <td>0.106670</td>
+      <td>2025-04-02</td>
+      <td>0.062389</td>
+      <td>0.060275</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>2023-07-14</td>
+      <td>DOLN25</td>
+      <td>2025-07-01</td>
+      <td>5208.994</td>
+      <td>492</td>
+      <td>DI1N25</td>
+      <td>82291.63</td>
+      <td>0.104980</td>
+      <td>2025-07-02</td>
+      <td>0.060669</td>
+      <td>0.058800</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>2023-07-14</td>
+      <td>DOLV25</td>
+      <td>2025-10-01</td>
+      <td>5275.455</td>
+      <td>558</td>
+      <td>DI1V25</td>
+      <td>80333.70</td>
+      <td>0.103950</td>
+      <td>2025-10-02</td>
+      <td>0.059487</td>
+      <td>0.057810</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>2023-07-14</td>
+      <td>DOLF26</td>
+      <td>2026-01-01</td>
+      <td>5339.391</td>
+      <td>623</td>
+      <td>DI1F26</td>
+      <td>78471.99</td>
+      <td>0.103030</td>
+      <td>2026-01-05</td>
+      <td>0.058410</td>
+      <td>0.056891</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>2023-07-14</td>
+      <td>DOLJ26</td>
+      <td>2026-04-01</td>
+      <td>5411.421</td>
+      <td>684</td>
+      <td>DI1J26</td>
+      <td>76646.32</td>
+      <td>0.102950</td>
+      <td>2026-04-02</td>
+      <td>0.057526</td>
+      <td>0.056125</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>2023-07-14</td>
+      <td>DOLN26</td>
+      <td>2026-07-01</td>
+      <td>5481.115</td>
+      <td>745</td>
+      <td>DI1N26</td>
+      <td>74869.78</td>
+      <td>0.102850</td>
+      <td>2026-07-02</td>
+      <td>0.056815</td>
+      <td>0.055517</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>zc <span class="op">=</span> ql.ZeroCurve(dates, yields, ql.Business252(calendar), calendar, ql.Linear(),</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                  ql.Compounded, ql.Annual)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>zc.referenceDate()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<pre><code>Date(14,7,2023)</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>zc.nodes()[:<span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>((Date(14,7,2023), 0.12795336431048324),
+ (Date(17,7,2023), 0.12795336431046694),
+ (Date(1,8,2023), 0.12794507014909243),
+ (Date(1,9,2023), 0.1263153339122755),
+ (Date(2,10,2023), 0.12534533483937893))</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>biz_days <span class="op">=</span> calendar.businessDaysBetween(today, ql.Date(<span class="dv">1</span>,<span class="dv">9</span>,<span class="dv">2023</span>))</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(zc.zeroRate(biz_days<span class="op">/</span><span class="dv">252</span>, ql.Compounded))</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(zc.zeroRate(ql.Date(<span class="dv">1</span>,<span class="dv">9</span>,<span class="dv">2023</span>), ql.Business252(calendar), ql.Compounded))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>13.463990 % Business/252(Brazil) Annual compounding
+13.463990 % Business/252(Brazil) Annual compounding</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_curve(crv):</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    i_curve <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"days"</span>: <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>, curve[<span class="st">"business_days"</span>].<span class="bu">max</span>())),</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"rates"</span>: [crv.zeroRate(i<span class="op">/</span><span class="dv">252</span>, ql.Compounded).rate()</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, curve[<span class="st">"business_days"</span>].<span class="bu">max</span>())],</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    f_curve <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"days"</span>: <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>, curve[<span class="st">"business_days"</span>].<span class="bu">max</span>())),</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"rates"</span>: [crv.forwardRate(i<span class="op">/</span><span class="dv">252</span>, (i<span class="op">+</span><span class="dv">1</span>)<span class="op">/</span><span class="dv">252</span>, ql.Compounded).rate()</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>, curve[<span class="st">"business_days"</span>].<span class="bu">max</span>()))],</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> curve.plot.scatter(x<span class="op">=</span><span class="st">"business_days"</span>, y<span class="op">=</span><span class="st">"adjusted_tax"</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>),</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>                            label<span class="op">=</span><span class="st">"Curva de Prefixada"</span>)</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>    i_curve.plot(x<span class="op">=</span><span class="st">"days"</span>, y<span class="op">=</span><span class="st">"rates"</span>, c<span class="op">=</span><span class="st">"red"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"Interpolação"</span>)</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>    f_curve.plot(x<span class="op">=</span><span class="st">"days"</span>, y<span class="op">=</span><span class="st">"rates"</span>, c<span class="op">=</span><span class="st">"green"</span>, alpha<span class="op">=</span><span class="fl">0.75</span>, ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"Forward 1D"</span>)</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">"Dias Úteis"</span>)</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">"Taxa (%)"</span>)</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_major_formatter(mticker.PercentFormatter(xmax<span class="op">=</span><span class="fl">1.0</span>, decimals<span class="op">=</span><span class="dv">1</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>plot_curve(zc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="legacy_files/figure-html/cell-25-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>czc <span class="op">=</span> ql.CubicZeroCurve(dates, yields, ql.Business252(calendar), calendar,</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>                        ql.Cubic(), ql.Compounded, ql.Annual)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>plot_curve(czc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="legacy_files/figure-html/cell-26-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>mczc <span class="op">=</span> ql.MonotonicCubicZeroCurve(dates, yields, ql.Business252(calendar), calendar,</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                                  ql.MonotonicCubic(), ql.Compounded, ql.Annual)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>plot_curve(mczc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="legacy_files/figure-html/cell-27-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
