@@ -432,7 +432,7 @@ gtag('config', 'G-XRV3E6TPHB', { 'anonymize_ip': true});
 <div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fut <span class="op">=</span> fut_dol.merge(fut_di1, on<span class="op">=</span>[<span class="st">"refdate"</span>, <span class="st">"maturity_date"</span>, <span class="st">"business_days"</span>], suffixes<span class="op">=</span>(<span class="st">"_dol"</span>, <span class="st">"_di1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Agora sim, procedemos com o cálculo do cupom sujo. A curva de cupom cambial tem os vértices nas datas de <em>fixing</em>, que são as data onde a cotação do dólar é fixada para a liquidação do contrato. Essa abordagem é diferente do que é implementado pela B3, que utiliza as data de vencimento como vértices da curva. O cálculo do cupom cambial sujo é dado pela fórmula.</p>
+<p>Agora sim, procedemos com o cálculo do cupom sujo. A curva de cupom cambial tem os vértices nas datas da coluna <em>fixing</em>, que são as data onde o fluxo de caixa, transferência de recursos aconte. Aqui o <em>fixing</em> é no dia útil após o vencimento. Essa abordagem é diferente do que é implementado pela B3, que utiliza as data de vencimento como vértices da curva. O cálculo do cupom cambial sujo é dado pela fórmula.</p>
 <p><span class="math display">\[
 \left( 1 + c_{v}(t) \cdot \frac{DC_{v}(t)}{360} \right) = \frac{ \frac{100000}{PUDI1_{v}(t)} }{ \frac{PUDOL_{v}(t)}{PTAX_{t-1} \cdot 1000} }
 \]</span></p>
